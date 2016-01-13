@@ -1,0 +1,34 @@
+{
+  "name": "connecting-bits",
+  "version": "1.0.0",
+  "description": "A chinese whisper game played by multilingual robots",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/FH-Potsdam/connecting-bits.git"
+  },
+  "keywords": [
+    "stille",
+    "post",
+    "Chinese",
+    "whisper",
+    "IoT",
+    "Particle",
+    "photon",
+    "Google",
+    "API",
+    "Speech",
+    "recognition",
+    "FH",
+    "Potsdam"
+  ],
+  "author": "FH Potsdam, winter semester 2015/16",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/FH-Potsdam/connecting-bits/issues"
+  },
+  "homepage": "https://github.com/FH-Potsdam/connecting-bits#readme"
+}
