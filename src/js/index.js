@@ -1,6 +1,6 @@
-const config = require('config');
-const { Board, Led } = require('johnny-five');
-const Particle = require('particle-io');
+import config from 'config';
+import { Board, Led } from 'johnny-five';
+import Particle from 'particle-io';
 
 const createBoard = (boardName) => {
 	return new Board({
