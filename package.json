@@ -37,5 +37,10 @@
     "gulp-nodemon": "^2.0.6",
     "gulp-rimraf": "^0.2.0",
     "gulp-sourcemaps": "^1.6.0"
+  },
+  "dependencies": {
+    "config": "^1.19.0",
+    "johnny-five": "^0.9.18",
+    "particle-io": "^0.12.0"
   }
 }

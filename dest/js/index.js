@@ -1,9 +1,29 @@
 'use strict';
 
-var a = { five: 'a', johnny: 'b' };
-var five = a.five;
+var config = require('config');
 
-var giveMe = function giveMe(what) {
-  return what;
+var _require = require('johnny-five');
+
+var Board = _require.Board;
+var Led = _require.Led;
+
+var Particle = require('particle-io');
+
+var createBoard = function createBoard(boardName) {
+	return new Board({
+		io: new Particle({
+			token: config.get(boardName + '.token'),
+			deviceId: config.get(boardName + '.id')
+		})
+	});
 };
-console.log(giveMe(five));
+
+var blinkLedD7 = function blinkLedD7() {
+	var led = new Led('D7');
+	led.blink();
+};
+
+var board1 = createBoard('board1');
+var board2 = createBoard('board2');
+board1.on('ready', blinkLedD7);
+board2.on('ready', blinkLedD7);
