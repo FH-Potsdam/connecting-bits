@@ -23,6 +23,13 @@ const boards = new Boards([
 			token: config.get(`token`),
 			deviceId: config.get(`boards.pajaro.id`)
 		})
+	},
+	{
+		id: 'cuco',
+		io: new Particle({
+			token: config.get(`token`),
+			deviceId: config.get(`boards.cuco.id`)
+		})
 	}
 ]);
 
