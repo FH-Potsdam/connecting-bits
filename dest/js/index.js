@@ -12,37 +12,29 @@ var _particleIo2 = _interopRequireDefault(_particleIo);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var createBoard = function createBoard(boardName) {
-	return new _johnnyFive.Board({
-		io: new _particleIo2.default({
-			token: _config2.default.get('token'),
-			deviceId: _config2.default.get('boards.' + boardName + '.id')
-		})
-	});
-};
+var boards = new _johnnyFive.Boards([{
+	id: 'vogeliton',
+	io: new _particleIo2.default({
+		token: _config2.default.get('token'),
+		deviceId: _config2.default.get('boards.vogeliton.id')
+	})
+}, {
+	id: 'thonelino',
+	io: new _particleIo2.default({
+		token: _config2.default.get('token'),
+		deviceId: _config2.default.get('boards.thonelino.id')
+	})
+}, {
+	id: 'pajaro',
+	io: new _particleIo2.default({
+		token: _config2.default.get('token'),
+		deviceId: _config2.default.get('boards.pajaro.id')
+	})
+}]);
 
-var vogeliton = createBoard('vogeliton');
-var pajaro = createBoard('pajaro');
-var thonelino = createBoard('thonelino');
-
-vogeliton.on('ready', function () {
-	var led = new _johnnyFive.Led('D7');
-	this.repl.inject({
-		led: led
+boards.on('ready', function () {
+	this.each(function (board) {
+		var led = new _johnnyFive.Led({ pin: 'D7', board: board });
+		led.stop().blink();
 	});
-	led.blink();
-});
-thonelino.on('ready', function () {
-	var led = new _johnnyFive.Led('D7');
-	this.repl.inject({
-		led: led
-	});
-	led.blink();
-});
-pajaro.on('ready', function () {
-	var led = new _johnnyFive.Led('D7');
-	this.repl.inject({
-		led: led
-	});
-	led.blink();
 });

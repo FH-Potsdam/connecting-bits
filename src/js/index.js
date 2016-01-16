@@ -1,38 +1,34 @@
 import config from 'config';
-import { Board, Led } from 'johnny-five';
+import { Boards, Led } from 'johnny-five';
 import Particle from 'particle-io';
 
-const createBoard = (boardName) => {
-	return new Board({
+const boards = new Boards([
+	{
+		id: 'vogeliton',
 		io: new Particle({
 			token: config.get(`token`),
-			deviceId: config.get(`boards.${boardName}.id`)
+			deviceId: config.get(`boards.vogeliton.id`)
 		})
-	});
-};
+	},
+	{
+		id: 'thonelino',
+		io: new Particle({
+			token: config.get(`token`),
+			deviceId: config.get(`boards.thonelino.id`)
+		})
+	},
+	{
+		id: 'pajaro',
+		io: new Particle({
+			token: config.get(`token`),
+			deviceId: config.get(`boards.pajaro.id`)
+		})
+	}
+]);
 
-const vogeliton = createBoard('vogeliton');
-const pajaro = createBoard('pajaro');
-const thonelino = createBoard('thonelino');
-
-vogeliton.on('ready', function() {
-	const led = new Led('D7');
-	this.repl.inject({
-		led: led
+boards.on('ready', function() {
+	this.each((board) => {
+		const led = new Led({ pin: 'D7', board });
+		led.stop().blink();
 	});
-	led.blink();
-});
-thonelino.on('ready', function() {
-	const led = new Led('D7');
-	this.repl.inject({
-		led: led
-	});
-	led.blink();
-});
-pajaro.on('ready', function() {
-	const led = new Led('D7');
-	this.repl.inject({
-		led: led
-	});
-	led.blink();
 });
