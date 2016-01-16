@@ -15,18 +15,34 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var createBoard = function createBoard(boardName) {
 	return new _johnnyFive.Board({
 		io: new _particleIo2.default({
-			token: _config2.default.get(boardName + '.token'),
-			deviceId: _config2.default.get(boardName + '.id')
+			token: _config2.default.get('token'),
+			deviceId: _config2.default.get('boards.' + boardName + '.id')
 		})
 	});
 };
 
-var blinkLedD7 = function blinkLedD7() {
-	var led = new _johnnyFive.Led('D7');
-	led.blink();
-};
+var vogeliton = createBoard('vogeliton');
+var pajaro = createBoard('pajaro');
+var thonelino = createBoard('thonelino');
 
-var board1 = createBoard('board1');
-var board2 = createBoard('board2');
-board1.on('ready', blinkLedD7);
-board2.on('ready', blinkLedD7);
+vogeliton.on('ready', function () {
+	var led = new _johnnyFive.Led('D7');
+	this.repl.inject({
+		led: led
+	});
+	led.blink();
+});
+thonelino.on('ready', function () {
+	var led = new _johnnyFive.Led('D7');
+	this.repl.inject({
+		led: led
+	});
+	led.blink();
+});
+pajaro.on('ready', function () {
+	var led = new _johnnyFive.Led('D7');
+	this.repl.inject({
+		led: led
+	});
+	led.blink();
+});
