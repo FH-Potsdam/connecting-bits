@@ -32,6 +32,7 @@
   },
   "homepage": "https://github.com/FH-Potsdam/connecting-bits#readme",
   "devDependencies": {
+    "babel-core": "^6.4.0",
     "babel-preset-es2015": "^6.3.13",
     "gulp-babel": "^6.1.1",
     "gulp-nodemon": "^2.0.6",
