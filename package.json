@@ -39,7 +39,8 @@
     "gulp-plumber": "^1.0.1",
     "gulp-rimraf": "^0.2.0",
     "gulp-sourcemaps": "^1.6.0",
-    "gulp-util": "^3.0.7"
+    "gulp-util": "^3.0.7",
+    "mqtt": "^1.6.3"
   },
   "dependencies": {
     "config": "^1.19.0",
