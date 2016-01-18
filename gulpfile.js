@@ -52,5 +52,5 @@ gulp.task('babel', ['clean-js'], function() {
 });
 
 gulp.task('watch', ['serve'], function() {
-	gulp.watch(paths.src.javascript, ['serve']);
+	gulp.watch(paths.src.javascript, ['babel']);
 });
