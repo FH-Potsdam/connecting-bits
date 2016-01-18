@@ -48,11 +48,11 @@ vogelitonClient.client.on('message', (topic, message) => {
 	clearTimeout(vogelitonInterval);
 	console.log(`vogeliton received a message: "${message.toString()}" on topic: ${topic}`);
 
-	thonelinoLed.blink();
+	vogelitonLed.blink();
 	vogelitonInterval = setTimeout(() => {
+		vogelitonLed.stop().off();
 		vogelitonClient.client.publish('/inputs/thonelino', 'from vogeliton to thonelino');
-		thonelinoLed.off();
-	}, 3000);
+	}, 10000);
 });
 
 let thonelinoInterval;
@@ -62,9 +62,9 @@ thonelinoClient.client.on('message', (topic, message) => {
 
 	thonelinoLed.blink();
 	thonelinoInterval = setTimeout(() => {
+		thonelinoLed.stop().off();
 		thonelinoClient.client.publish('/inputs/vogeliton', 'from thonelino to vogeliton');
-		thonelinoLed.off();
-	}, 3000);
+	}, 10000);
 });
 
 vogelitonClient.client.on('connect', () => {
