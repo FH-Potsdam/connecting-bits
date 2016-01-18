@@ -1,0 +1,26 @@
+{
+	"token": "particleIoToken",
+	"boards": [
+		{
+			"name": "nameOfBoard",
+			"id": "deviceIdOfBoard"
+		},
+		{
+			"name": "nameOfBoard",
+			"id": "deviceIdOfBoard"
+		},
+		{
+			"name": "nameOfBoard",
+			"id": "deviceIdOfBoard"
+		},
+		{
+			"name": "nameOfBoard",
+			"id": "deviceIdOfBoard"
+		}
+	],
+	"shiftr": {
+		"usr": "shiftrUser",
+		"psw": "shiftrPsw",
+		"clientId": "clientIdName"
+	}
+}
