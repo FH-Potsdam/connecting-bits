@@ -1,83 +1,31 @@
 import config from 'config';
-import { Boards, Led } from 'johnny-five';
-import Particle from 'particle-io';
-import { connect } from 'mqtt';
+import { Boards } from 'johnny-five';
+import Box from './components/box';
+import { createBoard, getBoardInBoardsByName } from './utils/boardsUtil';
+import { createClient, getClientInClientsByName } from './utils/clientsUtil';
 
-const { usr, psw, clientId } = config.get('shiftr');
+const boardsConfigs = config.get('boards');
+const boards = new Boards(boardsConfigs.map((board) =>
+	createBoard(board.name, board.id)));
 
-const boards = new Boards(config.get('boards').map((board) => {
-	return {
-		id: board.name,
-		io: new Particle({
-			token: config.get(`token`),
-			deviceId: board.id
-		})
-	};
-}));
+const boxes = [];
+boards.each((board, index) => {
+	let next;
+	let prev;
 
-const clients = config.get('boards').map((board) => {
-	const { name } = board;
-	const url = `mqtt://${usr}:${psw}@broker.shiftr.io`;
-	const client = connect(url, { clientId: name });;
-	return { name, client };
+	if (index === 0) { prev = false; }
+	else { boardsConfigs[index === 0 ? boardsConfigs.length - 1 : index - 1].name; }
+
+	if (index === boardsConfigs.length - 1) { next = false; }
+	else { next = boardsConfigs[index + 1].name; }
+
+	const client = createClient(board.id);
+	boxes.push(new Box(board, client, { prev, next }));
 });
 
-const getBoardByName = (name) => {
-	let relevantBoard;
-	boards.each((board) => {
-		if (board.id === name) {
-			relevantBoard = board;
-		}
-	});
-	return relevantBoard;
-};
+var box1Client = boxes[0].getClient();
 
-const getClientByName = (name) => clients.filter((client) => client.name === name)[0];
-
-const vogelitonBoard = getBoardByName('vogeliton');
-const vogelitonClient = getClientByName('vogeliton');
-
-const thonelinoBoard = getBoardByName('thonelino');
-const thonelinoClient = getClientByName('thonelino');
-
-let vogelitonLed;
-let thonelinoLed;
-
-let vogelitonInterval;
-vogelitonClient.client.on('message', (topic, message) => {
-	clearTimeout(vogelitonInterval);
-	console.log(`vogeliton received a message: "${message.toString()}" on topic: ${topic}`);
-
-	vogelitonLed.blink();
-	vogelitonInterval = setTimeout(() => {
-		vogelitonLed.stop().off();
-		vogelitonClient.client.publish('/inputs/thonelino', 'from vogeliton to thonelino');
-	}, 10000);
-});
-
-let thonelinoInterval;
-thonelinoClient.client.on('message', (topic, message) => {
-	clearTimeout(thonelinoInterval);
-	console.log(`thonelino received a message: "${message.toString()}" on topic: ${topic}`);
-
-	thonelinoLed.blink();
-	thonelinoInterval = setTimeout(() => {
-		thonelinoLed.stop().off();
-		thonelinoClient.client.publish('/inputs/vogeliton', 'from thonelino to vogeliton');
-	}, 10000);
-});
-
-vogelitonClient.client.on('connect', () => {
-	vogelitonClient.client.subscribe('/inputs/vogeliton');
-	vogelitonBoard.on('ready', () => {
-		vogelitonLed = new Led({ pin: 'D7', board: vogelitonBoard });
-		vogelitonClient.client.publish('/inputs/thonelino','from vogeliton to thonelino');
-	});
-});
-
-thonelinoClient.client.on('connect', () => {
-	thonelinoClient.client.subscribe('/inputs/thonelino');
-	thonelinoBoard.on('ready', () => {
-		thonelinoLed = new Led({ pin: 'D7', board: thonelinoBoard });
-	});
+boards.on('ready', () => {
+	box1Client.publish('inputs/vogeliton', 'START INPUT');
+	console.log('START MESSAGE SENT');
 });

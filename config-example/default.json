@@ -20,7 +20,6 @@
 	],
 	"shiftr": {
 		"usr": "shiftrUser",
-		"psw": "shiftrPsw",
-		"clientId": "clientIdName"
+		"psw": "shiftrPsw"
 	}
 }

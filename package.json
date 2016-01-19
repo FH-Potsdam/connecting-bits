@@ -4,7 +4,7 @@
   "description": "A chinese whisper game played by multilingual robots",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "watch": "gulp watch"
   },
   "repository": {
     "type": "git",
