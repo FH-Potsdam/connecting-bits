@@ -21,7 +21,7 @@ class Box {
 			`"${message.toString()}" on topic: ${topic}`);
 
 		this.led.blink();
-		this.interval = setTimeout(this.forwardMessage.bind(this), 10000);
+		this.interval = setTimeout(this.forwardMessage.bind(this), 5000);
 	}
 	forwardMessage() {
 		this.led.stop().off();
