@@ -18,7 +18,7 @@ A box is a home made cubic machine composed of various mechanical elements and e
 - **A particle photon board:** To control all this and be controlled over wifi
 
 ## Who made this?
-We are student from the [University of Applied Sciences of Potsdam](http://fh-potsdam.de) \[aka] @fh-potsdam. We are interface designers, product designers, and graphic designers that took part to the course “Input Output - Introduction to process-oriented design”]( https://fhp.incom.org/workspace/6176) supervised by [Fabian Morón Zirfas]( http://fabianmoronzirfas.me/). This project was made during the last third of the course. To see other project from us look at [this repository](https://github.com/FH-Potsdam/steel-ant-input-output).
+We are student from the [University of Applied Sciences of Potsdam](http://fh-potsdam.de) \[aka] @fh-potsdam. We are interface designers, product designers, and graphic designers that took part to the course [“Input Output - Introduction to process-oriented design”]( https://fhp.incom.org/workspace/6176) supervised by [Fabian Morón Zirfas]( http://fabianmoronzirfas.me/). This project was made during the last third of the course. To see other project from us look at [this repository](https://github.com/FH-Potsdam/steel-ant-input-output).
 
 ## How did you made it?
 Coming soon
