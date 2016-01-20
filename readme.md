@@ -8,7 +8,7 @@
 Connecting bits is a chain of multilingual machines to play the _Chinese whispers_ game with. It consists of four boxes situated in a room. Every box can record one person's voice and transfer it to its next sibling box. Every time a new box receives the message, it translates it and speaks it loud in another language. Finally, when the chain is over, the box the person originally spoke to recites the original message after it has been translated for the fourth time. As in the _Chinese whispers_ game so far, we expect the message to be the same unless something distorted it during the process.
 
 ## What are these boxes?
-A box is a home build cubic machine composed of various mechanical elements and electronics. The inside the box, the following components are to be found:
+A box is a home made cubic machine composed of various mechanical elements and electronics. Inside the box, the following components are to be found:
 
 - **A led:** To indicate that the box is speaking
 - **Two servo motors:** To move the box as it listens and speaks and to give it a living character
