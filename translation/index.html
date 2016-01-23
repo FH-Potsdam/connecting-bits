@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>SteelAnt Google Translate dev-tool</title>
+
+    <link href="public/assets/css/bootstrap.min.css" rel="stylesheet">
+    <link href="public/assets/css/custom.dev.css" rel="stylesheet">
+
+  </head>
+  <body>
+
+    <div class="row">
+      <div class="container">
+
+        <div class="col-sm-12">
+          <h1>Google Translate dev</h1>
+        </div>
+
+        <div class="master col-sm-4">
+          <h3>set master</h3>
+          <select name="master" class="set-master form-control">
+            <option value="de" class="lang">deutsch</option>
+            <option value="en-us" class="lang">englisch</option>
+            <option value="ja" class="lang">japanisch</option>
+            <option value="tr" class="lang">tuerkisch</option>
+          </select>
+
+          <button type="submit" class="btn btn-default setup">set selection as master</button>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="container">
+
+        <div class="record-wrapper col-sm-6">
+          <h3>record your message</h3>
+          <button type="submit" class="btn btn-default record">record</button>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="container">
+
+        <div class="translate-wrapper col-sm-6">
+          <h3>translate your record</h3>
+          <button type="submit" class="btn btn-default translate">translate</button>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- scripts  -->
+    <script type="text/javascript">
+      require('babel-register');
+    </script>
+
+    <script>window.$ = window.jQuery = require('jquery');</script>
+    <script src="public/assets/js/bootstrap.min.js"></script>
+    <script src="src/app/index.js"></script>
+
+  </body>
+</html>

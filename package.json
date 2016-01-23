@@ -45,6 +45,10 @@
   "dependencies": {
     "config": "^1.19.0",
     "johnny-five": "^0.9.18",
-    "particle-io": "^0.12.0"
+    "particle-io": "^0.12.0",
+    "node-record-lpcm16": "^0.1.4",
+    "request": "^2.67.0",
+    "util": "^0.10.3",
+    "oh-my-terminal": "^1.1.2"
   }
 }
