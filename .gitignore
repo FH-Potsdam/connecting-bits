@@ -31,3 +31,6 @@ dest
 
 # Ignore the config folder
 config
+
+# Sublime
+.sublime-project
