@@ -26,15 +26,15 @@
     "google": "GOOGLE_API_KEY",
     "azure": "AZURE_API_KEY"
   },
-  "Audio": {
+	"Audio": {
     "location": "recordings/",
     "filename": "record_",
     "sampleRate": 44100,
-    "maxRecordingTime": "10000"
+    "maxRecordingTime": 10000
   },
   "Report": {
     "location": "report/",
-    "filename": "report.json"
+    "filename": "audio.report.json"
   },
   "Dev": {
     "sensor": 1
