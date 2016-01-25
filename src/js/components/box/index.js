@@ -1,4 +1,6 @@
 import { Led } from 'johnny-five';
+import config from 'config';
+import Translator from '../translation';
 import logUtil from '../../utils/logUtil';
 
 class Box {
@@ -10,6 +12,19 @@ class Box {
 
 		client.on('connect', this.onConnect.bind(this));
 		client.on('message', this.onMessage.bind(this));
+	}
+	getReady() {
+		const translator = new Translator();
+		const { sensor } = config.get('Dev');
+
+		if( sensor == 1 ) {
+			setTimeout(translator.startRecording, 2000);
+		} else {
+			logUtil.log({
+				type: 'warning',
+				title: `Sensor not active!`
+			})
+		}
 	}
 	onConnect() {
 		logUtil.log({

@@ -6,13 +6,13 @@ import Report from './utils/reports';
 
 export default class Translator {
 	constructor() {
-		reportAudio.bind(this);
-		getAudioData.bind(this);
-		startRecording.bind(this);
+		this.reportAudio = this.reportAudio.bind(this);
+		this.getAudioData = this.getAudioData.bind(this);
+		this.startRecording = this.startRecording.bind(this);
 	}
 	reportAudio(index) {
 		const { location, filename } = config.get('Report');
-		const data = this.getAudioData(index);
+		const data = this.getAudioData.bind(this)(index);
 		const newReport = new Report(location, filename, data);
 
 		if (!fs.existsSync(location + filename)) {
@@ -32,8 +32,8 @@ export default class Translator {
 		const id = index;
 		const recordingDate = new Date();
 
-		return { filename, id, location, samplerate,
-			maxRecordTime, recordingDate };
+		return { filename, id, location, sampleRate,
+			maxRecordingTime, recordingDate };
 	}
 	startRecording(callback){
 		const { location, filename } = config.get('Report');
@@ -44,14 +44,12 @@ export default class Translator {
 			let contents = fs.readFileSync(filePath);
 			let jsonContent = JSON.parse(contents);
 
-			for( let i = 0; i < Object.keys(jsonContent.results).length; i++ ) {
-				index = i;
-			}
+			index = jsonContent.results.length;
 		}
 
 		const recordingOptions = this.getAudioData(index);
 		recordingOptions.language = 'german';
 
-		const startRecord = new Record(recordingOptions, this.reportAudio(index));
+		const startRecord = new Record(recordingOptions, this.reportAudio.bind(this));
 	}
 };

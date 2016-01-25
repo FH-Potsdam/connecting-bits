@@ -1,7 +1,6 @@
 import config from 'config';
 import { Boards } from 'johnny-five';
 import Box from './components/box';
-import Translator from './components/translation';
 import { createBoard, getBoardInBoardsByName } from './utils/boardsUtil';
 import { createClient, getClientInClientsByName } from './utils/clientsUtil';
 import logUtil from './utils/logUtil';
@@ -41,15 +40,5 @@ boards.on('ready', () => {
 		type: 'hardware',
 		title: `All boards ready`
 	})
-	const translator = new Translator();
-	const { sensor } = config.get('Dev');
-
-	if( sensor == 1 ) {
-		translator.startRecording();
-	} else {
-		logUtil.log({
-			type: 'warning',
-			title: `Sensor not active!`
-		})
-	}
+	boxes[0].getReady();
 });

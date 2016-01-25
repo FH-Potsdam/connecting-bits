@@ -31,3 +31,9 @@ dest
 
 # Ignore the config folder
 config
+
+# Ignore the audio reports
+audio/report/audio.report.json
+
+# Ignore the audio files
+audio/recordings/*.wav
