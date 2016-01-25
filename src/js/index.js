@@ -11,21 +11,21 @@ const boards = new Boards(boardsConfigs.map((board) =>
 const boxes = [];
 boards.each((board, index) => {
 	let next;
-	let prev;
+	let isMaster = false;
 
-	if (index === 0) { prev = false; }
-	else { boardsConfigs[index === 0 ? boardsConfigs.length - 1 : index - 1].name; }
+	if (index === 0) { isMaster = true; }
 
-	if (index === boardsConfigs.length - 1) { next = false; }
-	else { next = boardsConfigs[index + 1].name; }
+	if (index === boardsConfigs.length - 1) {
+		next = boardsConfigs[0];
+	}
+	else {
+		next = boardsConfigs[index + 1].name;
+	}
 
 	const client = createClient(board.id);
-	boxes.push(new Box(board, client, { prev, next }));
+	boxes.push(new Box(board, client, { next, isMaster }));
 });
 
-var box1Client = boxes[0].getClient();
-
 boards.on('ready', () => {
-	box1Client.publish('inputs/vogeliton', 'START INPUT');
-	console.log('START MESSAGE SENT');
+	// Start master listening on sensor
 });
