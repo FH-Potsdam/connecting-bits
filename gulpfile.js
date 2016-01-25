@@ -43,7 +43,7 @@ gulp.task('serve', ['babel'], function(){
 	});
 });
 
-gulp.task('babel', ['clean-js'], function() {
+gulp.task('babel', function() {
 	return gulp.src(paths.src.javascript)
 		.pipe(plumber())
 		.pipe(babel({ presets: ['es2015'] }))
@@ -51,6 +51,6 @@ gulp.task('babel', ['clean-js'], function() {
 		.on('error', throwError);
 });
 
-gulp.task('watch', ['serve'], function() {
+gulp.task('watch', ['clean-js', 'serve'], function() {
 	gulp.watch(paths.src.javascript, ['babel']);
 });

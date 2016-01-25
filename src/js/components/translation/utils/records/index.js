@@ -1,16 +1,24 @@
-const fs = require('fs');
-const rec = require('node-record-lpcm16');
+import fs from 'fs';
+import rec from 'node-record-lpcm16';
 
 export default class Record {
 	constructor( options, callback ) {
+		const {
+			location,
+			filename,
+			id,
+			sampleRate
+		} = options;
 
-		let file = fs.createWriteStream(options.location + options.filename + options.id + '.wav', { encoding: 'binary' });
-		rec.start({ sampleRate: options.sampleRate, verbose: true }).pipe(file);
+		const file = fs.createWriteStream(
+			`${location}${filename}${id}.wav`, {
+				encoding: 'binary'
+			});
+		rec.start({ sampleRate, verbose: true }).pipe(file);
 
 		setTimeout(() => {
 			rec.stop();
 			callback();
-		}, options.maxRecTime); // stop after 10 seconds
-
+		}, options.maxRecTime);
 	}
 }

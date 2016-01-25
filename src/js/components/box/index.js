@@ -1,4 +1,5 @@
 import { Led } from 'johnny-five';
+import logUtil from '../../utils/logUtil';
 
 class Box {
 	constructor(board, client, options) {
@@ -11,14 +12,24 @@ class Box {
 		client.on('message', this.onMessage.bind(this));
 	}
 	onConnect() {
-		console.log(`${this.name} is connected`);
+		logUtil.log({
+			type: 'shiftr',
+			title: `Box "${this.name}" initialized`,
+			messages: [ `topic: /inputs/${this.name}` ]
+		})
 		this.client.subscribe(`/inputs/${this.name}`);
 		this.board.on('ready', this.onBoardReady.bind(this));
 	}
 	onMessage(topic, message) {
 		clearTimeout(this.interval);
-		console.log(`${this.name} received a message:`,
-			`"${message.toString()}" on topic: ${topic}`);
+		logUtil.log({
+			type: 'shiftr',
+			title: `Box "${this.name}" received a message`,
+			messages: [
+				`topic: ${topic}`
+				`message: ${message.toString()}`
+			]
+		})
 
 		this.led.blink();
 		this.interval = setTimeout(this.forwardMessage.bind(this), 5000);
@@ -26,13 +37,25 @@ class Box {
 	forwardMessage() {
 		this.led.stop().off();
 		if (!this.options.next) { return; }
-		console.log(`${this.name} forwarded the message to ${this.options.next}`);
+
 		const topic = `/inputs/${this.options.next}`;
 		const message = `from ${this.name} to ${this.options.next}`;
+		logUtil.log({
+			type: 'shiftr',
+			title: `Box "${this.name}" forwarded a message`,
+			messages: [
+				`To: ${this.options.next}`,
+				`topic: ${topic}`
+				`message: ${message}`
+			]
+		})
 		this.client.publish(topic, message);
 	}
 	onBoardReady(){
-		console.log(`${this.name}'s board is ready`);
+		logUtil.log({
+			type: 'hardware',
+			title: `Box's board of "${this.name}" is ready`
+		})
 		this.led = new Led({ pin: 'D7', board: this.board });
 	}
 	getClient() {
