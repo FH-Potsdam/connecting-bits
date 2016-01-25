@@ -27,13 +27,13 @@
 		"azure": "AZURE_API_KEY"
 	},
 	"Audio": {
-		"location": "recordings/",
+		"location": "audio/recordings/",
 		"filename": "record_",
 		"sampleRate": 44100,
 		"maxRecordingTime": 10000
 	},
 	"Report": {
-		"location": "report/",
+		"location": "audio/report/",
 		"filename": "audio.report.json"
 	},
 	"Dev": {
