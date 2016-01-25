@@ -28,8 +28,8 @@ boards.each((board, index) => {
 		type: 'info',
 		title: `Box "${board.id}" initialized`,
 		messages: [
-			`next: ${next.name}`,
-			`isMaster: ${isMaster}`
+			{ next: next.name },
+			{ isMaster }
 		]
 	})
 	const client = createClient(board.id);

@@ -1,14 +1,7 @@
 import chalk from 'chalk';
 
 const PREFIX_TABULATION = `
-            `;
-
-const cammelize = (str) => {
-  return str.replace(/(?:^\w|[A-Z]|\b\w|\s+)/g, function(match, index) {
-    if (+match === 0) return '';
-    return index == 0 ? match.toLowerCase() : match.toUpperCase();
-  });
-}
+           `; // Do not refactor. Intended line break and spaces
 
 const getFormattedTime = () => {
 	const time = new Date();
@@ -43,13 +36,18 @@ const getColorByType = (type) => {
 const doLog = (options) => {
 	const { type, title, messages} = options;
 	const color = getColorByType(type);
-	const bgColor = cammelize('bg ' + color);
 	const toLog = [getFormattedTime()];
 	if (title && typeof title === 'string') {
-		toLog.push(chalk.bold.white[bgColor](title));
+		toLog.push(chalk.inverse.bold[color](title));
 	}
 	messages.forEach((message) => {
-		toLog.push(chalk[color](PREFIX_TABULATION + message));
+		let formattedMessage = chalk[color](PREFIX_TABULATION, message);
+		if (typeof message === 'object') {
+			let key = Object.keys(message)[0];
+			formattedMessage = chalk[color](PREFIX_TABULATION,
+				chalk.underline(key + ':'), message[key])
+		};
+		toLog.push(formattedMessage);
 	});
 	toLog.push('\n');
 	console.log.apply(console, toLog);

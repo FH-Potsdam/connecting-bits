@@ -15,7 +15,7 @@ class Box {
 		logUtil.log({
 			type: 'shiftr',
 			title: `Box "${this.name}" initialized`,
-			messages: [ `topic: /inputs/${this.name}` ]
+			messages: [ { topic: `/inputs/${this.name}` } ]
 		})
 		this.client.subscribe(`/inputs/${this.name}`);
 		this.board.on('ready', this.onBoardReady.bind(this));
@@ -26,8 +26,8 @@ class Box {
 			type: 'shiftr',
 			title: `Box "${this.name}" received a message`,
 			messages: [
-				`topic: ${topic}`
-				`message: ${message.toString()}`
+				{ topic },
+				{ message: message.toString() }
 			]
 		})
 
@@ -44,9 +44,10 @@ class Box {
 			type: 'shiftr',
 			title: `Box "${this.name}" forwarded a message`,
 			messages: [
-				`To: ${this.options.next}`,
-				`topic: ${topic}`
-				`message: ${message}`
+				{ from: this.name },
+				{ to: this.options.next },
+				{ topic },
+				{ message }
 			]
 		})
 		this.client.publish(topic, message);
