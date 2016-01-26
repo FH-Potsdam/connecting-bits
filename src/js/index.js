@@ -5,40 +5,48 @@ import { createBoard, getBoardInBoardsByName } from './utils/boardsUtil';
 import { createClient, getClientInClientsByName } from './utils/clientsUtil';
 import logUtil from './utils/logUtil';
 
-const boardsConfigs = config.get('boards');
-const boards = new Boards(boardsConfigs.map((board) =>
-	createBoard(board.name, board.id)));
+class BoardsChain {
+	constructor() {
+		const boardsConfigs = config.get('boards');
+		const boards = new Boards(boardsConfigs.map((board) =>
+			createBoard(board.name, board.id)));
 
-const boxes = [];
-boards.each((board, index) => {
-	let next;
-	let isMaster = false;
+		this.boxes = [];
+		boards.each((board, index) => {
+			let next;
+			let isMaster = false;
 
-	if (index === 0) { isMaster = true; }
+			if (index === 0) { isMaster = true; }
 
-	if (index === boardsConfigs.length - 1) {
-		next = boardsConfigs[0];
+			if (index === boardsConfigs.length - 1) {
+				next = boardsConfigs[0];
+			}
+			else {
+				next = boardsConfigs[index + 1].name;
+			}
+
+			logUtil.log({
+				type: 'info',
+				title: `Box "${board.id}" initialized`,
+				messages: [
+					{ next: next.name },
+					{ isMaster }
+				]
+			})
+			const client = createClient(board.id);
+			this.boxes.push(new Box(board, client, { next, isMaster, isLast }));
+		});
+
+		this.masterBox = this.boxes.filter((box) => box.isMaster)[0];
+		boards.on('ready', this.onAllBoardsReady.bind(this));
 	}
-	else {
-		next = boardsConfigs[index + 1].name;
+	onAllBoardsReady() {
+		logUtil.log({
+			type: 'hardware',
+			title: `All boards ready`
+		})
+		this.masterBox.startTheShow()
 	}
+}
 
-	logUtil.log({
-		type: 'info',
-		title: `Box "${board.id}" initialized`,
-		messages: [
-			{ next: next.name },
-			{ isMaster }
-		]
-	})
-	const client = createClient(board.id);
-	boxes.push(new Box(board, client, { next, isMaster }));
-});
-
-boards.on('ready', () => {
-	logUtil.log({
-		type: 'hardware',
-		title: `All boards ready`
-	})
-	boxes[0].getReady();
-});
+const chain = new BoardsChain();

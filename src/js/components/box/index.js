@@ -9,22 +9,18 @@ class Box {
 		this.client = client;
 		this.options = options;
 		this.name = this.board.id;
+		this.round = 0;
+
+		// initialise subcomponents
+		this.translator = new Translator();
+		this.light = new Light();
+		this.motor = new Motor();
+		this.speaker = new Speaker();
+		this.infrared = new Infrared();
+		this.microphone = new Microphone();
 
 		client.on('connect', this.onConnect.bind(this));
 		client.on('message', this.onMessage.bind(this));
-	}
-	getReady() {
-		const translator = new Translator();
-		const { sensor } = config.get('Dev');
-
-		if( sensor == 1 ) {
-			setTimeout(translator.startRecording, 2000);
-		} else {
-			logUtil.log({
-				type: 'warning',
-				title: `Sensor not active!`
-			})
-		}
 	}
 	onConnect() {
 		logUtil.log({
@@ -46,15 +42,13 @@ class Box {
 			]
 		})
 
-		this.led.blink();
-		this.interval = setTimeout(this.forwardMessage.bind(this), 5000);
+		this.startTheShow.bind(this)();
 	}
-	forwardMessage() {
+	forwardMessage(message) {
 		this.led.stop().off();
 		if (!this.options.next) { return; }
 
 		const topic = `/inputs/${this.options.next}`;
-		const message = `from ${this.name} to ${this.options.next}`;
 		logUtil.log({
 			type: 'shiftr',
 			title: `Box "${this.name}" forwarded a message`,
@@ -79,6 +73,69 @@ class Box {
 	}
 	getBoard() {
 		return this.board;
+	}
+	start() {
+		this.motor.lieDown()
+			.then(() => {
+				this.infrared.detectPresence()
+					.then(this.onPresenceDetected.bind(this))
+					.catch(this.startTheShow.bind(this));
+			});
+	}
+	startTheShow() {
+		this.round++;
+		this.start.bind(this);
+	}
+	onPresenceDetected() {
+		this.motor.stadUp()
+			.then(() => {
+				this.light.startBlinking();
+				this.speaker.explainRules()
+					.then(this.onRulesExplained.bind(this));
+			})
+	}
+	onRulesExplained() {
+		this.motor.lookUp()
+			.then(() => {
+				this.microphone.startRecording()
+					.then(this.onRecordingSuccess.bind(this))
+					.catch(this.onRecordingFailed.bind(this));
+			});
+	}
+	onRecordingSuccess() {
+		this.forwardMessage.bind(this)('readyToSpeak');
+		this.light.stopBlinking();
+		this.motor.lookStraight()
+			.then(() => {
+				this.speaker.speakText()
+					.then(this.onTextSpoken.bind(this);
+			})
+	}
+	onRecordingFailed() {
+		this.motor.lookStraight()
+			.then(() => {
+				this.speaker.sayNoRecordingError()
+					.then(this.startTheShow.bind(this));
+			});
+	}
+	onTextSpoken() {
+		if (this.options.isMaster) {
+			if (this.round === 1) {
+				this.translator.translateText()
+					.then(this.finish.bind(this))
+			}
+			else {
+				this.round = 0;
+				this.startTheShow.bind(this)();
+			}
+		}
+		else {
+			this.finish.bind(this)();
+		}
+	}
+	finish() {
+		this.forwardMessage.bind(this)('done');
+		this.motor.lieDown();
 	}
 }
 
