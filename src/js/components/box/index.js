@@ -42,7 +42,14 @@ class Box {
 			]
 		})
 
-		this.startTheShow.bind(this)();
+		switch(message.toString()) {
+			case 'done':
+				this.startTheShow.bind(this)();
+			break;
+			case 'readyToSpeak':
+				this.onPreviousBoxSpeaking.bind(this);
+			break
+		}
 	}
 	forwardMessage(message) {
 		this.led.stop().off();
@@ -136,6 +143,13 @@ class Box {
 	finish() {
 		this.forwardMessage.bind(this)('done');
 		this.motor.lieDown();
+	}
+	onPreviousBoxSpeaking() {
+		this.motor.standUp();
+			.then(() => {
+				this.motor.lookUp()
+				this.light.startBlinking();
+			});
 	}
 }
 
