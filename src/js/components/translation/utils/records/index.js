@@ -14,11 +14,11 @@ export default class Record {
 			`${location}${filename}${id}.wav`, {
 				encoding: 'binary'
 			});
-		rec.start({ sampleRate, verbose: true }).pipe(file);
+		rec.start({ sampleRate, verbose: true });
 
 		setTimeout(() => {
-			rec.stop();
+			rec.stop().pipe(file);
 			callback();
-		}, options.maxRecTime);
+		}, options.maxRecordingTime);
 	}
 }
