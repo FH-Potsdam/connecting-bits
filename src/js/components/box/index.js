@@ -1,5 +1,6 @@
 import { Led } from 'johnny-five';
 import config from 'config';
+// import Microphone from '../microphone'; // TODO: @Andre > Replace when implemented
 import Microphone from '../dummyMicrophone';
 import Translator from '../translator';
 import Light from '../light';
