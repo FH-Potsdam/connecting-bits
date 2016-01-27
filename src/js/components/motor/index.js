@@ -1,15 +1,19 @@
 import { Servo } from 'johnny-five';
-
-const SPEED = 200;
-const LYING = 0;
-const STANING = 0;
-const TILTED = 0;
-const STRAIGHT = 0;
+import MOTOR_CONSTANTS from '../../constants';
+const {
+	LIFT_PIN,
+	TILT_PIN,
+	SPEED,
+	LYING,
+	STANING,
+	TILTED,
+	STRAIGHT
+} from MOTOR_CONSTANTS;
 
 export default class Motor {
 	constructor(board) {
-		this.liftServo = new Servo({ pin: 'D2', board });
-		this.tiltServo = new Servo({ pin: 'D3', board });
+		this.liftServo = new Servo({ pin: LIFT_PIN, board });
+		this.tiltServo = new Servo({ pin: TILT_PIN, board });
 
 		this.stands = false;
 		this.titls = false;

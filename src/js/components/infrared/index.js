@@ -1,14 +1,15 @@
 import _ from 'lodash';
 import { Proximity } from 'johnny-five';
 import logUtil from '../../utils/logUtil';
-import {
+import INFRARED_CONSTANTS from '../../constants';
+const {
 	UNUSED_PIN,
 	USED_PIN,
 	MIN_DETECTION_DISTANCE,
-	MIN_PRESENCE_DURATION,
 	CONTROLLER_ID,
+	MIN_PRESENCE_DURATION,
 	EMPTY_RESOLVE_FUNCTION
-} from './constants';
+} from INFRARED_CONSTANTS;
 
 export default class Intrared {
 	constructor(board) {
