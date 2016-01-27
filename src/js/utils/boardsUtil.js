@@ -5,7 +5,7 @@ const token = config.get(`token`)
 
 module.exports = {
 	createBoard: (id, deviceId) => {
-		return { id, io: new Particle({ token, deviceId }) };
+		return { id, io: new Particle({ token, deviceId, deviceName: id }) };
 	},
 	getBoardInBoardsByName: (boardsArray, name) => {
 		let relevantBoard;

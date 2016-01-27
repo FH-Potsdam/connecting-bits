@@ -18,12 +18,12 @@ export default class Box {
 		this.round = 0;
 
 		// initialise subcomponents
-		this.translator = new Translator();
-		this.light = new Light();
-		this.motor = new Motor();
-		this.speaker = new Speaker();
-		this.infrared = new Infrared();
-		this.microphone = new Microphone();
+		this.translator = null;
+		this.light = null;
+		this.motor = null;
+		this.speaker = null;
+		this.infrared = null;
+		this.microphone = null;
 
 		client.on('connect', this.onConnect.bind(this));
 		client.on('message', this.onMessage.bind(this));
@@ -87,6 +87,12 @@ export default class Box {
 		this.client.publish(topic, message);
 	}
 	onBoardReady(){
+		this.translator = new Translator();
+		this.light = new Light();
+		this.motor = new Motor();
+		this.speaker = new Speaker();
+		this.infrared = new Infrared(this.board);
+		this.microphone = new Microphone();
 		logUtil.log({
 			type: 'hardware',
 			title: `Box's board of "${this.name}" is ready`
@@ -99,10 +105,14 @@ export default class Box {
 		return this.board;
 	}
 	start() {
-		this.motor.lieDown().then(() => {
+		this.motor.lieDown()
+			.then(() => {
+				logUtil.log({
+					type: 'hardware',
+					title: `Box's "${this.name}" starts detecting`
+				})
 				this.infrared.detectPresence()
-					.then(this.onPresenceDetected.bind(this))
-					.catch(this.startTheShow.bind(this));
+					.then(this.onPresenceDetected.bind(this));
 			});
 	}
 	startTheShow() {
@@ -112,6 +122,10 @@ export default class Box {
 			title: `Box "${this.name}" starts the show`,
 			messages: [{ round: this.round }]
 		});
+		this.start.bind(this)();
+	}
+	restartTheShow() {
+		this.round = 1;
 		this.start.bind(this)();
 	}
 	onPresenceDetected() {
