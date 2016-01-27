@@ -24,7 +24,7 @@ The boxes consist of:
 - **A particle photon board:** To control all this and be controlled over wifi
 
 ## The makers.
-We are student from the [University of Applied Sciences of Potsdam](http://fh-potsdam.de) \[aka] @fh-potsdam. Our team is composed of interface, product, and graphic designers that took part in the course [“Input Output - Introduction to process-oriented design”]( https://fhp.incom.org/workspace/6176) supervised by [Fabian Morón Zirfas]( http://fabianmoronzirfas.me/). This project was realized during the last third of the course. To see other projects we have made, visit [this repository](https://github.com/FH-Potsdam/steel-ant-input-output).
+We are student from the [University of Applied Sciences of Potsdam](http://fh-potsdam.de) \[aka] @fh-potsdam. Our team is composed of interface, product, and graphic designers that took part in the course [“Input Output - Introduction to process-oriented design”]( https://fhp.incom.org/workspace/6176) supervised by [Fabian Morón Zirfas]( https://github.com/fabiantheblind). This project was developed during the last third of the course. To see other projects we have made, visit [this repository](https://interface.fh-potsdam.de/eingabe-ausgabe/2015-2016/).
 
 ## The process.
 Coming soon
