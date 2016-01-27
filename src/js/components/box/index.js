@@ -88,11 +88,11 @@ export default class Box {
 	}
 	onBoardReady(){
 		this.translator = new Translator();
-		this.light = new Light();
-		this.motor = new Motor();
 		this.speaker = new Speaker();
-		this.infrared = new Infrared(this.board);
 		this.microphone = new Microphone();
+		this.light = new Light(this.board);
+		this.motor = new Motor(this.board);
+		this.infrared = new Infrared(this.board);
 		logUtil.log({
 			type: 'hardware',
 			title: `Box's board of "${this.name}" is ready`

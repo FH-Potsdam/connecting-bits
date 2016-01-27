@@ -1,5 +1,8 @@
 
 export default class Motor {
+	constructor(board) {
+		this.board = board;
+	}
 	lieDown() {
 		return new Promise((resolve) => resolve());
 	}
