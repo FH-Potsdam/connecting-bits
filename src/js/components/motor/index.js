@@ -1,5 +1,5 @@
 import { Servo } from 'johnny-five';
-import MOTOR_CONSTANTS from '../../constants';
+import { MOTOR_CONSTANTS } from '../../constants';
 const {
 	LIFT_PIN,
 	LIFT_TYPE,

@@ -16,6 +16,10 @@
 		{
 			"name": "nameOfBoard",
 			"id": "deviceIdOfBoard"
+		},
+		{
+			"name": "thonelino",
+			"id": "330040000447343233323032"
 		}
 	],
 	"shiftr": {

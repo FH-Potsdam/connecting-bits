@@ -1,0 +1,17 @@
+{
+	"folders":
+	[
+		{
+			"path": "."
+		}
+	],
+	"SublimeLinter": {
+		"linters": {
+			"eslint": {
+				"@disable": false,
+				"args": [],
+				"excludes": []
+			}
+		}
+	}
+}

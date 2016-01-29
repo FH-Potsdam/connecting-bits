@@ -1,7 +1,7 @@
 import config from 'config';
 import Particle from 'particle-io';
 
-const token = config.get(`token`)
+const token = config.get(`token`);
 
 module.exports = {
 	createBoard: (id, deviceId) => {

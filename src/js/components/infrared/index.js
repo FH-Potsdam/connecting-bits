@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import { Proximity } from 'johnny-five';
 import logUtil from '../../utils/logUtil';
-import INFRARED_CONSTANTS from '../../constants';
+import { INFRARED_CONSTANTS } from '../../constants';
 const {
 	UNUSED_PIN,
 	USED_PIN,
@@ -33,11 +33,10 @@ export default class Intrared {
 			logUtil.log({
 				type: 'hardware',
 				title: 'Presence',
-				messages: [{ 'distance': `${cm} cm`}]
+				messages: [ { distance: `${cm} cm` } ]
 			});
 			this.debouncedCheck();
-		}
-		else {
+		} else {
 			this.presenceDetected = false;
 		}
 	}
@@ -67,6 +66,6 @@ export default class Intrared {
 			});
 			this.resolve();
 			this.resolve = EMPTY_RESOLVE_FUNCTION;
-		};
+		}
 	}
 }

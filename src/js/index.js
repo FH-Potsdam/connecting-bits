@@ -24,16 +24,18 @@ export default class BoardsChain {
 			if (index === 0) {
 				isMaster = true;
 				prev = boardsConfigs[index + 1];
-			}
-			else {
+			} else {
 				prev = boardsConfigs[index - 1];
 			}
 
 			if (index === boardsConfigs.length - 1) {
 				next = boardsConfigs[0];
-			}
-			else {
+			} else {
 				next = boardsConfigs[index + 1];
+			}
+
+			if (boardsConfigs.length === 1) {
+				prev = next = board;
 			}
 
 			logUtil.log({
@@ -44,7 +46,7 @@ export default class BoardsChain {
 					{ next: next.name },
 					{ isMaster }
 				]
-			})
+			});
 			const client = createClient(board.id);
 			this.boxes.push(new Box(board, client, { next, isMaster, prev }));
 		});

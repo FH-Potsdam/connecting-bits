@@ -41,10 +41,10 @@ export default class Box {
 	onConnect() {
 		logUtil.log({
 			type: 'shiftr',
-			title: `Box "${this.name}" connected and subscribed`,
-			messages: [ { 'subscription topic': `/inputs/${this.name}` } ]
-		})
-		this.client.subscribe(`/inputs/${this.name}`);
+			title: `Box "${ this.name }" connected and subscribed`,
+			messages: [ { 'subscription topic': `/inputs/${ this.name }` } ]
+		});
+		this.client.subscribe(`/inputs/${ this.name }`);
 		this.board.on('ready', this.onBoardReady.bind(this));
 	}
 	/**
@@ -56,24 +56,25 @@ export default class Box {
 		clearTimeout(this.interval);
 		logUtil.log({
 			type: 'shiftr',
-			title: `Box "${this.name}" received a message`,
+			title: `Box "${ this.name }" received a message`,
 			messages: [
 				{ topic },
 				{ message: message.toString() }
 			]
-		})
+		});
 
-		switch(message.toString()) {
+		switch (message.toString()) {
 			case 'done':
 				this.round++;
 				this.prepareToSpeak.bind(this)();
-			break;
+				break;
 			case 'readyToListen':
 				this.speakText.bind(this)();
-			break;
+				break;
 			case 'readyToSpeak':
 				this.onPreviousBoxSpeaking.bind(this)();
-			break
+				break;
+			default: return;
 		}
 	}
 	/**
@@ -82,42 +83,42 @@ export default class Box {
 	 * @param  {string} recipient wether "next" or "prev"
 	 */
 	sendMessage(message, recipient = 'next') {
-		const recipientBox = this.options[recipient];
+		const recipientBox = this.options[ recipient ];
 		if (!recipientBox) {
 			logUtil.log({
 				type: 'warning',
-				title: `Box "${this.name}" has an invalid next sibling`,
+				title: `Box "${ this.name }" has an invalid next sibling`,
 				messages: [
 					{ sibling: recipientBox.name }
 				]
 			});
 		}
 
-		const topic = `/inputs/${recipientBox.name}`;
+		const topic = `/inputs/${ recipientBox.name }`;
 		logUtil.log({
 			type: 'shiftr',
-			title: `Box "${this.name}" forwarded a message`,
+			title: `Box "${ this.name }" forwarded a message`,
 			messages: [
 				{ from: this.name },
 				{ to: recipientBox.name },
 				{ topic },
 				{ message }
 			]
-		})
+		});
 		this.client.publish(topic, message);
 	}
 	/** Is called when the Photon board is ready */
-	onBoardReady(){
+	onBoardReady() {
 		this.translator = new Translator();
 		this.speaker = new Speaker();
 		this.microphone = new Microphone();
-		this.light = new Light(this.board);
 		this.motor = new Motor(this.board);
+		this.light = new Light(this.board);
 		this.infrared = new Infrared(this.board);
 		logUtil.log({
 			type: 'hardware',
-			title: `Box's board of "${this.name}" is ready`
-		})
+			title: `Box's board of "${ this.name }" is ready`
+		});
 	}
 	/**
 	 * Retruns the Box's mqtt client
@@ -139,8 +140,8 @@ export default class Box {
 			.then(() => {
 				logUtil.log({
 					type: 'hardware',
-					title: `Box's "${this.name}" starts detecting`
-				})
+					title: `Box's "${ this.name }" starts detecting`
+				});
 				this.infrared.detectPresence()
 					.then(this.onPresenceDetected.bind(this));
 			});
@@ -150,8 +151,8 @@ export default class Box {
 		this.round++;
 		logUtil.log({
 			type: 'info',
-			title: `Box "${this.name}" starts the show`,
-			messages: [{ round: this.round }]
+			title: `Box "${ this.name }" starts the show`,
+			messages: [ { round: this.round } ]
 		});
 		this.start.bind(this)();
 	}
@@ -164,20 +165,20 @@ export default class Box {
 	onPresenceDetected() {
 		logUtil.log({
 			type: 'info',
-			title: `Box "${this.name}" detected a presence`
+			title: `Box "${ this.name }" detected a presence`
 		});
 		this.motor.standUp()
 			.then(() => {
 				this.light.startBlinking();
 				this.speaker.explainRules()
 					.then(this.onRulesExplained.bind(this));
-			})
+			});
 	}
 	/** Is called when the Box has spoken the rules out loud */
 	onRulesExplained() {
 		logUtil.log({
 			type: 'info',
-			title: `Box "${this.name}" explained the rules`
+			title: `Box "${ this.name }" explained the rules`
 		});
 		this.motor.lookUp()
 			.then(() => {
@@ -185,7 +186,7 @@ export default class Box {
 					.then(() => {
 						logUtil.log({
 							type: 'info',
-							title: `Box "${this.name}" has successfully recorded a voice`
+							title: `Box "${ this.name }" has successfully recorded a voice`
 						});
 						this.prepareToSpeak.bind(this)();
 					})
@@ -197,14 +198,13 @@ export default class Box {
 		const isLastRound = this.isLastRound.bind(this)();
 		if (isLastRound) {
 			this.speakText.bind(this)();
-		}
-		else {
+		} else {
 			this.sendMessage.bind(this)('readyToSpeak');
 		}
 		logUtil.log({
 			type: 'info',
-			title: `Box "${this.name}" is prepared to speak`,
-			messages: [{ round: this.round }]
+			title: `Box "${ this.name }" is prepared to speak`,
+			messages: [ { round: this.round } ]
 		});
 	}
 	/** Speaks the text out loud */
@@ -221,8 +221,8 @@ export default class Box {
 	onRecordingFailed() {
 		logUtil.log({
 			type: 'warning',
-			title: `Box "${this.name}" failed to record the voice`,
-			messages: [{ then: 'Starts over again' }]
+			title: `Box "${ this.name }" failed to record the voice`,
+			messages: [ { then: 'Starts over again' } ]
 		});
 		this.motor.lookStraight()
 			.then(() => {
@@ -234,24 +234,22 @@ export default class Box {
 	onTextSpoken() {
 		logUtil.log({
 			type: 'info',
-			title: `Box "${this.name}" repeated the text`
+			title: `Box "${ this.name }" repeated the text`
 		});
 		if (this.options.isMaster) {
 			if (this.round === 1) {
 				this.translator.translateText()
-					.then(this.finish.bind(this))
-			}
-			else {
+					.then(this.finish.bind(this));
+			} else {
 				logUtil.log({
 					type: 'info',
-					title: `Box "${this.name}"s show is over`,
-					messages: [{ then: 'Starts over again' }]
+					title: `Box "${ this.name }"s show is over`,
+					messages: [ { then: 'Starts over again' } ]
 				});
 				this.round = 0;
 				this.startTheShow.bind(this)();
 			}
-		}
-		else {
+		} else {
 			this.finish.bind(this)();
 		}
 	}
@@ -259,28 +257,28 @@ export default class Box {
 	finish() {
 		logUtil.log({
 			type: 'info',
-			title: `Box "${this.name}" finished its round`,
-			messages: [{ round: this.round }]
+			title: `Box "${ this.name }" finished its round`,
+			messages: [ { round: this.round } ]
 		});
 		this.sendMessage.bind(this)('done');
 		this.motor.lieDown();
 		logUtil.log({
 			type: 'info',
-			title: `Box "${this.name}"s show is over`
+			title: `Box "${ this.name }"s show is over`
 		});
 	}
 	/** Is called when the previous box is speaking the text out loud */
 	onPreviousBoxSpeaking() {
 		logUtil.log({
 			type: 'info',
-			title: `Box "${this.name}" is listening to its previous sibling`
+			title: `Box "${ this.name }" is listening to its previous sibling`
 		});
 		this.motor.standUp()
 			.then(() => {
 				this.light.startBlinking();
 				this.motor.lookUp()
 					.then(() => {
-						this.sendMessage.bind(this)('readyToListen', 'prev')
+						this.sendMessage.bind(this)('readyToListen', 'prev');
 					});
 			});
 	}

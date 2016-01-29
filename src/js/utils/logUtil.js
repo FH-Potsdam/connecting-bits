@@ -1,13 +1,13 @@
 import chalk from 'chalk';
 
 const PREFIX_TABULATION = `
-           `; // Do not refactor. Intended line break and spaces
+		   `; // Do not refactor. Intended line break and spaces
 
 const getFormattedTime = () => {
 	const time = new Date();
-	const timeFormatted = ("0" + time.getHours()).slice(-2) + ":" +
-	    ("0" + time.getMinutes()).slice(-2) + ":" +
-	    ("0" + time.getSeconds()).slice(-2);
+	const timeFormatted = ('0' + time.getHours()).slice(-2) +
+		':' + ('0' + time.getMinutes()).slice(-2) +
+		':' + ('0' + time.getSeconds()).slice(-2);
 	return chalk.white('[') +
 		chalk.gray(timeFormatted) +
 		chalk.white('] ');
@@ -33,19 +33,19 @@ const getColorByType = (type) => {
 };
 
 const doLog = (options) => {
-	const { type, title, messages} = options;
+	const { type, title, messages } = options;
 	const color = getColorByType(type);
-	const toLog = ['\n' + getFormattedTime()];
+	const toLog = [ '\n' + getFormattedTime() ];
 	if (title && typeof title === 'string') {
-		toLog.push(chalk.inverse.bold[color](' ' + title + ' '));
+		toLog.push(chalk.inverse.bold[ color ](' ' + title + ' '));
 	}
 	messages.forEach((message) => {
-		let formattedMessage = chalk[color](PREFIX_TABULATION, message);
+		let formattedMessage = chalk[ color ](PREFIX_TABULATION, message);
 		if (typeof message === 'object') {
 			let key = Object.keys(message)[0];
-			formattedMessage = chalk[color](PREFIX_TABULATION,
-				' ' + chalk.underline(key + ':'), message[key])
-		};
+			formattedMessage = chalk[ color ](PREFIX_TABULATION,
+				' ' + chalk.underline(key + ':'), message[key]);
+		}
 		toLog.push(formattedMessage);
 	});
 	toLog.push('\n');
@@ -54,7 +54,7 @@ const doLog = (options) => {
 
 module.exports = {
 	log: (messageOrOptions) => {
-	const { type, title, messages} = messageOrOptions;
+		const { type, title, messages } = messageOrOptions;
 		if (typeof messageOrOptions === 'object' &&
 			(type || title || messages)) {
 			const options = Object.assign({}, {
@@ -63,8 +63,7 @@ module.exports = {
 				messages: []
 			}, messageOrOptions);
 			doLog(options);
-		}
-		else {
+		} else {
 			doLog({
 				type: false,
 				title: false,

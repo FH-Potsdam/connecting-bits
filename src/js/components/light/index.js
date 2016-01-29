@@ -1,6 +1,6 @@
-import { Led } from  'johnny-five';
-import LIGHT_CONSTANTS from '../../constants';
-const { PIN, BLINK_SPEED } = LIGHT_CONSTANTS;
+import { Led } from 'johnny-five';
+import { LIGHT_CONSTANTS } from '../../constants';
+const { BLINK_SPEED, PIN } = LIGHT_CONSTANTS;
 
 export default class Light {
 	constructor(board) {
@@ -9,13 +9,13 @@ export default class Light {
 	startBlinking() {
 		return new Promise((resolve) => {
 			this.led.blink(BLINK_SPEED);
-			resolve()
+			resolve();
 		});
 	}
 	stopBlinking() {
 		return new Promise((resolve) => {
 			this.led.stop.off();
-			resolve()
+			resolve();
 		});
 	}
 }

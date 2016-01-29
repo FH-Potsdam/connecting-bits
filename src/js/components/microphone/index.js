@@ -35,7 +35,7 @@ export default class Translator {
 		return { filename, id, location, sampleRate,
 			maxRecordingTime, recordingDate };
 	}
-	startRecording(callback){
+	startRecording(callback) {
 		const { location, filename } = config.get('Report');
 		const filePath = location + filename;
 		let index = 0;
@@ -52,4 +52,5 @@ export default class Translator {
 
 		const startRecord = new Record(recordingOptions, this.reportAudio.bind(this));
 	}
-};
+}
+

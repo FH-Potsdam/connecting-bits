@@ -2,7 +2,7 @@ import fs from 'fs';
 import rec from 'node-record-lpcm16';
 
 export default class Record {
-	constructor( options, callback ) {
+	constructor(options, callback) {
 		const {
 			location,
 			filename,

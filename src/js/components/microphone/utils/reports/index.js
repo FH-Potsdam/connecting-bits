@@ -28,7 +28,7 @@ export default class CreateReport {
 		let contents = fs.readFileSync(this.filePath);
 		let jsonContent = JSON.parse(contents);
 
-		jsonContent['results'].push(this.data);
+		jsonContent.results.push(this.data);
 		fs.writeFileSync(this.filePath, JSON.stringify(jsonContent));
 		logUtil.log({
 			type: 'info',
