@@ -15,9 +15,11 @@ export const LIGHT_CONSTANTS = {
 export const MOTOR_CONSTANTS = {
 	LIFT_PIN: 1,
 	TILT_PIN: 2,
+	LIFT_TYPE: 'standard',
+	TILT_TYPE: 'standard',
 	SPEED: 200,
-	LYING: 0,
-	STANING: 0,
-	TILTED: 0,
-	STRAIGHT: 0
+	LYING: 30,
+	STANDING: 105,
+	TILTED: 120,
+	STRAIGHT: 30
 };
