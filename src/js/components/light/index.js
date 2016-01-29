@@ -1,6 +1,6 @@
 import { Led } from  'johnny-five';
 import LIGHT_CONSTANTS from '../../constants';
-const { PIN, BLINK_SPEED } from LIGHT_CONSTANTS;
+const { PIN, BLINK_SPEED } = LIGHT_CONSTANTS;
 
 export default class Light {
 	constructor(board) {

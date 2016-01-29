@@ -8,7 +8,7 @@ const {
 	STANING,
 	TILTED,
 	STRAIGHT
-} from MOTOR_CONSTANTS;
+} = MOTOR_CONSTANTS;
 
 export default class Motor {
 	constructor(board) {

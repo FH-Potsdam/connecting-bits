@@ -4,6 +4,7 @@ var rimraf = require('gulp-rimraf');
 var nodemon = require('gulp-nodemon');
 var plumber = require('gulp-plumber');
 var gutil = require('gulp-util');
+var eslint = require('gulp-eslint');
 var paths = {
 	src: {
 		root: 'src',
@@ -44,7 +45,13 @@ gulp.task('serve', ['babel'], function(){
 	});
 });
 
-gulp.task('babel', function() {
+gulp.task('lint-js', function() {
+	return gulp.src(paths.src.javascript)
+		.pipe(eslint())
+		.pipe(eslint.formatEach());
+});
+
+gulp.task('babel', ['lint-js'], function() {
 	return gulp.src(paths.src.javascript)
 		.pipe(plumber())
 		.pipe(babel({ presets: ['es2015'] }))

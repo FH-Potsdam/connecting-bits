@@ -1,4 +1,4 @@
-export const INFRARED_CONSTANTS: {
+export const INFRARED_CONSTANTS = {
 	UNUSED_PIN: 3,
 	USED_PIN: 4,
 	MIN_DETECTION_DISTANCE: 35,
@@ -7,12 +7,12 @@ export const INFRARED_CONSTANTS: {
 	EMPTY_RESOLVE_FUNCTION: () => {}
 };
 
-export const LIGHT_CONSTANTS: {
+export const LIGHT_CONSTANTS = {
 	PIN: 'D7',
 	BLINK_SPEED: 500
 };
 
-export const MOTOR_CONSTANTS: {
+export const MOTOR_CONSTANTS = {
 	LIFT_PIN: 1,
 	TILT_PIN: 2,
 	SPEED: 200,

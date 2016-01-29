@@ -9,7 +9,7 @@ const {
 	CONTROLLER_ID,
 	MIN_PRESENCE_DURATION,
 	EMPTY_RESOLVE_FUNCTION
-} from INFRARED_CONSTANTS;
+} = INFRARED_CONSTANTS;
 
 export default class Intrared {
 	constructor(board) {
