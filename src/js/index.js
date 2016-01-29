@@ -5,6 +5,10 @@ import { createBoard, getBoardInBoardsByName } from './utils/boardsUtil';
 import { createClient, getClientInClientsByName } from './utils/clientsUtil';
 import logUtil from './utils/logUtil';
 
+/**
+ * @class Most global class
+ * @param none
+ */
 export default class BoardsChain {
 	constructor() {
 		const boardsConfigs = config.get('boards');

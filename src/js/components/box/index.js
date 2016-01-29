@@ -9,6 +9,15 @@ import Speaker from '../speaker';
 import Infrared from '../infrared';
 import logUtil from '../../utils/logUtil';
 
+/**
+ * @class Box is the class that contains the methods for all actions a Box
+ * should be able to perform. It takes care of orchestring the chain of
+ * events.
+ * @param {JohnnyFive board instanxe} board this is the board class delivered
+ * by johnny five for one board. In this case we talk about a photon board
+ * @param {Mqtt client} client This is an  instance of an mqtt client that
+ * will be used to communicate with oder boxes
+ */
 export default class Box {
 	constructor(board, client, options) {
 		this.board = board;
@@ -28,6 +37,7 @@ export default class Box {
 		client.on('connect', this.onConnect.bind(this));
 		client.on('message', this.onMessage.bind(this));
 	}
+	/** Is called when the Box's mqtt client is ready and connected. */
 	onConnect() {
 		logUtil.log({
 			type: 'shiftr',
@@ -37,6 +47,11 @@ export default class Box {
 		this.client.subscribe(`/inputs/${this.name}`);
 		this.board.on('ready', this.onBoardReady.bind(this));
 	}
+	/**
+	 * Is called when a mqtt message is received
+	 * @param  {string} topic   the mqtt topic the message was sent on
+	 * @param  {string} message the message sent via mqtt
+	 */
 	onMessage(topic, message) {
 		clearTimeout(this.interval);
 		logUtil.log({
@@ -61,7 +76,12 @@ export default class Box {
 			break
 		}
 	}
-	forwardMessage(message, recipient = 'next') {
+	/**
+	 * Send a message to wether the nex or the previous Box via mqtt
+	 * @param  {string} message   message to be sent to the sibling Box
+	 * @param  {string} recipient wether "next" or "prev"
+	 */
+	sendMessage(message, recipient = 'next') {
 		const recipientBox = this.options[recipient];
 		if (!recipientBox) {
 			logUtil.log({
@@ -86,6 +106,7 @@ export default class Box {
 		})
 		this.client.publish(topic, message);
 	}
+	/** Is called when the Photon board is ready */
 	onBoardReady(){
 		this.translator = new Translator();
 		this.speaker = new Speaker();
@@ -98,12 +119,21 @@ export default class Box {
 			title: `Box's board of "${this.name}" is ready`
 		})
 	}
+	/**
+	 * Retruns the Box's mqtt client
+	 * @return {Mqtt client instance}
+	 */
 	getClient() {
 		return this.client;
 	}
+	/**
+	 * Returns the Box's j5 board
+	 * @return {Johnny Five board instance}
+	 */
 	getBoard() {
 		return this.board;
 	}
+	/** Internal start, starts detecting */
 	start() {
 		this.motor.lieDown()
 			.then(() => {
@@ -115,6 +145,7 @@ export default class Box {
 					.then(this.onPresenceDetected.bind(this));
 			});
 	}
+	/** External start, intreases the round */
 	startTheShow() {
 		this.round++;
 		logUtil.log({
@@ -124,10 +155,12 @@ export default class Box {
 		});
 		this.start.bind(this)();
 	}
+	/** Restarts the complete show and resets the round */
 	restartTheShow() {
 		this.round = 1;
 		this.start.bind(this)();
 	}
+	/** Is called when the infrared detects a presence */
 	onPresenceDetected() {
 		logUtil.log({
 			type: 'info',
@@ -140,6 +173,7 @@ export default class Box {
 					.then(this.onRulesExplained.bind(this));
 			})
 	}
+	/** Is called when the Box has spoken the rules out loud */
 	onRulesExplained() {
 		logUtil.log({
 			type: 'info',
@@ -158,13 +192,14 @@ export default class Box {
 					.catch(this.onRecordingFailed.bind(this));
 			});
 	}
+	/** Is called when the Box is meant to speak */
 	prepareToSpeak() {
 		const isLastRound = this.isLastRound.bind(this)();
 		if (isLastRound) {
 			this.speakText.bind(this)();
 		}
 		else {
-			this.forwardMessage.bind(this)('readyToSpeak');
+			this.sendMessage.bind(this)('readyToSpeak');
 		}
 		logUtil.log({
 			type: 'info',
@@ -172,12 +207,17 @@ export default class Box {
 			messages: [{ round: this.round }]
 		});
 	}
+	/** Speaks the text out loud */
 	speakText() {
 		this.light.stopBlinking();
 		this.motor.lookStraight();
 		this.speaker.speakText()
 			.then(this.onTextSpoken.bind(this));
 	}
+	/**
+	 * Is called when the voice was badly recorded, when no sound was identified
+	 * or when the speech could not be transformed into text
+	 */
 	onRecordingFailed() {
 		logUtil.log({
 			type: 'warning',
@@ -190,6 +230,7 @@ export default class Box {
 					.then(this.startTheShow.bind(this));
 			});
 	}
+	/** Is called whe the box has successfully spoken the text out loud */
 	onTextSpoken() {
 		logUtil.log({
 			type: 'info',
@@ -214,19 +255,21 @@ export default class Box {
 			this.finish.bind(this)();
 		}
 	}
+	/** Ends the show of the box */
 	finish() {
 		logUtil.log({
 			type: 'info',
 			title: `Box "${this.name}" finished its round`,
 			messages: [{ round: this.round }]
 		});
-		this.forwardMessage.bind(this)('done');
+		this.sendMessage.bind(this)('done');
 		this.motor.lieDown();
 		logUtil.log({
 			type: 'info',
 			title: `Box "${this.name}"s show is over`
 		});
 	}
+	/** Is called when the previous box is speaking the text out loud */
 	onPreviousBoxSpeaking() {
 		logUtil.log({
 			type: 'info',
@@ -237,10 +280,11 @@ export default class Box {
 				this.light.startBlinking();
 				this.motor.lookUp()
 					.then(() => {
-						this.forwardMessage.bind(this)('readyToListen', 'prev')
+						this.sendMessage.bind(this)('readyToListen', 'prev')
 					});
 			});
 	}
+	/** Is called to check is this is the last round */
 	isLastRound() {
 		return this.options.isMaster && this.round > 1;
 	}
