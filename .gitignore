@@ -39,3 +39,8 @@ audio/report/audio.report.json
 audio/recordings/*.wav
 
 documentation/esdoc
+
+# Sublime
+*.sublime-project
+*.sublime-workspace
+
