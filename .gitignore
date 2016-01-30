@@ -38,4 +38,4 @@ audio/report/audio.report.json
 # Ignore the audio files
 audio/recordings/*.wav
 
-documentation/esdoc
+# documentation/esdoc
