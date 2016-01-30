@@ -10,7 +10,7 @@
     "access": null,
     "description": null,
     "lineNumber": 1,
-    "content": "import { Led } from 'johnny-five';\nimport config from 'config';\nimport Microphone from '../microphone';\nimport Translator from '../translator';\nimport Light from '../light';\nimport Motor from '../motor';\nimport Speaker from '../speaker';\nimport Infrared from '../infrared';\nimport logUtil from '../../utils/logUtil';\n\n/**\n * @class Box is the class that contains the methods for all actions a Box\n * should be able to perform. It takes care of orchestring the chain of\n * events.\n */\nexport default class Box {\n\t/**\n\t * Constructor for the Light class\n\t * @param {JohnnyFive board instanxe} board - this is the board class delivered\n\t * by johnny five for one board. In this case we talk about a photon board\n\t * @param {Mqtt client} client - This is an  instance of an mqtt client that\n\t * will be used to communicate with oder boxes\n\t * @param {Object} options - Option containing next, prev and isMaster\n\t */\n\tconstructor(board, client, options) {\n\t\tthis.board = board;\n\t\tthis.client = client;\n\t\tthis.options = options;\n\t\tthis.name = this.board.id;\n\t\tthis.round = 0;\n\n\t\t// initialise subcomponents\n\t\tthis.translator = null;\n\t\tthis.light = null;\n\t\tthis.motor = null;\n\t\tthis.speaker = null;\n\t\tthis.infrared = null;\n\t\tthis.microphone = null;\n\n\t\tclient.on('connect', this.onConnect.bind(this));\n\t\tclient.on('message', this.onMessage.bind(this));\n\t}\n\t/** Is called when the Box's mqtt client is ready and connected. */\n\tonConnect() {\n\t\tlogUtil.log({\n\t\t\ttype: 'shiftr',\n\t\t\ttitle: `Box \"${ this.name }\" connected and subscribed`,\n\t\t\tmessages: [ { 'subscription topic': `/inputs/${ this.name }` } ]\n\t\t});\n\t\tthis.client.subscribe(`/inputs/${ this.name }`);\n\t\tthis.board.on('ready', this.onBoardReady.bind(this));\n\t}\n\t/**\n\t * Is called when a mqtt message is received\n\t * @param  {string} topic - the mqtt topic the message was sent on\n\t * @param  {string} message - the message sent via mqtt\n\t */\n\tonMessage(topic, message) {\n\t\tclearTimeout(this.interval);\n\t\tlogUtil.log({\n\t\t\ttype: 'shiftr',\n\t\t\ttitle: `Box \"${ this.name }\" received a message`,\n\t\t\tmessages: [\n\t\t\t\t{ topic },\n\t\t\t\t{ message: message.toString() }\n\t\t\t]\n\t\t});\n\n\t\tswitch (message.toString()) {\n\t\t\tcase 'done':\n\t\t\t\tthis.round++;\n\t\t\t\tthis.prepareToSpeak.bind(this)();\n\t\t\t\tbreak;\n\t\t\tcase 'readyToListen':\n\t\t\t\tthis.speakText.bind(this)();\n\t\t\t\tbreak;\n\t\t\tcase 'readyToSpeak':\n\t\t\t\tthis.onPreviousBoxSpeaking.bind(this)();\n\t\t\t\tbreak;\n\t\t\tdefault: return;\n\t\t}\n\t}\n\t/**\n\t * Send a message to wether the nex or the previous Box via mqtt\n\t * @param  {string} message - message to be sent to the sibling Box\n\t * @param  {string} recipient - wether \"next\" or \"prev\"\n\t */\n\tsendMessage(message, recipient = 'next') {\n\t\tconst recipientBox = this.options[ recipient ];\n\t\tif (!recipientBox) {\n\t\t\tlogUtil.log({\n\t\t\t\ttype: 'warning',\n\t\t\t\ttitle: `Box \"${ this.name }\" has an invalid next sibling`,\n\t\t\t\tmessages: [\n\t\t\t\t\t{ sibling: recipientBox.name }\n\t\t\t\t]\n\t\t\t});\n\t\t}\n\n\t\tconst topic = `/inputs/${ recipientBox.name }`;\n\t\tlogUtil.log({\n\t\t\ttype: 'shiftr',\n\t\t\ttitle: `Box \"${ this.name }\" forwarded a message`,\n\t\t\tmessages: [\n\t\t\t\t{ from: this.name },\n\t\t\t\t{ to: recipientBox.name },\n\t\t\t\t{ topic },\n\t\t\t\t{ message }\n\t\t\t]\n\t\t});\n\t\tthis.client.publish(topic, message);\n\t}\n\t/** Is called when the Photon board is ready */\n\tonBoardReady() {\n\t\tthis.translator = new Translator();\n\t\tthis.speaker = new Speaker();\n\t\tthis.microphone = new Microphone();\n\t\tthis.motor = new Motor(this.board);\n\t\tthis.light = new Light(this.board);\n\t\tthis.infrared = new Infrared(this.board);\n\t\tlogUtil.log({\n\t\t\ttype: 'hardware',\n\t\t\ttitle: `Box's board of \"${ this.name }\" is ready`\n\t\t});\n\t}\n\t/**\n\t * Retruns the Box's mqtt client\n\t * @return {Mqtt client instance}\n\t */\n\tgetClient() {\n\t\treturn this.client;\n\t}\n\t/**\n\t * Returns the Box's j5 board\n\t * @return {Johnny Five board instance}\n\t */\n\tgetBoard() {\n\t\treturn this.board;\n\t}\n\t/** Internal start, starts detecting */\n\tstart() {\n\t\tthis.motor.lieDown()\n\t\t\t.then(() => {\n\t\t\t\tlogUtil.log({\n\t\t\t\t\ttype: 'hardware',\n\t\t\t\t\ttitle: `Box's \"${ this.name }\" starts detecting`\n\t\t\t\t});\n\t\t\t\tthis.infrared.detectPresence()\n\t\t\t\t\t.then(this.onPresenceDetected.bind(this));\n\t\t\t});\n\t}\n\t/** External start, intreases the round */\n\tstartTheShow() {\n\t\tthis.round++;\n\t\tlogUtil.log({\n\t\t\ttype: 'info',\n\t\t\ttitle: `Box \"${ this.name }\" starts the show`,\n\t\t\tmessages: [ { round: this.round } ]\n\t\t});\n\t\tthis.start.bind(this)();\n\t}\n\t/** Restarts the complete show and resets the round */\n\trestartTheShow() {\n\t\tthis.round = 1;\n\t\tthis.start.bind(this)();\n\t}\n\t/** Is called when the infrared detects a presence */\n\tonPresenceDetected() {\n\t\tlogUtil.log({\n\t\t\ttype: 'info',\n\t\t\ttitle: `Box \"${ this.name }\" detected a presence`\n\t\t});\n\t\tthis.motor.standUp()\n\t\t\t.then(() => {\n\t\t\t\tthis.light.startBlinking();\n\t\t\t\tthis.speaker.explainRules()\n\t\t\t\t\t.then(this.onRulesExplained.bind(this));\n\t\t\t});\n\t}\n\t/** Is called when the Box has spoken the rules out loud */\n\tonRulesExplained() {\n\t\tlogUtil.log({\n\t\t\ttype: 'info',\n\t\t\ttitle: `Box \"${ this.name }\" explained the rules`\n\t\t});\n\t\tthis.motor.lookUp()\n\t\t\t.then(() => {\n\t\t\t\tthis.microphone.startRecording()\n\t\t\t\t\t.then(() => {\n\t\t\t\t\t\tlogUtil.log({\n\t\t\t\t\t\t\ttype: 'info',\n\t\t\t\t\t\t\ttitle: `Box \"${ this.name }\" has successfully recorded a voice`\n\t\t\t\t\t\t});\n\t\t\t\t\t\tthis.prepareToSpeak.bind(this)();\n\t\t\t\t\t})\n\t\t\t\t\t.catch(this.onRecordingFailed.bind(this));\n\t\t\t});\n\t}\n\t/** Is called when the Box is meant to speak */\n\tprepareToSpeak() {\n\t\tconst isLastRound = this.isLastRound.bind(this)();\n\t\tif (isLastRound) {\n\t\t\tthis.speakText.bind(this)();\n\t\t} else {\n\t\t\tthis.sendMessage.bind(this)('readyToSpeak');\n\t\t}\n\t\tlogUtil.log({\n\t\t\ttype: 'info',\n\t\t\ttitle: `Box \"${ this.name }\" is prepared to speak`,\n\t\t\tmessages: [ { round: this.round } ]\n\t\t});\n\t}\n\t/** Speaks the text out loud */\n\tspeakText() {\n\t\tthis.light.stopBlinking();\n\t\tthis.motor.lookStraight();\n\t\tthis.speaker.speakText()\n\t\t\t.then(this.onTextSpoken.bind(this));\n\t}\n\t/**\n\t * Is called when the voice was badly recorded, when no sound was identified\n\t * or when the speech could not be transformed into text\n\t */\n\tonRecordingFailed() {\n\t\tlogUtil.log({\n\t\t\ttype: 'warning',\n\t\t\ttitle: `Box \"${ this.name }\" failed to record the voice`,\n\t\t\tmessages: [ { then: 'Starts over again' } ]\n\t\t});\n\t\tthis.motor.lookStraight()\n\t\t\t.then(() => {\n\t\t\t\tthis.speaker.sayNoRecordingError()\n\t\t\t\t\t.then(this.startTheShow.bind(this));\n\t\t\t});\n\t}\n\t/** Is called whe the box has successfully spoken the text out loud */\n\tonTextSpoken() {\n\t\tlogUtil.log({\n\t\t\ttype: 'info',\n\t\t\ttitle: `Box \"${ this.name }\" repeated the text`\n\t\t});\n\t\tif (this.options.isMaster) {\n\t\t\tif (this.round === 1) {\n\t\t\t\tthis.translator.translateText()\n\t\t\t\t\t.then(this.finish.bind(this));\n\t\t\t} else {\n\t\t\t\tlogUtil.log({\n\t\t\t\t\ttype: 'info',\n\t\t\t\t\ttitle: `Box \"${ this.name }\"s show is over`,\n\t\t\t\t\tmessages: [ { then: 'Starts over again' } ]\n\t\t\t\t});\n\t\t\t\tthis.round = 0;\n\t\t\t\tthis.startTheShow.bind(this)();\n\t\t\t}\n\t\t} else {\n\t\t\tthis.finish.bind(this)();\n\t\t}\n\t}\n\t/** Ends the show of the box */\n\tfinish() {\n\t\tlogUtil.log({\n\t\t\ttype: 'info',\n\t\t\ttitle: `Box \"${ this.name }\" finished its round`,\n\t\t\tmessages: [ { round: this.round } ]\n\t\t});\n\t\tthis.sendMessage.bind(this)('done');\n\t\tthis.motor.lieDown();\n\t\tlogUtil.log({\n\t\t\ttype: 'info',\n\t\t\ttitle: `Box \"${ this.name }\"s show is over`\n\t\t});\n\t}\n\t/** Is called when the previous box is speaking the text out loud */\n\tonPreviousBoxSpeaking() {\n\t\tlogUtil.log({\n\t\t\ttype: 'info',\n\t\t\ttitle: `Box \"${ this.name }\" is listening to its previous sibling`\n\t\t});\n\t\tthis.motor.standUp()\n\t\t\t.then(() => {\n\t\t\t\tthis.light.startBlinking();\n\t\t\t\tthis.motor.lookUp()\n\t\t\t\t\t.then(() => {\n\t\t\t\t\t\tthis.sendMessage.bind(this)('readyToListen', 'prev');\n\t\t\t\t\t});\n\t\t\t});\n\t}\n\t/** Is called to check is this is the last round */\n\tisLastRound() {\n\t\treturn this.options.isMaster && this.round > 1;\n\t}\n}\n"
+    "content": "import { Led } from 'johnny-five';\nimport config from 'config';\nimport Microphone from '../microphone';\nimport Translator from '../translator';\nimport Light from '../light';\nimport Motor from '../motor';\nimport Speaker from '../speaker';\nimport Infrared from '../infrared';\nimport logUtil from '../../utils/logUtil';\n\n/**\n * @class Box is the class that contains the methods for all actions a Box\n * should be able to perform. It takes care of orchestring the chain of\n * events.\n */\nexport default class Box {\n\t/**\n\t * Constructor for the Light class\n\t * @param {JohnnyFive board instanxe} board - this is the board class delivered\n\t * by johnny five for one board. In this case we talk about a photon board\n\t * @param {Mqtt client} client - This is an  instance of an mqtt client that\n\t * will be used to communicate with oder boxes\n\t * @param {Object} options - Option containing next, prev and isMaster\n\t */\n\tconstructor(board, client, options) {\n\t\t/**\n\t\t * A Johnny Five Board instance\n\t\t * @type {Board}\n\t\t */\n\t\tthis.board = board;\n\t\t/**\n\t\t * An Mqtt client\n\t\t * @type {Mqtt client}\n\t\t */\n\t\tthis.client = client;\n\t\t/**\n\t\t * Option with next, prev and isMaster\n\t\t * @type {Object}\n\t\t */\n\t\tthis.options = options;\n\t\t/**\n\t\t * The Box's name\n\t\t * @type {String}\n\t\t */\n\t\tthis.name = this.board.id;\n\t\t/**\n\t\t * The round actually playing\n\t\t * @type {Number}\n\t\t */\n\t\tthis.round = 0;\n\n\t\t// initialise subcomponents\n\t\t/**\n\t\t * The Translator component\n\t\t * Will be intialized when all boards are ready\n\t\t * @type {[type]}\n\t\t */\n\t\tthis.translator = null;\n\t\t/**\n\t\t * The Light component\n\t\t * Will be intialized when all boards are ready\n\t\t * @type {Light}\n\t\t */\n\t\tthis.light = null;\n\t\t/**\n\t\t * The Motor component\n\t\t * Will be intialized when all boards are ready\n\t\t * @type {Motor}\n\t\t */\n\t\tthis.motor = null;\n\t\t/**\n\t\t * The Speak component\n\t\t * Will be intialized when all boards are ready\n\t\t * @type {Speak}\n\t\t */\n\t\tthis.speaker = null;\n\t\t/**\n\t\t * The Infra component\n\t\t * Will be intialized when all boards are ready\n\t\t * @type {Infra}\n\t\t */\n\t\tthis.infrared = null;\n\t\t/**\n\t\t * The Micro component\n\t\t * Will be intialized when all boards are ready\n\t\t * @type {Micro}\n\t\t */\n\t\tthis.microphone = null;\n\n\t\tclient.on('connect', this.onConnect.bind(this));\n\t\tclient.on('message', this.onMessage.bind(this));\n\t}\n\t/** Is called when the Box's mqtt client is ready and connected. */\n\tonConnect() {\n\t\tlogUtil.log({\n\t\t\ttype: 'shiftr',\n\t\t\ttitle: `Box \"${ this.name }\" connected and subscribed`,\n\t\t\tmessages: [ { 'subscription topic': `/inputs/${ this.name }` } ]\n\t\t});\n\t\tthis.client.subscribe(`/inputs/${ this.name }`);\n\t\tthis.board.on('ready', this.onBoardReady.bind(this));\n\t}\n\t/**\n\t * Is called when a mqtt message is received\n\t * @param  {string} topic - the mqtt topic the message was sent on\n\t * @param  {string} message - the message sent via mqtt\n\t */\n\tonMessage(topic, message) {\n\t\tclearTimeout(this.interval);\n\t\tlogUtil.log({\n\t\t\ttype: 'shiftr',\n\t\t\ttitle: `Box \"${ this.name }\" received a message`,\n\t\t\tmessages: [\n\t\t\t\t{ topic },\n\t\t\t\t{ message: message.toString() }\n\t\t\t]\n\t\t});\n\n\t\tswitch (message.toString()) {\n\t\t\tcase 'done':\n\t\t\t\tthis.round++;\n\t\t\t\tthis.prepareToSpeak.bind(this)();\n\t\t\t\tbreak;\n\t\t\tcase 'readyToListen':\n\t\t\t\tthis.speakText.bind(this)();\n\t\t\t\tbreak;\n\t\t\tcase 'readyToSpeak':\n\t\t\t\tthis.onPreviousBoxSpeaking.bind(this)();\n\t\t\t\tbreak;\n\t\t\tdefault: return;\n\t\t}\n\t}\n\t/**\n\t * Send a message to wether the nex or the previous Box via mqtt\n\t * @param  {string} message - message to be sent to the sibling Box\n\t * @param  {string} recipient - wether \"next\" or \"prev\"\n\t */\n\tsendMessage(message, recipient = 'next') {\n\t\tconst recipientBox = this.options[ recipient ];\n\t\tif (!recipientBox) {\n\t\t\tlogUtil.log({\n\t\t\t\ttype: 'warning',\n\t\t\t\ttitle: `Box \"${ this.name }\" has an invalid next sibling`,\n\t\t\t\tmessages: [\n\t\t\t\t\t{ sibling: recipientBox.name }\n\t\t\t\t]\n\t\t\t});\n\t\t}\n\n\t\tconst topic = `/inputs/${ recipientBox.name }`;\n\t\tlogUtil.log({\n\t\t\ttype: 'shiftr',\n\t\t\ttitle: `Box \"${ this.name }\" forwarded a message`,\n\t\t\tmessages: [\n\t\t\t\t{ from: this.name },\n\t\t\t\t{ to: recipientBox.name },\n\t\t\t\t{ topic },\n\t\t\t\t{ message }\n\t\t\t]\n\t\t});\n\t\tthis.client.publish(topic, message);\n\t}\n\t/** Is called when the Photon board is ready */\n\tonBoardReady() {\n\t\tthis.translator = new Translator();\n\t\tthis.speaker = new Speaker();\n\t\tthis.microphone = new Microphone();\n\t\tthis.motor = new Motor(this.board);\n\t\tthis.light = new Light(this.board);\n\t\tthis.infrared = new Infrared(this.board);\n\t\tlogUtil.log({\n\t\t\ttype: 'hardware',\n\t\t\ttitle: `Box's board of \"${ this.name }\" is ready`\n\t\t});\n\t}\n\t/**\n\t * Retruns the Box's mqtt client\n\t * @return {Mqtt client instance}\n\t */\n\tgetClient() {\n\t\treturn this.client;\n\t}\n\t/**\n\t * Returns the Box's j5 board\n\t * @return {Johnny Five board instance}\n\t */\n\tgetBoard() {\n\t\treturn this.board;\n\t}\n\t/** Internal start, starts detecting */\n\tstart() {\n\t\tthis.motor.lieDown()\n\t\t\t.then(() => {\n\t\t\t\tlogUtil.log({\n\t\t\t\t\ttype: 'hardware',\n\t\t\t\t\ttitle: `Box's \"${ this.name }\" starts detecting`\n\t\t\t\t});\n\t\t\t\tthis.infrared.detectPresence()\n\t\t\t\t\t.then(this.onPresenceDetected.bind(this));\n\t\t\t});\n\t}\n\t/** External start, intreases the round */\n\tstartTheShow() {\n\t\tthis.round++;\n\t\tlogUtil.log({\n\t\t\ttype: 'info',\n\t\t\ttitle: `Box \"${ this.name }\" starts the show`,\n\t\t\tmessages: [ { round: this.round } ]\n\t\t});\n\t\tthis.start.bind(this)();\n\t}\n\t/** Restarts the complete show and resets the round */\n\trestartTheShow() {\n\t\tthis.round = 1;\n\t\tthis.start.bind(this)();\n\t}\n\t/** Is called when the infrared detects a presence */\n\tonPresenceDetected() {\n\t\tlogUtil.log({\n\t\t\ttype: 'info',\n\t\t\ttitle: `Box \"${ this.name }\" detected a presence`\n\t\t});\n\t\tthis.motor.standUp()\n\t\t\t.then(() => {\n\t\t\t\tthis.light.startBlinking();\n\t\t\t\tthis.speaker.explainRules()\n\t\t\t\t\t.then(this.onRulesExplained.bind(this));\n\t\t\t});\n\t}\n\t/** Is called when the Box has spoken the rules out loud */\n\tonRulesExplained() {\n\t\tlogUtil.log({\n\t\t\ttype: 'info',\n\t\t\ttitle: `Box \"${ this.name }\" explained the rules`\n\t\t});\n\t\tthis.motor.lookUp()\n\t\t\t.then(() => {\n\t\t\t\tthis.microphone.startRecording()\n\t\t\t\t\t.then(() => {\n\t\t\t\t\t\tlogUtil.log({\n\t\t\t\t\t\t\ttype: 'info',\n\t\t\t\t\t\t\ttitle: `Box \"${ this.name }\" has successfully recorded a voice`\n\t\t\t\t\t\t});\n\t\t\t\t\t\tthis.prepareToSpeak.bind(this)();\n\t\t\t\t\t})\n\t\t\t\t\t.catch(this.onRecordingFailed.bind(this));\n\t\t\t});\n\t}\n\t/** Is called when the Box is meant to speak */\n\tprepareToSpeak() {\n\t\tconst isLastRound = this.isLastRound.bind(this)();\n\t\tif (isLastRound) {\n\t\t\tthis.speakText.bind(this)();\n\t\t} else {\n\t\t\tthis.sendMessage.bind(this)('readyToSpeak');\n\t\t}\n\t\tlogUtil.log({\n\t\t\ttype: 'info',\n\t\t\ttitle: `Box \"${ this.name }\" is prepared to speak`,\n\t\t\tmessages: [ { round: this.round } ]\n\t\t});\n\t}\n\t/** Speaks the text out loud */\n\tspeakText() {\n\t\tthis.light.stopBlinking();\n\t\tthis.motor.lookStraight();\n\t\tthis.speaker.speakText()\n\t\t\t.then(this.onTextSpoken.bind(this));\n\t}\n\t/**\n\t * Is called when the voice was badly recorded, when no sound was identified\n\t * or when the speech could not be transformed into text\n\t */\n\tonRecordingFailed() {\n\t\tlogUtil.log({\n\t\t\ttype: 'warning',\n\t\t\ttitle: `Box \"${ this.name }\" failed to record the voice`,\n\t\t\tmessages: [ { then: 'Starts over again' } ]\n\t\t});\n\t\tthis.motor.lookStraight()\n\t\t\t.then(() => {\n\t\t\t\tthis.speaker.sayNoRecordingError()\n\t\t\t\t\t.then(this.startTheShow.bind(this));\n\t\t\t});\n\t}\n\t/** Is called whe the box has successfully spoken the text out loud */\n\tonTextSpoken() {\n\t\tlogUtil.log({\n\t\t\ttype: 'info',\n\t\t\ttitle: `Box \"${ this.name }\" repeated the text`\n\t\t});\n\t\tif (this.options.isMaster) {\n\t\t\tif (this.round === 1) {\n\t\t\t\tthis.translator.translateText()\n\t\t\t\t\t.then(this.finish.bind(this));\n\t\t\t} else {\n\t\t\t\tlogUtil.log({\n\t\t\t\t\ttype: 'info',\n\t\t\t\t\ttitle: `Box \"${ this.name }\"s show is over`,\n\t\t\t\t\tmessages: [ { then: 'Starts over again' } ]\n\t\t\t\t});\n\t\t\t\tthis.round = 0;\n\t\t\t\tthis.startTheShow.bind(this)();\n\t\t\t}\n\t\t} else {\n\t\t\tthis.finish.bind(this)();\n\t\t}\n\t}\n\t/** Ends the show of the box */\n\tfinish() {\n\t\tlogUtil.log({\n\t\t\ttype: 'info',\n\t\t\ttitle: `Box \"${ this.name }\" finished its round`,\n\t\t\tmessages: [ { round: this.round } ]\n\t\t});\n\t\tthis.sendMessage.bind(this)('done');\n\t\tthis.motor.lieDown();\n\t\tlogUtil.log({\n\t\t\ttype: 'info',\n\t\t\ttitle: `Box \"${ this.name }\"s show is over`\n\t\t});\n\t}\n\t/** Is called when the previous box is speaking the text out loud */\n\tonPreviousBoxSpeaking() {\n\t\tlogUtil.log({\n\t\t\ttype: 'info',\n\t\t\ttitle: `Box \"${ this.name }\" is listening to its previous sibling`\n\t\t});\n\t\tthis.motor.standUp()\n\t\t\t.then(() => {\n\t\t\t\tthis.light.startBlinking();\n\t\t\t\tthis.motor.lookUp()\n\t\t\t\t\t.then(() => {\n\t\t\t\t\t\tthis.sendMessage.bind(this)('readyToListen', 'prev');\n\t\t\t\t\t});\n\t\t\t});\n\t}\n\t/** Is called to check is this is the last round */\n\tisLastRound() {\n\t\treturn this.options.isMaster && this.round > 1;\n\t}\n}\n"
   },
   {
     "__docId__": 1,
@@ -88,13 +88,15 @@
     "memberof": "js/components/box/index.js~Box",
     "longname": "js/components/box/index.js~Box#board",
     "access": null,
-    "description": null,
-    "lineNumber": 26,
-    "undocument": true,
+    "description": "A Johnny Five Board instance",
+    "lineNumber": 30,
     "type": {
+      "nullable": null,
       "types": [
-        "*"
-      ]
+        "Board"
+      ],
+      "spread": false,
+      "description": null
     }
   },
   {
@@ -106,13 +108,15 @@
     "memberof": "js/components/box/index.js~Box",
     "longname": "js/components/box/index.js~Box#client",
     "access": null,
-    "description": null,
-    "lineNumber": 27,
-    "undocument": true,
+    "description": "An Mqtt client",
+    "lineNumber": 35,
     "type": {
+      "nullable": null,
       "types": [
-        "*"
-      ]
+        "Mqtt client"
+      ],
+      "spread": false,
+      "description": null
     }
   },
   {
@@ -124,13 +128,15 @@
     "memberof": "js/components/box/index.js~Box",
     "longname": "js/components/box/index.js~Box#options",
     "access": null,
-    "description": null,
-    "lineNumber": 28,
-    "undocument": true,
+    "description": "Option with next, prev and isMaster",
+    "lineNumber": 40,
     "type": {
+      "nullable": null,
       "types": [
-        "*"
-      ]
+        "Object"
+      ],
+      "spread": false,
+      "description": null
     }
   },
   {
@@ -142,13 +148,15 @@
     "memberof": "js/components/box/index.js~Box",
     "longname": "js/components/box/index.js~Box#name",
     "access": null,
-    "description": null,
-    "lineNumber": 29,
-    "undocument": true,
+    "description": "The Box's name",
+    "lineNumber": 45,
     "type": {
+      "nullable": null,
       "types": [
-        "*"
-      ]
+        "String"
+      ],
+      "spread": false,
+      "description": null
     }
   },
   {
@@ -160,13 +168,15 @@
     "memberof": "js/components/box/index.js~Box",
     "longname": "js/components/box/index.js~Box#round",
     "access": null,
-    "description": null,
-    "lineNumber": 30,
-    "undocument": true,
+    "description": "The round actually playing",
+    "lineNumber": 50,
     "type": {
+      "nullable": null,
       "types": [
-        "number"
-      ]
+        "Number"
+      ],
+      "spread": false,
+      "description": null
     }
   },
   {
@@ -178,13 +188,15 @@
     "memberof": "js/components/box/index.js~Box",
     "longname": "js/components/box/index.js~Box#translator",
     "access": null,
-    "description": null,
-    "lineNumber": 33,
-    "undocument": true,
+    "description": "The Translator component\nWill be intialized when all boards are ready",
+    "lineNumber": 58,
     "type": {
+      "nullable": null,
       "types": [
-        "*"
-      ]
+        "[type]"
+      ],
+      "spread": false,
+      "description": null
     }
   },
   {
@@ -196,13 +208,15 @@
     "memberof": "js/components/box/index.js~Box",
     "longname": "js/components/box/index.js~Box#light",
     "access": null,
-    "description": null,
-    "lineNumber": 34,
-    "undocument": true,
+    "description": "The Light component\nWill be intialized when all boards are ready",
+    "lineNumber": 64,
     "type": {
+      "nullable": null,
       "types": [
-        "*"
-      ]
+        "Light"
+      ],
+      "spread": false,
+      "description": null
     }
   },
   {
@@ -214,13 +228,15 @@
     "memberof": "js/components/box/index.js~Box",
     "longname": "js/components/box/index.js~Box#motor",
     "access": null,
-    "description": null,
-    "lineNumber": 35,
-    "undocument": true,
+    "description": "The Motor component\nWill be intialized when all boards are ready",
+    "lineNumber": 70,
     "type": {
+      "nullable": null,
       "types": [
-        "*"
-      ]
+        "Motor"
+      ],
+      "spread": false,
+      "description": null
     }
   },
   {
@@ -232,13 +248,15 @@
     "memberof": "js/components/box/index.js~Box",
     "longname": "js/components/box/index.js~Box#speaker",
     "access": null,
-    "description": null,
-    "lineNumber": 36,
-    "undocument": true,
+    "description": "The Speak component\nWill be intialized when all boards are ready",
+    "lineNumber": 76,
     "type": {
+      "nullable": null,
       "types": [
-        "*"
-      ]
+        "Speak"
+      ],
+      "spread": false,
+      "description": null
     }
   },
   {
@@ -250,13 +268,15 @@
     "memberof": "js/components/box/index.js~Box",
     "longname": "js/components/box/index.js~Box#infrared",
     "access": null,
-    "description": null,
-    "lineNumber": 37,
-    "undocument": true,
+    "description": "The Infra component\nWill be intialized when all boards are ready",
+    "lineNumber": 82,
     "type": {
+      "nullable": null,
       "types": [
-        "*"
-      ]
+        "Infra"
+      ],
+      "spread": false,
+      "description": null
     }
   },
   {
@@ -268,13 +288,15 @@
     "memberof": "js/components/box/index.js~Box",
     "longname": "js/components/box/index.js~Box#microphone",
     "access": null,
-    "description": null,
-    "lineNumber": 38,
-    "undocument": true,
+    "description": "The Micro component\nWill be intialized when all boards are ready",
+    "lineNumber": 88,
     "type": {
+      "nullable": null,
       "types": [
-        "*"
-      ]
+        "Micro"
+      ],
+      "spread": false,
+      "description": null
     }
   },
   {
@@ -287,7 +309,7 @@
     "longname": "js/components/box/index.js~Box#onConnect",
     "access": null,
     "description": "Is called when the Box's mqtt client is ready and connected.",
-    "lineNumber": 44,
+    "lineNumber": 94,
     "params": [],
     "generator": false
   },
@@ -301,7 +323,7 @@
     "longname": "js/components/box/index.js~Box#onMessage",
     "access": null,
     "description": "Is called when a mqtt message is received",
-    "lineNumber": 58,
+    "lineNumber": 108,
     "params": [
       {
         "nullable": null,
@@ -336,7 +358,7 @@
     "longname": "js/components/box/index.js~Box#sendMessage",
     "access": null,
     "description": "Send a message to wether the nex or the previous Box via mqtt",
-    "lineNumber": 88,
+    "lineNumber": 138,
     "params": [
       {
         "nullable": null,
@@ -371,7 +393,7 @@
     "longname": "js/components/box/index.js~Box#onBoardReady",
     "access": null,
     "description": "Is called when the Photon board is ready",
-    "lineNumber": 114,
+    "lineNumber": 164,
     "params": [],
     "generator": false
   },
@@ -385,7 +407,7 @@
     "longname": "js/components/box/index.js~Box#translator",
     "access": null,
     "description": null,
-    "lineNumber": 115,
+    "lineNumber": 165,
     "undocument": true,
     "type": {
       "types": [
@@ -403,7 +425,7 @@
     "longname": "js/components/box/index.js~Box#speaker",
     "access": null,
     "description": null,
-    "lineNumber": 116,
+    "lineNumber": 166,
     "undocument": true,
     "type": {
       "types": [
@@ -421,7 +443,7 @@
     "longname": "js/components/box/index.js~Box#microphone",
     "access": null,
     "description": null,
-    "lineNumber": 117,
+    "lineNumber": 167,
     "undocument": true,
     "type": {
       "types": [
@@ -439,7 +461,7 @@
     "longname": "js/components/box/index.js~Box#motor",
     "access": null,
     "description": null,
-    "lineNumber": 118,
+    "lineNumber": 168,
     "undocument": true,
     "type": {
       "types": [
@@ -457,7 +479,7 @@
     "longname": "js/components/box/index.js~Box#light",
     "access": null,
     "description": null,
-    "lineNumber": 119,
+    "lineNumber": 169,
     "undocument": true,
     "type": {
       "types": [
@@ -475,7 +497,7 @@
     "longname": "js/components/box/index.js~Box#infrared",
     "access": null,
     "description": null,
-    "lineNumber": 120,
+    "lineNumber": 170,
     "undocument": true,
     "type": {
       "types": [
@@ -493,7 +515,7 @@
     "longname": "js/components/box/index.js~Box#getClient",
     "access": null,
     "description": "Retruns the Box's mqtt client",
-    "lineNumber": 130,
+    "lineNumber": 180,
     "params": [],
     "return": {
       "nullable": null,
@@ -515,7 +537,7 @@
     "longname": "js/components/box/index.js~Box#getBoard",
     "access": null,
     "description": "Returns the Box's j5 board",
-    "lineNumber": 137,
+    "lineNumber": 187,
     "params": [],
     "return": {
       "nullable": null,
@@ -537,7 +559,7 @@
     "longname": "js/components/box/index.js~Box#start",
     "access": null,
     "description": "Internal start, starts detecting",
-    "lineNumber": 141,
+    "lineNumber": 191,
     "params": [],
     "generator": false
   },
@@ -551,7 +573,7 @@
     "longname": "js/components/box/index.js~Box#startTheShow",
     "access": null,
     "description": "External start, intreases the round",
-    "lineNumber": 153,
+    "lineNumber": 203,
     "params": [],
     "generator": false
   },
@@ -565,7 +587,7 @@
     "longname": "js/components/box/index.js~Box#restartTheShow",
     "access": null,
     "description": "Restarts the complete show and resets the round",
-    "lineNumber": 163,
+    "lineNumber": 213,
     "params": [],
     "generator": false
   },
@@ -579,7 +601,7 @@
     "longname": "js/components/box/index.js~Box#round",
     "access": null,
     "description": null,
-    "lineNumber": 164,
+    "lineNumber": 214,
     "undocument": true,
     "type": {
       "types": [
@@ -597,7 +619,7 @@
     "longname": "js/components/box/index.js~Box#onPresenceDetected",
     "access": null,
     "description": "Is called when the infrared detects a presence",
-    "lineNumber": 168,
+    "lineNumber": 218,
     "params": [],
     "generator": false
   },
@@ -611,7 +633,7 @@
     "longname": "js/components/box/index.js~Box#onRulesExplained",
     "access": null,
     "description": "Is called when the Box has spoken the rules out loud",
-    "lineNumber": 181,
+    "lineNumber": 231,
     "params": [],
     "generator": false
   },
@@ -625,7 +647,7 @@
     "longname": "js/components/box/index.js~Box#prepareToSpeak",
     "access": null,
     "description": "Is called when the Box is meant to speak",
-    "lineNumber": 200,
+    "lineNumber": 250,
     "params": [],
     "generator": false
   },
@@ -639,7 +661,7 @@
     "longname": "js/components/box/index.js~Box#speakText",
     "access": null,
     "description": "Speaks the text out loud",
-    "lineNumber": 214,
+    "lineNumber": 264,
     "params": [],
     "generator": false
   },
@@ -653,7 +675,7 @@
     "longname": "js/components/box/index.js~Box#onRecordingFailed",
     "access": null,
     "description": "Is called when the voice was badly recorded, when no sound was identified\nor when the speech could not be transformed into text",
-    "lineNumber": 224,
+    "lineNumber": 274,
     "params": [],
     "generator": false
   },
@@ -667,7 +689,7 @@
     "longname": "js/components/box/index.js~Box#onTextSpoken",
     "access": null,
     "description": "Is called whe the box has successfully spoken the text out loud",
-    "lineNumber": 237,
+    "lineNumber": 287,
     "params": [],
     "generator": false
   },
@@ -681,7 +703,7 @@
     "longname": "js/components/box/index.js~Box#round",
     "access": null,
     "description": null,
-    "lineNumber": 252,
+    "lineNumber": 302,
     "undocument": true,
     "type": {
       "types": [
@@ -699,7 +721,7 @@
     "longname": "js/components/box/index.js~Box#finish",
     "access": null,
     "description": "Ends the show of the box",
-    "lineNumber": 260,
+    "lineNumber": 310,
     "params": [],
     "generator": false
   },
@@ -713,7 +735,7 @@
     "longname": "js/components/box/index.js~Box#onPreviousBoxSpeaking",
     "access": null,
     "description": "Is called when the previous box is speaking the text out loud",
-    "lineNumber": 274,
+    "lineNumber": 324,
     "params": [],
     "generator": false
   },
@@ -727,7 +749,7 @@
     "longname": "js/components/box/index.js~Box#isLastRound",
     "access": null,
     "description": "Is called to check is this is the last round",
-    "lineNumber": 289,
+    "lineNumber": 339,
     "params": [],
     "return": {
       "types": [
@@ -747,7 +769,7 @@
     "access": null,
     "description": null,
     "lineNumber": 1,
-    "content": "import _ from 'lodash';\nimport { Proximity } from 'johnny-five';\nimport logUtil from '../../utils/logUtil';\nimport { INFRARED_CONSTANTS } from '../../constants';\nconst {\n\tUNUSED_PIN,\n\tUSED_PIN,\n\tMIN_DETECTION_DISTANCE,\n\tCONTROLLER_ID,\n\tMIN_PRESENCE_DURATION,\n\tEMPTY_RESOLVE_FUNCTION\n} = INFRARED_CONSTANTS;\n\n/**\n * @class Manages the infrared sensor\n */\nexport default class Intrared {\n\t/**\n\t * Constructor for the Infrared class. Needs a j5 board instance\n\t * to work well. !CAUTION¡ The j5 board must already be ready.\n\t * @param  {Johnny Five board instance} board\n\t * @private\n\t */\n\tconstructor(board) {\n\t\tthis.board = board;\n\t\tthis.proximity = this.getInitializedProximity.bind(this)();\n\t\tthis.distance = 0;\n\t\tthis.presenceDetected = false;\n\t\tthis.resolve = EMPTY_RESOLVE_FUNCTION;\n\t\tthis.debouncedCheck = _.throttle(\n\t\t\tthis.checkLaterIfStillPresent.bind(this),\n\t\t\tMIN_PRESENCE_DURATION\n\t\t);\n\n\t\tthis.proximity.on('data', (data) => {\n\t\t\tthis.onData.bind(this)(data.cm);\n\t\t});\n\t}\n\t/**\n\t * Is called when the infrared detects a distance. In other words,\n\t * all the time.\n\t * @param  {Number} cm\n\t * @private\n\t */\n\tonData(cm) {\n\t\tif (cm < MIN_DETECTION_DISTANCE) {\n\t\t\tthis.presenceDetected = true;\n\t\t\tlogUtil.log({\n\t\t\t\ttype: 'hardware',\n\t\t\t\ttitle: 'Presence',\n\t\t\t\tmessages: [ { distance: `${cm} cm` } ]\n\t\t\t});\n\t\t\tthis.debouncedCheck();\n\t\t} else {\n\t\t\tthis.presenceDetected = false;\n\t\t}\n\t}\n\t/**\n\t * @return {Johnny Five Proximity class} Return a valid Johnny Five\n\t * instance of the Proximity class. See http://johnny-five.io/api/proximity/\n\t * for mor details.\n\t * @private\n\t */\n\tgetInitializedProximity() {\n\t\tconst unused = new Proximity({\n\t\t\tcontroller: CONTROLLER_ID,\n\t\t\tpin: UNUSED_PIN,\n\t\t\tboard: this.board\n\t\t});\n\t\tconst proximity = new Proximity({\n\t\t\tcontroller: CONTROLLER_ID,\n\t\t\tpin: USED_PIN,\n\t\t\tboard: this.board\n\t\t});\n\t\treturn proximity;\n\t}\n\t/**\n\t * Is called to start the infrared detection. Overrides the global\n\t * resolve function with the Promise.resolve function.\n\t * @return {Promise}\n\t * @public\n\t */\n\tdetectPresence() {\n\t\treturn new Promise((resolve) => {\n\t\t\tthis.resolve = resolve;\n\t\t});\n\t}\n\t/**\n\t * Checks if a presence is detected and resovles the Promise\n\t * if so. Resets the promise to its default.\n\t * @private\n\t */\n\tcheckLaterIfStillPresent() {\n\t\tif (this.presenceDetected) {\n\t\t\tlogUtil.log({\n\t\t\t\ttype: 'hardware',\n\t\t\t\ttitle: 'Long presence detected'\n\t\t\t});\n\t\t\tthis.resolve();\n\t\t\tthis.resolve = EMPTY_RESOLVE_FUNCTION;\n\t\t}\n\t}\n}\n"
+    "content": "import _ from 'lodash';\nimport { Proximity } from 'johnny-five';\nimport logUtil from '../../utils/logUtil';\nimport { INFRARED_CONSTANTS } from '../../constants';\nconst {\n\tUNUSED_PIN,\n\tUSED_PIN,\n\tMIN_DETECTION_DISTANCE,\n\tCONTROLLER_ID,\n\tMIN_PRESENCE_DURATION,\n\tEMPTY_RESOLVE_FUNCTION\n} = INFRARED_CONSTANTS;\n\n/**\n * @class Manages the infrared sensor\n */\nexport default class Intrared {\n\t/**\n\t * Constructor for the Infrared class. Needs a j5 board instance\n\t * to work well. !CAUTION¡ The j5 board must already be ready.\n\t * @param  {Johnny Five board instance} board\n\t * @private\n\t */\n\tconstructor(board) {\n\t\t/**\n\t\t * Johnny Five Board instance\n\t\t * @type {Board}\n\t\t */\n\t\tthis.board = board;\n\t\t/**\n\t\t * Johnny Five Proximity instance\n\t\t * @type {[type]}\n\t\t */\n\t\tthis.proximity = this.getInitializedProximity.bind(this)();\n\t\t/**\n\t\t * Actual detected distance in cm\n\t\t * @type {Number}\n\t\t */\n\t\tthis.distance = 0;\n\t\t/**\n\t\t * Wether or not a human presence is detected\n\t\t * @type {Boolean}\n\t\t */\n\t\tthis.presenceDetected = false;\n\t\t/**\n\t\t * The Function to resolve in case a long presence\n\t\t * has been detected\n\t\t * @type {Function}\n\t\t */\n\t\tthis.resolve = EMPTY_RESOLVE_FUNCTION;\n\t\t/**\n\t\t * A throttled function checking if a human presence\n\t\t * is still detected after a certain time\n\t\t * @type {Throttled Function}\n\t\t */\n\t\tthis.throttledCheck = _.throttle(\n\t\t\tthis.checkLaterIfStillPresent.bind(this),\n\t\t\tMIN_PRESENCE_DURATION\n\t\t);\n\n\t\tthis.proximity.on('data', (data) => {\n\t\t\tthis.onData.bind(this)(data.cm);\n\t\t});\n\t}\n\t/**\n\t * Is called when the infrared detects a distance. In other words,\n\t * all the time.\n\t * @param  {Number} cm\n\t * @private\n\t */\n\tonData(cm) {\n\t\tif (cm < MIN_DETECTION_DISTANCE) {\n\t\t\tthis.presenceDetected = true;\n\t\t\tlogUtil.log({\n\t\t\t\ttype: 'hardware',\n\t\t\t\ttitle: 'Presence',\n\t\t\t\tmessages: [ { distance: `${cm} cm` } ]\n\t\t\t});\n\t\t\tthis.throttledCheck();\n\t\t} else {\n\t\t\tthis.presenceDetected = false;\n\t\t}\n\t}\n\t/**\n\t * @return {Johnny Five Proximity class} Return a valid Johnny Five\n\t * instance of the Proximity class. See http://johnny-five.io/api/proximity/\n\t * for mor details.\n\t * @private\n\t */\n\tgetInitializedProximity() {\n\t\tconst unused = new Proximity({\n\t\t\tcontroller: CONTROLLER_ID,\n\t\t\tpin: UNUSED_PIN,\n\t\t\tboard: this.board\n\t\t});\n\t\tconst proximity = new Proximity({\n\t\t\tcontroller: CONTROLLER_ID,\n\t\t\tpin: USED_PIN,\n\t\t\tboard: this.board\n\t\t});\n\t\treturn proximity;\n\t}\n\t/**\n\t * Is called to start the infrared detection. Overrides the global\n\t * resolve function with the Promise.resolve function.\n\t * @return {Promise}\n\t * @public\n\t */\n\tdetectPresence() {\n\t\treturn new Promise((resolve) => {\n\t\t\tthis.resolve = resolve;\n\t\t});\n\t}\n\t/**\n\t * Checks if a presence is detected and resovles the Promise\n\t * if so. Resets the promise to its default.\n\t * @private\n\t */\n\tcheckLaterIfStillPresent() {\n\t\tif (this.presenceDetected) {\n\t\t\tlogUtil.log({\n\t\t\t\ttype: 'hardware',\n\t\t\t\ttitle: 'Long presence detected'\n\t\t\t});\n\t\t\tthis.resolve();\n\t\t\tthis.resolve = EMPTY_RESOLVE_FUNCTION;\n\t\t}\n\t}\n}\n"
   },
   {
     "__docId__": 41,
@@ -826,13 +848,15 @@
     "memberof": "js/components/infrared/index.js~Intrared",
     "longname": "js/components/infrared/index.js~Intrared#board",
     "access": null,
-    "description": null,
-    "lineNumber": 25,
-    "undocument": true,
+    "description": "Johnny Five Board instance",
+    "lineNumber": 29,
     "type": {
+      "nullable": null,
       "types": [
-        "*"
-      ]
+        "Board"
+      ],
+      "spread": false,
+      "description": null
     }
   },
   {
@@ -844,13 +868,15 @@
     "memberof": "js/components/infrared/index.js~Intrared",
     "longname": "js/components/infrared/index.js~Intrared#proximity",
     "access": null,
-    "description": null,
-    "lineNumber": 26,
-    "undocument": true,
+    "description": "Johnny Five Proximity instance",
+    "lineNumber": 34,
     "type": {
+      "nullable": null,
       "types": [
-        "*"
-      ]
+        "[type]"
+      ],
+      "spread": false,
+      "description": null
     }
   },
   {
@@ -862,13 +888,15 @@
     "memberof": "js/components/infrared/index.js~Intrared",
     "longname": "js/components/infrared/index.js~Intrared#distance",
     "access": null,
-    "description": null,
-    "lineNumber": 27,
-    "undocument": true,
+    "description": "Actual detected distance in cm",
+    "lineNumber": 39,
     "type": {
+      "nullable": null,
       "types": [
-        "number"
-      ]
+        "Number"
+      ],
+      "spread": false,
+      "description": null
     }
   },
   {
@@ -880,13 +908,15 @@
     "memberof": "js/components/infrared/index.js~Intrared",
     "longname": "js/components/infrared/index.js~Intrared#presenceDetected",
     "access": null,
-    "description": null,
-    "lineNumber": 28,
-    "undocument": true,
+    "description": "Wether or not a human presence is detected",
+    "lineNumber": 44,
     "type": {
+      "nullable": null,
       "types": [
-        "boolean"
-      ]
+        "Boolean"
+      ],
+      "spread": false,
+      "description": null
     }
   },
   {
@@ -898,13 +928,15 @@
     "memberof": "js/components/infrared/index.js~Intrared",
     "longname": "js/components/infrared/index.js~Intrared#resolve",
     "access": null,
-    "description": null,
-    "lineNumber": 29,
-    "undocument": true,
+    "description": "The Function to resolve in case a long presence\nhas been detected",
+    "lineNumber": 50,
     "type": {
+      "nullable": null,
       "types": [
-        "*"
-      ]
+        "Function"
+      ],
+      "spread": false,
+      "description": null
     }
   },
   {
@@ -912,17 +944,19 @@
     "kind": "member",
     "static": false,
     "variation": null,
-    "name": "debouncedCheck",
+    "name": "throttledCheck",
     "memberof": "js/components/infrared/index.js~Intrared",
-    "longname": "js/components/infrared/index.js~Intrared#debouncedCheck",
+    "longname": "js/components/infrared/index.js~Intrared#throttledCheck",
     "access": null,
-    "description": null,
-    "lineNumber": 30,
-    "undocument": true,
+    "description": "A throttled function checking if a human presence\nis still detected after a certain time",
+    "lineNumber": 56,
     "type": {
+      "nullable": null,
       "types": [
-        "*"
-      ]
+        "Throttled Function"
+      ],
+      "spread": false,
+      "description": null
     }
   },
   {
@@ -935,7 +969,7 @@
     "longname": "js/components/infrared/index.js~Intrared#onData",
     "access": "private",
     "description": "Is called when the infrared detects a distance. In other words,\nall the time.",
-    "lineNumber": 45,
+    "lineNumber": 71,
     "params": [
       {
         "nullable": null,
@@ -960,7 +994,7 @@
     "longname": "js/components/infrared/index.js~Intrared#presenceDetected",
     "access": null,
     "description": null,
-    "lineNumber": 47,
+    "lineNumber": 73,
     "undocument": true,
     "type": {
       "types": [
@@ -978,7 +1012,7 @@
     "longname": "js/components/infrared/index.js~Intrared#presenceDetected",
     "access": null,
     "description": null,
-    "lineNumber": 55,
+    "lineNumber": 81,
     "undocument": true,
     "type": {
       "types": [
@@ -996,7 +1030,7 @@
     "longname": "js/components/infrared/index.js~Intrared#getInitializedProximity",
     "access": "private",
     "description": null,
-    "lineNumber": 64,
+    "lineNumber": 90,
     "params": [],
     "return": {
       "nullable": null,
@@ -1018,7 +1052,7 @@
     "longname": "js/components/infrared/index.js~Intrared#detectPresence",
     "access": "public",
     "description": "Is called to start the infrared detection. Overrides the global\nresolve function with the Promise.resolve function.",
-    "lineNumber": 83,
+    "lineNumber": 109,
     "params": [],
     "return": {
       "nullable": null,
@@ -1040,7 +1074,7 @@
     "longname": "js/components/infrared/index.js~Intrared#resolve",
     "access": null,
     "description": null,
-    "lineNumber": 85,
+    "lineNumber": 111,
     "undocument": true,
     "type": {
       "types": [
@@ -1058,7 +1092,7 @@
     "longname": "js/components/infrared/index.js~Intrared#checkLaterIfStillPresent",
     "access": "private",
     "description": "Checks if a presence is detected and resovles the Promise\nif so. Resets the promise to its default.",
-    "lineNumber": 93,
+    "lineNumber": 119,
     "params": [],
     "generator": false
   },
@@ -1072,7 +1106,7 @@
     "longname": "js/components/infrared/index.js~Intrared#resolve",
     "access": null,
     "description": null,
-    "lineNumber": 100,
+    "lineNumber": 126,
     "undocument": true,
     "type": {
       "types": [
@@ -1091,7 +1125,7 @@
     "access": null,
     "description": null,
     "lineNumber": 1,
-    "content": "import { Led } from 'johnny-five';\nimport { LIGHT_CONSTANTS } from '../../constants';\nconst { BLINK_SPEED, PIN } = LIGHT_CONSTANTS;\n\n/**\n * @class Manages the led lights\n */\nexport default class Light {\n\t/**\n\t * Constructor for the Light class. Needs a j5 board instance\n\t * to work well. !CAUTION¡ The j5 board must already be ready.\n\t * @param  {Johnny Five board instance} board\n\t * @private\n\t */\n\tconstructor(board) {\n\t\tthis.led = new Led({ pin: PIN, board });\n\t}\n\t/**\n\t * Is called to make the lights blink\n\t * @return {Promise}\n\t * @public\n\t */\n\tstartBlinking() {\n\t\treturn new Promise((resolve) => {\n\t\t\tthis.led.blink(BLINK_SPEED);\n\t\t\tresolve();\n\t\t});\n\t}\n\t/**\n\t * Is called to make the lights stop blinking\n\t * @return {Promise}\n\t * @public\n\t */\n\tstopBlinking() {\n\t\treturn new Promise((resolve) => {\n\t\t\tthis.led.stop.off();\n\t\t\tresolve();\n\t\t});\n\t}\n}\n"
+    "content": "import { Led } from 'johnny-five';\nimport { LIGHT_CONSTANTS } from '../../constants';\nconst { BLINK_SPEED, PIN } = LIGHT_CONSTANTS;\n\n/**\n * @class Manages the led lights\n */\nexport default class Light {\n\t/**\n\t * Constructor for the Light class. Needs a j5 board instance\n\t * to work well. !CAUTION¡ The j5 board must already be ready.\n\t * @param  {Johnny Five board instance} board\n\t * @private\n\t */\n\tconstructor(board) {\n\t\t/**\n\t\t * The led light of the class (for now just one)\n\t\t * @type {Led}\n\t\t */\n\t\tthis.led = new Led({ pin: PIN, board });\n\t}\n\t/**\n\t * Is called to make the lights blink\n\t * @return {Promise}\n\t * @public\n\t */\n\tstartBlinking() {\n\t\treturn new Promise((resolve) => {\n\t\t\tthis.led.blink(BLINK_SPEED);\n\t\t\tresolve();\n\t\t});\n\t}\n\t/**\n\t * Is called to make the lights stop blinking\n\t * @return {Promise}\n\t * @public\n\t */\n\tstopBlinking() {\n\t\treturn new Promise((resolve) => {\n\t\t\tthis.led.stop.off();\n\t\t\tresolve();\n\t\t});\n\t}\n}\n"
   },
   {
     "__docId__": 59,
@@ -1170,13 +1204,15 @@
     "memberof": "js/components/light/index.js~Light",
     "longname": "js/components/light/index.js~Light#led",
     "access": null,
-    "description": null,
-    "lineNumber": 16,
-    "undocument": true,
+    "description": "The led light of the class (for now just one)",
+    "lineNumber": 20,
     "type": {
+      "nullable": null,
       "types": [
-        "*"
-      ]
+        "Led"
+      ],
+      "spread": false,
+      "description": null
     }
   },
   {
@@ -1189,7 +1225,7 @@
     "longname": "js/components/light/index.js~Light#startBlinking",
     "access": "public",
     "description": "Is called to make the lights blink",
-    "lineNumber": 23,
+    "lineNumber": 27,
     "params": [],
     "return": {
       "nullable": null,
@@ -1211,7 +1247,7 @@
     "longname": "js/components/light/index.js~Light#stopBlinking",
     "access": "public",
     "description": "Is called to make the lights stop blinking",
-    "lineNumber": 34,
+    "lineNumber": 38,
     "params": [],
     "return": {
       "nullable": null,
@@ -1234,134 +1270,76 @@
     "access": null,
     "description": null,
     "lineNumber": 2,
-    "content": "// thanks to: https://gist.github.com/lukehoban/0ee5c1bef438dc5bd7cb\nimport config from 'config';\nimport fs from 'fs';\nimport Record from './utils/records';\nimport Report from './utils/reports';\n\nexport default class Translator {\n\tconstructor() {\n\t\tthis.reportAudio = this.reportAudio.bind(this);\n\t\tthis.getAudioData = this.getAudioData.bind(this);\n\t\tthis.startRecording = this.startRecording.bind(this);\n\t}\n\treportAudio(index) {\n\t\tconst { location, filename } = config.get('Report');\n\t\tconst data = this.getAudioData.bind(this)(index);\n\t\tconst newReport = new Report(location, filename, data);\n\n\t\tif (!fs.existsSync(location + filename)) {\n\t\t\tnewReport.writeJSON();\n\t\t} else {\n\t\t\tnewReport.extendJSON();\n\t\t}\n\t}\n\tgetAudioData(index) {\n\t\tconst {\n\t\t\tlocation,\n\t\t\tfilename,\n\t\t\tsampleRate,\n\t\t\tmaxRecordingTime\n\t\t} = config.get('Audio');\n\n\t\tconst id = index;\n\t\tconst recordingDate = new Date();\n\n\t\treturn { filename, id, location, sampleRate,\n\t\t\tmaxRecordingTime, recordingDate };\n\t}\n\tstartRecording(callback) {\n\t\tconst { location, filename } = config.get('Report');\n\t\tconst filePath = location + filename;\n\t\tlet index = 0;\n\n\t\tif (fs.existsSync(filePath)) {\n\t\t\tlet contents = fs.readFileSync(filePath);\n\t\t\tlet jsonContent = JSON.parse(contents);\n\n\t\t\tindex = jsonContent.results.length;\n\t\t}\n\n\t\tconst recordingOptions = this.getAudioData(index);\n\t\trecordingOptions.language = 'german';\n\n\t\tconst startRecord = new Record(recordingOptions, this.reportAudio.bind(this));\n\t}\n}\n\n"
+    "content": "// thanks to: https://gist.github.com/lukehoban/0ee5c1bef438dc5bd7cb\nimport config from 'config';\nimport fs from 'fs';\nimport Record from './utils/records';\nimport Report from './utils/reports';\n\n/**\n * @class Manages the Recording\n */\nexport default class Microphone {\n\t/**\n\t * Writes a report file for the audi recoring\n\t * @param  {Number} index\n\t * @private\n\t */\n\treportAudio(index) {\n\t\tconst { location, filename } = config.get('Report');\n\t\tconst data = this.getAudioData.bind(this)(index);\n\t\tconst newReport = new Report(location, filename, data);\n\n\t\tif (!fs.existsSync(location + filename)) {\n\t\t\tnewReport.writeJSON();\n\t\t} else {\n\t\t\tnewReport.extendJSON();\n\t\t}\n\t}\n\t/**\n\t * Retrieves the relevant audio report\n\t * @param  {Number} index\n\t * @private\n\t */\n\tgetAudioData(index) {\n\t\tconst {\n\t\t\tlocation,\n\t\t\tfilename,\n\t\t\tsampleRate,\n\t\t\tmaxRecordingTime\n\t\t} = config.get('Audio');\n\n\t\tconst id = index;\n\t\tconst recordingDate = new Date();\n\n\t\treturn { filename, id, location, sampleRate,\n\t\t\tmaxRecordingTime, recordingDate };\n\t}\n\t/**\n\t * Start recording\n\t * @param  {Function} callback\n\t * @public\n\t */\n\tstartRecording(callback) {\n\t\tconst { location, filename } = config.get('Report');\n\t\tconst filePath = location + filename;\n\t\tlet index = 0;\n\n\t\tif (fs.existsSync(filePath)) {\n\t\t\tlet contents = fs.readFileSync(filePath);\n\t\t\tlet jsonContent = JSON.parse(contents);\n\n\t\t\tindex = jsonContent.results.length;\n\t\t}\n\n\t\tconst recordingOptions = this.getAudioData(index);\n\t\trecordingOptions.language = 'german';\n\n\t\tconst startRecord = new Record(recordingOptions, this.reportAudio.bind(this));\n\t}\n}\n\n"
   },
   {
     "__docId__": 66,
     "kind": "class",
     "static": true,
     "variation": null,
-    "name": "Translator",
+    "name": "Microphone",
     "memberof": "js/components/microphone/index.js",
-    "longname": "js/components/microphone/index.js~Translator",
+    "longname": "js/components/microphone/index.js~Microphone",
     "access": null,
     "export": true,
     "importPath": "connecting-bits/js/components/microphone/index.js",
-    "importStyle": "Translator",
+    "importStyle": "Microphone",
     "description": null,
-    "lineNumber": 7,
-    "undocument": true,
+    "lineNumber": 10,
+    "unknown": [
+      {
+        "tagName": "@class",
+        "tagValue": "Manages the Recording"
+      }
+    ],
     "interface": false
   },
   {
     "__docId__": 67,
-    "kind": "constructor",
-    "static": false,
-    "variation": null,
-    "name": "constructor",
-    "memberof": "js/components/microphone/index.js~Translator",
-    "longname": "js/components/microphone/index.js~Translator#constructor",
-    "access": null,
-    "description": null,
-    "lineNumber": 8,
-    "undocument": true,
-    "params": [],
-    "generator": false
-  },
-  {
-    "__docId__": 68,
-    "kind": "member",
-    "static": false,
-    "variation": null,
-    "name": "reportAudio",
-    "memberof": "js/components/microphone/index.js~Translator",
-    "longname": "js/components/microphone/index.js~Translator#reportAudio",
-    "access": null,
-    "description": null,
-    "lineNumber": 9,
-    "undocument": true,
-    "type": {
-      "types": [
-        "*"
-      ]
-    }
-  },
-  {
-    "__docId__": 69,
-    "kind": "member",
-    "static": false,
-    "variation": null,
-    "name": "getAudioData",
-    "memberof": "js/components/microphone/index.js~Translator",
-    "longname": "js/components/microphone/index.js~Translator#getAudioData",
-    "access": null,
-    "description": null,
-    "lineNumber": 10,
-    "undocument": true,
-    "type": {
-      "types": [
-        "*"
-      ]
-    }
-  },
-  {
-    "__docId__": 70,
-    "kind": "member",
-    "static": false,
-    "variation": null,
-    "name": "startRecording",
-    "memberof": "js/components/microphone/index.js~Translator",
-    "longname": "js/components/microphone/index.js~Translator#startRecording",
-    "access": null,
-    "description": null,
-    "lineNumber": 11,
-    "undocument": true,
-    "type": {
-      "types": [
-        "*"
-      ]
-    }
-  },
-  {
-    "__docId__": 71,
     "kind": "method",
     "static": false,
     "variation": null,
     "name": "reportAudio",
-    "memberof": "js/components/microphone/index.js~Translator",
-    "longname": "js/components/microphone/index.js~Translator#reportAudio",
-    "access": null,
-    "description": null,
-    "lineNumber": 13,
-    "undocument": true,
+    "memberof": "js/components/microphone/index.js~Microphone",
+    "longname": "js/components/microphone/index.js~Microphone#reportAudio",
+    "access": "private",
+    "description": "Writes a report file for the audi recoring",
+    "lineNumber": 16,
     "params": [
       {
-        "name": "index",
+        "nullable": null,
         "types": [
-          "*"
-        ]
+          "Number"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "index",
+        "description": ""
       }
     ],
     "generator": false
   },
   {
-    "__docId__": 72,
+    "__docId__": 68,
     "kind": "method",
     "static": false,
     "variation": null,
     "name": "getAudioData",
-    "memberof": "js/components/microphone/index.js~Translator",
-    "longname": "js/components/microphone/index.js~Translator#getAudioData",
-    "access": null,
-    "description": null,
-    "lineNumber": 24,
-    "undocument": true,
+    "memberof": "js/components/microphone/index.js~Microphone",
+    "longname": "js/components/microphone/index.js~Microphone#getAudioData",
+    "access": "private",
+    "description": "Retrieves the relevant audio report",
+    "lineNumber": 32,
     "params": [
       {
-        "name": "index",
+        "nullable": null,
         "types": [
-          "*"
-        ]
+          "Number"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "index",
+        "description": ""
       }
     ],
     "return": {
@@ -1372,29 +1350,32 @@
     "generator": false
   },
   {
-    "__docId__": 73,
+    "__docId__": 69,
     "kind": "method",
     "static": false,
     "variation": null,
     "name": "startRecording",
-    "memberof": "js/components/microphone/index.js~Translator",
-    "longname": "js/components/microphone/index.js~Translator#startRecording",
-    "access": null,
-    "description": null,
-    "lineNumber": 38,
-    "undocument": true,
+    "memberof": "js/components/microphone/index.js~Microphone",
+    "longname": "js/components/microphone/index.js~Microphone#startRecording",
+    "access": "public",
+    "description": "Start recording",
+    "lineNumber": 51,
     "params": [
       {
-        "name": "callback",
+        "nullable": null,
         "types": [
-          "*"
-        ]
+          "Function"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "callback",
+        "description": ""
       }
     ],
     "generator": false
   },
   {
-    "__docId__": 74,
+    "__docId__": 70,
     "kind": "file",
     "static": true,
     "variation": null,
@@ -1404,10 +1385,10 @@
     "access": null,
     "description": null,
     "lineNumber": 1,
-    "content": "import fs from 'fs';\nimport rec from 'node-record-lpcm16';\n\nexport default class Record {\n\tconstructor(options, callback) {\n\t\tconst {\n\t\t\tlocation,\n\t\t\tfilename,\n\t\t\tid,\n\t\t\tsampleRate\n\t\t} = options;\n\n\t\tconst file = fs.createWriteStream(\n\t\t\t`${location}${filename}${id}.wav`, {\n\t\t\t\tencoding: 'binary'\n\t\t\t});\n\t\trec.start({ sampleRate, verbose: true });\n\n\t\tsetTimeout(() => {\n\t\t\trec.stop().pipe(file);\n\t\t\tcallback();\n\t\t}, options.maxRecordingTime);\n\t}\n}\n"
+    "content": "import fs from 'fs';\nimport rec from 'node-record-lpcm16';\n\n/**\n * @class Manages the audio recording\n */\nexport default class Record {\n\t/**\n\t * Records and writes the audio in a wav file\n\t * @param  {Object} options\n\t * @param  {Function} callback\n\t */\n\tconstructor(options, callback) {\n\t\tconst {\n\t\t\tlocation,\n\t\t\tfilename,\n\t\t\tid,\n\t\t\tsampleRate\n\t\t} = options;\n\n\t\tconst file = fs.createWriteStream(\n\t\t\t`${location}${filename}${id}.wav`, {\n\t\t\t\tencoding: 'binary'\n\t\t\t});\n\t\trec.start({ sampleRate, verbose: true });\n\n\t\tsetTimeout(() => {\n\t\t\trec.stop().pipe(file);\n\t\t\tcallback();\n\t\t}, options.maxRecordingTime);\n\t}\n}\n"
   },
   {
-    "__docId__": 75,
+    "__docId__": 71,
     "kind": "class",
     "static": true,
     "variation": null,
@@ -1419,12 +1400,17 @@
     "importPath": "connecting-bits/js/components/microphone/utils/records/index.js",
     "importStyle": "Record",
     "description": null,
-    "lineNumber": 4,
-    "undocument": true,
+    "lineNumber": 7,
+    "unknown": [
+      {
+        "tagName": "@class",
+        "tagValue": "Manages the audio recording"
+      }
+    ],
     "interface": false
   },
   {
-    "__docId__": 76,
+    "__docId__": 72,
     "kind": "constructor",
     "static": false,
     "variation": null,
@@ -1432,27 +1418,34 @@
     "memberof": "js/components/microphone/utils/records/index.js~Record",
     "longname": "js/components/microphone/utils/records/index.js~Record#constructor",
     "access": null,
-    "description": null,
-    "lineNumber": 5,
-    "undocument": true,
+    "description": "Records and writes the audio in a wav file",
+    "lineNumber": 13,
     "params": [
       {
-        "name": "options",
+        "nullable": null,
         "types": [
-          "*"
-        ]
+          "Object"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "options",
+        "description": ""
       },
       {
-        "name": "callback",
+        "nullable": null,
         "types": [
-          "*"
-        ]
+          "Function"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "callback",
+        "description": ""
       }
     ],
     "generator": false
   },
   {
-    "__docId__": 77,
+    "__docId__": 73,
     "kind": "file",
     "static": true,
     "variation": null,
@@ -1462,10 +1455,10 @@
     "access": null,
     "description": null,
     "lineNumber": 1,
-    "content": "import fs from 'fs';\nimport logUtil from '../../../../utils/logUtil';\n\nexport default class CreateReport {\n\tconstructor(location, filename, data) {\n\t\tthis.writeJSON.bind(this);\n\t\tthis.extendJSON.bind(this);\n\n\t\tthis.data = data;\n\t\tthis.filePath = `${location}${filename}`;\n\n\t\tthis.newObject = { results: [] };\n\t\tthis.newObject.results.push(data);\n\n\t\tlogUtil.log({\n\t\t\ttype: 'info',\n\t\t\ttitle: 'Audio report initialized'\n\t\t});\n\t}\n\twriteJSON() {\n\t\tfs.writeFileSync(this.filePath, JSON.stringify(this.newObject));\n\t\tlogUtil.log({\n\t\t\ttype: 'info',\n\t\t\ttitle: 'New audio JSON-file written'\n\t\t});\n\t}\n\textendJSON() {\n\t\tlet contents = fs.readFileSync(this.filePath);\n\t\tlet jsonContent = JSON.parse(contents);\n\n\t\tjsonContent.results.push(this.data);\n\t\tfs.writeFileSync(this.filePath, JSON.stringify(jsonContent));\n\t\tlogUtil.log({\n\t\t\ttype: 'info',\n\t\t\ttitle: 'Audio JSON-file extended'\n\t\t});\n\t}\n}\n"
+    "content": "import fs from 'fs';\nimport logUtil from '../../../../utils/logUtil';\n\n/**\n * @class Manages the audio reports\n */\nexport default class CreateReport {\n\t/**\n\t * @param  {String} location\n\t * @param  {String} filename\n\t * @param  {Object} data\n\t */\n\tconstructor(location, filename, data) {\n\t\tthis.writeJSON.bind(this);\n\t\tthis.extendJSON.bind(this);\n\n\t\t/**\n\t\t * Audio data\n\t\t * @type {Object}\n\t\t */\n\t\tthis.data = data;\n\t\t/**\n\t\t * Complete file path\n\t\t * @type {String}\n\t\t */\n\t\tthis.filePath = `${location}${filename}`;\n\n\t\t/**\n\t\t * New audio report config\n\t\t * @type {Object}\n\t\t */\n\t\tthis.newObject = { results: [] };\n\t\tthis.newObject.results.push(data);\n\n\t\tlogUtil.log({\n\t\t\ttype: 'info',\n\t\t\ttitle: 'Audio report initialized'\n\t\t});\n\t}\n\t/**\n\t * Writes an audio report in a json file\n\t * @public\n\t */\n\twriteJSON() {\n\t\tfs.writeFileSync(this.filePath, JSON.stringify(this.newObject));\n\t\tlogUtil.log({\n\t\t\ttype: 'info',\n\t\t\ttitle: 'New audio JSON-file written'\n\t\t});\n\t}\n\t/**\n\t * Extends the audio report in an existing json file\n\t * @public\n\t */\n\textendJSON() {\n\t\tlet contents = fs.readFileSync(this.filePath);\n\t\tlet jsonContent = JSON.parse(contents);\n\n\t\tjsonContent.results.push(this.data);\n\t\tfs.writeFileSync(this.filePath, JSON.stringify(jsonContent));\n\t\tlogUtil.log({\n\t\t\ttype: 'info',\n\t\t\ttitle: 'Audio JSON-file extended'\n\t\t});\n\t}\n}\n"
   },
   {
-    "__docId__": 78,
+    "__docId__": 74,
     "kind": "class",
     "static": true,
     "variation": null,
@@ -1477,12 +1470,17 @@
     "importPath": "connecting-bits/js/components/microphone/utils/reports/index.js",
     "importStyle": "CreateReport",
     "description": null,
-    "lineNumber": 4,
-    "undocument": true,
+    "lineNumber": 7,
+    "unknown": [
+      {
+        "tagName": "@class",
+        "tagValue": "Manages the audio reports"
+      }
+    ],
     "interface": false
   },
   {
-    "__docId__": 79,
+    "__docId__": 75,
     "kind": "constructor",
     "static": false,
     "variation": null,
@@ -1491,32 +1489,43 @@
     "longname": "js/components/microphone/utils/reports/index.js~CreateReport#constructor",
     "access": null,
     "description": null,
-    "lineNumber": 5,
-    "undocument": true,
+    "lineNumber": 13,
     "params": [
       {
+        "nullable": null,
+        "types": [
+          "String"
+        ],
+        "spread": false,
+        "optional": false,
         "name": "location",
-        "types": [
-          "*"
-        ]
+        "description": ""
       },
       {
+        "nullable": null,
+        "types": [
+          "String"
+        ],
+        "spread": false,
+        "optional": false,
         "name": "filename",
-        "types": [
-          "*"
-        ]
+        "description": ""
       },
       {
-        "name": "data",
+        "nullable": null,
         "types": [
-          "*"
-        ]
+          "Object"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "data",
+        "description": ""
       }
     ],
     "generator": false
   },
   {
-    "__docId__": 80,
+    "__docId__": 76,
     "kind": "member",
     "static": false,
     "variation": null,
@@ -1524,17 +1533,19 @@
     "memberof": "js/components/microphone/utils/reports/index.js~CreateReport",
     "longname": "js/components/microphone/utils/reports/index.js~CreateReport#data",
     "access": null,
-    "description": null,
-    "lineNumber": 9,
-    "undocument": true,
+    "description": "Audio data",
+    "lineNumber": 21,
     "type": {
+      "nullable": null,
       "types": [
-        "*"
-      ]
+        "Object"
+      ],
+      "spread": false,
+      "description": null
     }
   },
   {
-    "__docId__": 81,
+    "__docId__": 77,
     "kind": "member",
     "static": false,
     "variation": null,
@@ -1542,17 +1553,19 @@
     "memberof": "js/components/microphone/utils/reports/index.js~CreateReport",
     "longname": "js/components/microphone/utils/reports/index.js~CreateReport#filePath",
     "access": null,
-    "description": null,
-    "lineNumber": 10,
-    "undocument": true,
+    "description": "Complete file path",
+    "lineNumber": 26,
     "type": {
+      "nullable": null,
       "types": [
-        "*"
-      ]
+        "String"
+      ],
+      "spread": false,
+      "description": null
     }
   },
   {
-    "__docId__": 82,
+    "__docId__": 78,
     "kind": "member",
     "static": false,
     "variation": null,
@@ -1560,60 +1573,47 @@
     "memberof": "js/components/microphone/utils/reports/index.js~CreateReport",
     "longname": "js/components/microphone/utils/reports/index.js~CreateReport#newObject",
     "access": null,
-    "description": null,
-    "lineNumber": 12,
-    "undocument": true,
+    "description": "New audio report config",
+    "lineNumber": 32,
     "type": {
+      "nullable": null,
       "types": [
-        "*"
-      ]
+        "Object"
+      ],
+      "spread": false,
+      "description": null
     }
   },
   {
-    "__docId__": 83,
+    "__docId__": 79,
     "kind": "method",
     "static": false,
     "variation": null,
     "name": "writeJSON",
     "memberof": "js/components/microphone/utils/reports/index.js~CreateReport",
     "longname": "js/components/microphone/utils/reports/index.js~CreateReport#writeJSON",
-    "access": null,
-    "description": null,
-    "lineNumber": 20,
-    "undocument": true,
+    "access": "public",
+    "description": "Writes an audio report in a json file",
+    "lineNumber": 44,
     "params": [],
     "generator": false
   },
   {
-    "__docId__": 84,
+    "__docId__": 80,
     "kind": "method",
     "static": false,
     "variation": null,
     "name": "extendJSON",
     "memberof": "js/components/microphone/utils/reports/index.js~CreateReport",
     "longname": "js/components/microphone/utils/reports/index.js~CreateReport#extendJSON",
-    "access": null,
-    "description": null,
-    "lineNumber": 27,
-    "undocument": true,
+    "access": "public",
+    "description": "Extends the audio report in an existing json file",
+    "lineNumber": 55,
     "params": [],
     "generator": false
   },
   {
-    "__docId__": 85,
-    "kind": "file",
-    "static": true,
-    "variation": null,
-    "name": "js/components/microphone/utils/speechtotext/index.js",
-    "memberof": null,
-    "longname": "js/components/microphone/utils/speechtotext/index.js",
-    "access": null,
-    "description": null,
-    "lineNumber": 0,
-    "content": ""
-  },
-  {
-    "__docId__": 86,
+    "__docId__": 81,
     "kind": "file",
     "static": true,
     "variation": null,
@@ -1623,10 +1623,10 @@
     "access": null,
     "description": null,
     "lineNumber": 1,
-    "content": "import { Servo } from 'johnny-five';\nimport { MOTOR_CONSTANTS } from '../../constants';\nconst {\n\tLIFT_PIN,\n\tLIFT_TYPE,\n\tTILT_PIN,\n\tTILT_TYPE,\n\tSPEED,\n\tLYING,\n\tSTANDING,\n\tTILTED,\n\tSTRAIGHT\n} = MOTOR_CONSTANTS;\n\n/**\n * @class Manages the servor motors\n */\nexport default class Motor {\n\t/**\n\t * Constructor for the Motor class. Needs a j5 board instance\n\t * to work well. !CAUTION¡ The j5 board must already be ready.\n\t * @param  {Johnny Five board instance} board\n\t * @private\n\t */\n\tconstructor(board) {\n\t\tthis.liftServo = new Servo({\n\t\t\tpin: LIFT_PIN,\n\t\t\tstartAt: LYING,\n\t\t\ttype: LIFT_TYPE,\n\t\t\tboard\n\t\t});\n\t\tthis.tiltServo = new Servo({\n\t\t\tpin: TILT_PIN,\n\t\t\tstartAt: STRAIGHT,\n\t\t\ttype: TILT_TYPE,\n\t\t\tboard\n\t\t});\n\n\t\tthis.stands = false;\n\t\tthis.titls = false;\n\t}\n\t/**\n\t * Generic function that checks if a servo is already in the\n\t * whished position and rotates it if not.\n\t * @param  {Boolean} actualPositionState - The actual state to check\n\t * @param  {Boolean} whishedPositionState - The whished state\n\t * @param  {Number} positionToMoveTo - The rotation the servo need to accomplish\n\t * @param  {Johnny Five Servo instance} servo\n\t * @return {Promise}\n\t * @private\n\t */\n\tmoveServo({\n\t\tactualPositionState,\n\t\twhishedPositionState,\n\t\tpositionToMoveTo,\n\t\tservo }) {\n\t\treturn new Promise((resolve) => {\n\t\t\tif (actualPositionState === whishedPositionState) {\n\t\t\t\tresolve();\n\t\t\t\treturn;\n\t\t\t}\n\t\t\tservo('move:complete', resolve);\n\t\t\tservo.to(positionToMoveTo, SPEED);\n\t\t\tservo('move:complete', false);\n\t\t});\n\t}\n\t/**\n\t * Lifts the Box down\n\t * @return {Promise}\n\t * @public\n\t */\n\tlieDown() {\n\t\treturn this.checkAndMove({\n\t\t\tactualPositionState: this.stands,\n\t\t\twhishedPositionState: false,\n\t\t\tpositionToMoveTo: LYING,\n\t\t\tservo: this.liftServo\n\t\t});\n\t}\n\t/**\n\t * Lifts the Box up\n\t * @return {Promise}\n\t * @public\n\t */\n\tstandUp() {\n\t\treturn this.checkAndMove({\n\t\t\tactualPositionState: this.stands,\n\t\t\twhishedPositionState: true,\n\t\t\tpositionToMoveTo: STANDING,\n\t\t\tservo: this.liftServo\n\t\t});\n\t}\n\t/**\n\t * Makes the Box look up\n\t * @return {Promise}\n\t * @public\n\t */\n\tlookUp() {\n\t\treturn this.checkAndMove({\n\t\t\tactualPositionState: this.titls,\n\t\t\twhishedPositionState: true,\n\t\t\tpositionToMoveTo: TILTED,\n\t\t\tservo: this.liftServo\n\t\t});\n\t}\n\t/**\n\t * Makes the Box look down\n\t * @return {Promise}\n\t * @public\n\t */\n\tlookStraight() {\n\t\treturn this.checkAndMove({\n\t\t\tactualPositionState: this.thils,\n\t\t\twhishedPositionState: false,\n\t\t\tpositionToMoveTo: STRAIGHT,\n\t\t\tservo: this.liftServo\n\t\t});\n\t}\n}\n"
+    "content": "import { Servo } from 'johnny-five';\nimport { MOTOR_CONSTANTS } from '../../constants';\nconst {\n\tLIFT_PIN,\n\tLIFT_TYPE,\n\tTILT_PIN,\n\tTILT_TYPE,\n\tSPEED,\n\tLYING,\n\tSTANDING,\n\tTILTED,\n\tSTRAIGHT\n} = MOTOR_CONSTANTS;\n\n/**\n * @class Manages the servor motors\n */\nexport default class Motor {\n\t/**\n\t * Constructor for the Motor class. Needs a j5 board instance\n\t * to work well. !CAUTION¡ The j5 board must already be ready.\n\t * @param  {Johnny Five board instance} board\n\t * @private\n\t */\n\tconstructor(board) {\n\t\t/**\n\t\t * The servo meant to lift the box up and down\n\t\t * @type {Servo}\n\t\t */\n\t\tthis.liftServo = new Servo({\n\t\t\tpin: LIFT_PIN,\n\t\t\tstartAt: LYING,\n\t\t\ttype: LIFT_TYPE,\n\t\t\tboard\n\t\t});\n\t\t/**\n\t\t * The servo meant to make the box look up and straight\n\t\t * @type {Servo}\n\t\t */\n\t\tthis.tiltServo = new Servo({\n\t\t\tpin: TILT_PIN,\n\t\t\tstartAt: STRAIGHT,\n\t\t\ttype: TILT_TYPE,\n\t\t\tboard\n\t\t});\n\n\t\t/**\n\t\t * Is the Box standing up?\n\t\t * @type {Boolean}\n\t\t */\n\t\tthis.stands = false;\n\t\t/**\n\t\t * Is the Box looking up?\n\t\t * @type {Boolean}\n\t\t */\n\t\tthis.titls = false;\n\t}\n\t/**\n\t * Generic function that checks if a servo is already in the\n\t * whished position and rotates it if not.\n\t * @param  {Boolean} actualPositionState - The actual state to check\n\t * @param  {Boolean} whishedPositionState - The whished state\n\t * @param  {Number} positionToMoveTo - The rotation the servo need to accomplish\n\t * @param  {Johnny Five Servo instance} servo\n\t * @return {Promise}\n\t * @private\n\t */\n\tmoveServo({\n\t\tactualPositionState,\n\t\twhishedPositionState,\n\t\tpositionToMoveTo,\n\t\tservo }) {\n\t\treturn new Promise((resolve) => {\n\t\t\tif (actualPositionState === whishedPositionState) {\n\t\t\t\tresolve();\n\t\t\t\treturn;\n\t\t\t}\n\t\t\tservo('move:complete', resolve);\n\t\t\tservo.to(positionToMoveTo, SPEED);\n\t\t\tservo('move:complete', false);\n\t\t});\n\t}\n\t/**\n\t * Lifts the Box down\n\t * @return {Promise}\n\t * @public\n\t */\n\tlieDown() {\n\t\treturn this.checkAndMove({\n\t\t\tactualPositionState: this.stands,\n\t\t\twhishedPositionState: false,\n\t\t\tpositionToMoveTo: LYING,\n\t\t\tservo: this.liftServo\n\t\t});\n\t}\n\t/**\n\t * Lifts the Box up\n\t * @return {Promise}\n\t * @public\n\t */\n\tstandUp() {\n\t\treturn this.checkAndMove({\n\t\t\tactualPositionState: this.stands,\n\t\t\twhishedPositionState: true,\n\t\t\tpositionToMoveTo: STANDING,\n\t\t\tservo: this.liftServo\n\t\t});\n\t}\n\t/**\n\t * Makes the Box look up\n\t * @return {Promise}\n\t * @public\n\t */\n\tlookUp() {\n\t\treturn this.checkAndMove({\n\t\t\tactualPositionState: this.titls,\n\t\t\twhishedPositionState: true,\n\t\t\tpositionToMoveTo: TILTED,\n\t\t\tservo: this.liftServo\n\t\t});\n\t}\n\t/**\n\t * Makes the Box look down\n\t * @return {Promise}\n\t * @public\n\t */\n\tlookStraight() {\n\t\treturn this.checkAndMove({\n\t\t\tactualPositionState: this.thils,\n\t\t\twhishedPositionState: false,\n\t\t\tpositionToMoveTo: STRAIGHT,\n\t\t\tservo: this.liftServo\n\t\t});\n\t}\n}\n"
   },
   {
-    "__docId__": 87,
+    "__docId__": 82,
     "kind": "variable",
     "static": true,
     "variation": null,
@@ -1647,7 +1647,7 @@
     }
   },
   {
-    "__docId__": 88,
+    "__docId__": 83,
     "kind": "class",
     "static": true,
     "variation": null,
@@ -1669,7 +1669,7 @@
     "interface": false
   },
   {
-    "__docId__": 89,
+    "__docId__": 84,
     "kind": "constructor",
     "static": false,
     "variation": null,
@@ -1694,7 +1694,7 @@
     "generator": false
   },
   {
-    "__docId__": 90,
+    "__docId__": 85,
     "kind": "member",
     "static": false,
     "variation": null,
@@ -1702,17 +1702,19 @@
     "memberof": "js/components/motor/index.js~Motor",
     "longname": "js/components/motor/index.js~Motor#liftServo",
     "access": null,
-    "description": null,
-    "lineNumber": 26,
-    "undocument": true,
+    "description": "The servo meant to lift the box up and down",
+    "lineNumber": 30,
     "type": {
+      "nullable": null,
       "types": [
-        "*"
-      ]
+        "Servo"
+      ],
+      "spread": false,
+      "description": null
     }
   },
   {
-    "__docId__": 91,
+    "__docId__": 86,
     "kind": "member",
     "static": false,
     "variation": null,
@@ -1720,17 +1722,19 @@
     "memberof": "js/components/motor/index.js~Motor",
     "longname": "js/components/motor/index.js~Motor#tiltServo",
     "access": null,
-    "description": null,
-    "lineNumber": 32,
-    "undocument": true,
+    "description": "The servo meant to make the box look up and straight",
+    "lineNumber": 40,
     "type": {
+      "nullable": null,
       "types": [
-        "*"
-      ]
+        "Servo"
+      ],
+      "spread": false,
+      "description": null
     }
   },
   {
-    "__docId__": 92,
+    "__docId__": 87,
     "kind": "member",
     "static": false,
     "variation": null,
@@ -1738,17 +1742,19 @@
     "memberof": "js/components/motor/index.js~Motor",
     "longname": "js/components/motor/index.js~Motor#stands",
     "access": null,
-    "description": null,
-    "lineNumber": 39,
-    "undocument": true,
+    "description": "Is the Box standing up?",
+    "lineNumber": 51,
     "type": {
+      "nullable": null,
       "types": [
-        "boolean"
-      ]
+        "Boolean"
+      ],
+      "spread": false,
+      "description": null
     }
   },
   {
-    "__docId__": 93,
+    "__docId__": 88,
     "kind": "member",
     "static": false,
     "variation": null,
@@ -1756,17 +1762,19 @@
     "memberof": "js/components/motor/index.js~Motor",
     "longname": "js/components/motor/index.js~Motor#titls",
     "access": null,
-    "description": null,
-    "lineNumber": 40,
-    "undocument": true,
+    "description": "Is the Box looking up?",
+    "lineNumber": 56,
     "type": {
+      "nullable": null,
       "types": [
-        "boolean"
-      ]
+        "Boolean"
+      ],
+      "spread": false,
+      "description": null
     }
   },
   {
-    "__docId__": 94,
+    "__docId__": 89,
     "kind": "method",
     "static": false,
     "variation": null,
@@ -1775,7 +1783,7 @@
     "longname": "js/components/motor/index.js~Motor#moveServo",
     "access": "private",
     "description": "Generic function that checks if a servo is already in the\nwhished position and rotates it if not.",
-    "lineNumber": 52,
+    "lineNumber": 68,
     "params": [
       {
         "nullable": null,
@@ -1829,7 +1837,7 @@
     "generator": false
   },
   {
-    "__docId__": 95,
+    "__docId__": 90,
     "kind": "method",
     "static": false,
     "variation": null,
@@ -1838,7 +1846,7 @@
     "longname": "js/components/motor/index.js~Motor#lieDown",
     "access": "public",
     "description": "Lifts the Box down",
-    "lineNumber": 72,
+    "lineNumber": 88,
     "params": [],
     "return": {
       "nullable": null,
@@ -1851,7 +1859,7 @@
     "generator": false
   },
   {
-    "__docId__": 96,
+    "__docId__": 91,
     "kind": "method",
     "static": false,
     "variation": null,
@@ -1860,7 +1868,7 @@
     "longname": "js/components/motor/index.js~Motor#standUp",
     "access": "public",
     "description": "Lifts the Box up",
-    "lineNumber": 85,
+    "lineNumber": 101,
     "params": [],
     "return": {
       "nullable": null,
@@ -1873,7 +1881,7 @@
     "generator": false
   },
   {
-    "__docId__": 97,
+    "__docId__": 92,
     "kind": "method",
     "static": false,
     "variation": null,
@@ -1882,7 +1890,7 @@
     "longname": "js/components/motor/index.js~Motor#lookUp",
     "access": "public",
     "description": "Makes the Box look up",
-    "lineNumber": 98,
+    "lineNumber": 114,
     "params": [],
     "return": {
       "nullable": null,
@@ -1895,7 +1903,7 @@
     "generator": false
   },
   {
-    "__docId__": 98,
+    "__docId__": 93,
     "kind": "method",
     "static": false,
     "variation": null,
@@ -1904,7 +1912,7 @@
     "longname": "js/components/motor/index.js~Motor#lookStraight",
     "access": "public",
     "description": "Makes the Box look down",
-    "lineNumber": 111,
+    "lineNumber": 127,
     "params": [],
     "return": {
       "nullable": null,
@@ -1917,7 +1925,7 @@
     "generator": false
   },
   {
-    "__docId__": 99,
+    "__docId__": 94,
     "kind": "file",
     "static": true,
     "variation": null,
@@ -1930,7 +1938,7 @@
     "content": "/**\n * @class Manages the Speaker components\n */\nexport default class Speaker {\n\t/**\n\t * Makes the Box speech its text out loud.\n\t * NOT IMPLEMENTED YET\n\t * @public\n\t * @return {Promise}\n\t */\n\tspeakText() {\n\t\treturn new Promise((resolve) => resolve());\n\t}\n\t/**\n\t * Makes the Box excusing itself for not having\n\t * understood the user and ask to repeat.\n\t * NOT IMPLEMENTED YET\n\t * @public\n\t * @return {Promise}\n\t */\n\tsayNoRecordingError() {\n\t\treturn new Promise((resolve) => resolve());\n\t}\n\t/**\n\t * Makes the Box explain the rules of the game.\n\t * NOT IMPLEMENTED YET\n\t * @public\n\t * @return {Promise}\n\t */\n\texplainRules() {\n\t\treturn new Promise((resolve) => resolve());\n\t}\n}\n"
   },
   {
-    "__docId__": 100,
+    "__docId__": 95,
     "kind": "class",
     "static": true,
     "variation": null,
@@ -1952,7 +1960,7 @@
     "interface": false
   },
   {
-    "__docId__": 101,
+    "__docId__": 96,
     "kind": "method",
     "static": false,
     "variation": null,
@@ -1974,7 +1982,7 @@
     "generator": false
   },
   {
-    "__docId__": 102,
+    "__docId__": 97,
     "kind": "method",
     "static": false,
     "variation": null,
@@ -1996,7 +2004,7 @@
     "generator": false
   },
   {
-    "__docId__": 103,
+    "__docId__": 98,
     "kind": "method",
     "static": false,
     "variation": null,
@@ -2018,7 +2026,7 @@
     "generator": false
   },
   {
-    "__docId__": 104,
+    "__docId__": 99,
     "kind": "file",
     "static": true,
     "variation": null,
@@ -2031,7 +2039,7 @@
     "content": "/**\n * @class Translator class for managing different Box languages\n */\nexport default class Translator {\n\t/**\n\t * Translated the initial input in four languages\n\t * NOT IMPLEMENTED YET\n\t * @public\n\t * @return {Promise}\n\t */\n\ttranslateText() {\n\t\treturn new Promise((resolve) => resolve());\n\t}\n}\n"
   },
   {
-    "__docId__": 105,
+    "__docId__": 100,
     "kind": "class",
     "static": true,
     "variation": null,
@@ -2053,7 +2061,7 @@
     "interface": false
   },
   {
-    "__docId__": 106,
+    "__docId__": 101,
     "kind": "method",
     "static": false,
     "variation": null,
@@ -2075,7 +2083,7 @@
     "generator": false
   },
   {
-    "__docId__": 107,
+    "__docId__": 102,
     "kind": "file",
     "static": true,
     "variation": null,
@@ -2088,7 +2096,7 @@
     "content": "/**\n * All hardcoded values and constants\n * for the infrared class\n * @type {Object}\n */\nexport const INFRARED_CONSTANTS = {\n\tUNUSED_PIN: 3,\n\tUSED_PIN: 4,\n\tMIN_DETECTION_DISTANCE: 35,\n\tCONTROLLER_ID: '2Y0A02',\n\tMIN_PRESENCE_DURATION: 1200,\n\tEMPTY_RESOLVE_FUNCTION: () => {}\n};\n\n/**\n * All hardcoded values and constants\n * for the light class\n * @type {Object}\n */\nexport const LIGHT_CONSTANTS = {\n\tPIN: 'D7',\n\tBLINK_SPEED: 500\n};\n\n/**\n * All hardcoded values and constants\n * for the motor class\n * @type {Object}\n */\nexport const MOTOR_CONSTANTS = {\n\tLIFT_PIN: 1,\n\tTILT_PIN: 2,\n\tLIFT_TYPE: 'standard',\n\tTILT_TYPE: 'standard',\n\tSPEED: 200,\n\tLYING: 30,\n\tSTANDING: 105,\n\tTILTED: 120,\n\tSTRAIGHT: 30\n};\n"
   },
   {
-    "__docId__": 108,
+    "__docId__": 103,
     "kind": "variable",
     "static": true,
     "variation": null,
@@ -2111,7 +2119,7 @@
     }
   },
   {
-    "__docId__": 109,
+    "__docId__": 104,
     "kind": "variable",
     "static": true,
     "variation": null,
@@ -2134,7 +2142,7 @@
     }
   },
   {
-    "__docId__": 110,
+    "__docId__": 105,
     "kind": "variable",
     "static": true,
     "variation": null,
@@ -2157,7 +2165,7 @@
     }
   },
   {
-    "__docId__": 111,
+    "__docId__": 106,
     "kind": "file",
     "static": true,
     "variation": null,
@@ -2167,10 +2175,10 @@
     "access": null,
     "description": null,
     "lineNumber": 1,
-    "content": "import config from 'config';\nimport { Boards } from 'johnny-five';\nimport Box from './components/box';\nimport { createBoard } from './utils/boardsUtil';\nimport { createClient } from './utils/clientsUtil';\nimport logUtil from './utils/logUtil';\n\n/**\n * @class Represents the whole chain of Boxes\n */\nexport default class BoardsChain {\n\t/**\n\t * Initializes boards, mqqtt clients and starts the masterBox\n\t * automatically. Is not meant to be imported.\n\t */\n\tconstructor() {\n\t\tconst boardsConfigs = config.get('boards');\n\t\tconst boards = new Boards(boardsConfigs.map((board) =>\n\t\t\tcreateBoard(board.name, board.id)));\n\n\t\tthis.boxes = [];\n\t\tboards.each((board, index) => {\n\t\t\tlet next;\n\t\t\tlet prev;\n\t\t\tlet isMaster = false;\n\n\t\t\tif (index === 0) {\n\t\t\t\tisMaster = true;\n\t\t\t\tprev = boardsConfigs[index + 1];\n\t\t\t} else {\n\t\t\t\tprev = boardsConfigs[index - 1];\n\t\t\t}\n\n\t\t\tif (index === boardsConfigs.length - 1) {\n\t\t\t\tnext = boardsConfigs[0];\n\t\t\t} else {\n\t\t\t\tnext = boardsConfigs[index + 1];\n\t\t\t}\n\n\t\t\tif (boardsConfigs.length === 1) {\n\t\t\t\tprev = next = board;\n\t\t\t}\n\n\t\t\tlogUtil.log({\n\t\t\t\ttype: 'info',\n\t\t\t\ttitle: `Box \"${board.id}\" initialized`,\n\t\t\t\tmessages: [\n\t\t\t\t\t{ prev: prev.name },\n\t\t\t\t\t{ next: next.name },\n\t\t\t\t\t{ isMaster }\n\t\t\t\t]\n\t\t\t});\n\t\t\tconst client = createClient(board.id);\n\t\t\tthis.boxes.push(new Box(board, client, { next, isMaster, prev }));\n\t\t});\n\n\t\tthis.masterBox = this.boxes[0];\n\t\tboards.on('ready', this.onAllBoardsReady.bind(this));\n\t}\n\t/**\n\t * Is called when all Johnny Five boards are ready.\n\t * Starts the event chain by calling start the show\n\t * on the master Box.\n\t */\n\tonAllBoardsReady() {\n\t\tlogUtil.log({\n\t\t\ttype: 'hardware',\n\t\t\ttitle: `All boards ready`\n\t\t});\n\t\tthis.masterBox.startTheShow();\n\t}\n}\n\n/**\n * Automatically starts the chain by creating a new instance\n * of the BoardChain class\n */\nconst chain = new BoardsChain();\n"
+    "content": "import config from 'config';\nimport { Boards } from 'johnny-five';\nimport Box from './components/box';\nimport { createBoard } from './utils/boardsUtil';\nimport { createClient } from './utils/clientsUtil';\nimport logUtil from './utils/logUtil';\n\n/**\n * @class Represents the whole chain of Boxes\n */\nexport default class BoardsChain {\n\t/**\n\t * Initializes boards, mqqtt clients and starts the masterBox\n\t * automatically. Is not meant to be imported.\n\t */\n\tconstructor() {\n\t\tconst boardsConfigs = config.get('boards');\n\t\tconst boards = new Boards(boardsConfigs.map((board) =>\n\t\t\tcreateBoard(board.name, board.id)));\n\n\t\t/**\n\t\t * Collection of Boxes taking part to the show\n\t\t * @type {Array}\n\t\t */\n\t\tthis.boxes = [];\n\t\tboards.each((board, index) => {\n\t\t\tlet next;\n\t\t\tlet prev;\n\t\t\tlet isMaster = false;\n\n\t\t\tif (index === 0) {\n\t\t\t\tisMaster = true;\n\t\t\t\tprev = boardsConfigs[index + 1];\n\t\t\t} else {\n\t\t\t\tprev = boardsConfigs[index - 1];\n\t\t\t}\n\n\t\t\tif (index === boardsConfigs.length - 1) {\n\t\t\t\tnext = boardsConfigs[0];\n\t\t\t} else {\n\t\t\t\tnext = boardsConfigs[index + 1];\n\t\t\t}\n\n\t\t\tif (boardsConfigs.length === 1) {\n\t\t\t\tprev = next = board;\n\t\t\t}\n\n\t\t\tlogUtil.log({\n\t\t\t\ttype: 'info',\n\t\t\t\ttitle: `Box \"${board.id}\" initialized`,\n\t\t\t\tmessages: [\n\t\t\t\t\t{ prev: prev.name },\n\t\t\t\t\t{ next: next.name },\n\t\t\t\t\t{ isMaster }\n\t\t\t\t]\n\t\t\t});\n\t\t\tconst client = createClient(board.id);\n\t\t\tthis.boxes.push(new Box(board, client, { next, isMaster, prev }));\n\t\t});\n\n\t\t/**\n\t\t * The first box to start the show, the one recoring\n\t\t * @type {Array}\n\t\t */\n\t\tthis.masterBox = this.boxes[0];\n\t\tboards.on('ready', this.onAllBoardsReady.bind(this));\n\t}\n\t/**\n\t * Is called when all Johnny Five boards are ready.\n\t * Starts the event chain by calling start the show\n\t * on the master Box.\n\t */\n\tonAllBoardsReady() {\n\t\tlogUtil.log({\n\t\t\ttype: 'hardware',\n\t\t\ttitle: `All boards ready`\n\t\t});\n\t\tthis.masterBox.startTheShow();\n\t}\n}\n\n/**\n * Automatically starts the chain by creating a new instance\n * of the BoardChain class\n */\nconst chain = new BoardsChain();\n"
   },
   {
-    "__docId__": 112,
+    "__docId__": 107,
     "kind": "class",
     "static": true,
     "variation": null,
@@ -2192,7 +2200,7 @@
     "interface": false
   },
   {
-    "__docId__": 113,
+    "__docId__": 108,
     "kind": "constructor",
     "static": false,
     "variation": null,
@@ -2206,7 +2214,7 @@
     "generator": false
   },
   {
-    "__docId__": 114,
+    "__docId__": 109,
     "kind": "member",
     "static": false,
     "variation": null,
@@ -2214,17 +2222,19 @@
     "memberof": "js/index.js~BoardsChain",
     "longname": "js/index.js~BoardsChain#boxes",
     "access": null,
-    "description": null,
-    "lineNumber": 21,
-    "undocument": true,
+    "description": "Collection of Boxes taking part to the show",
+    "lineNumber": 25,
     "type": {
+      "nullable": null,
       "types": [
-        "*"
-      ]
+        "Array"
+      ],
+      "spread": false,
+      "description": null
     }
   },
   {
-    "__docId__": 115,
+    "__docId__": 110,
     "kind": "member",
     "static": false,
     "variation": null,
@@ -2232,17 +2242,19 @@
     "memberof": "js/index.js~BoardsChain",
     "longname": "js/index.js~BoardsChain#masterBox",
     "access": null,
-    "description": null,
-    "lineNumber": 57,
-    "undocument": true,
+    "description": "The first box to start the show, the one recoring",
+    "lineNumber": 65,
     "type": {
+      "nullable": null,
       "types": [
-        "*"
-      ]
+        "Array"
+      ],
+      "spread": false,
+      "description": null
     }
   },
   {
-    "__docId__": 116,
+    "__docId__": 111,
     "kind": "method",
     "static": false,
     "variation": null,
@@ -2251,12 +2263,12 @@
     "longname": "js/index.js~BoardsChain#onAllBoardsReady",
     "access": null,
     "description": "Is called when all Johnny Five boards are ready.\nStarts the event chain by calling start the show\non the master Box.",
-    "lineNumber": 65,
+    "lineNumber": 73,
     "params": [],
     "generator": false
   },
   {
-    "__docId__": 117,
+    "__docId__": 112,
     "kind": "variable",
     "static": true,
     "variation": null,
@@ -2268,7 +2280,7 @@
     "importPath": "connecting-bits/js/index.js",
     "importStyle": null,
     "description": "Automatically starts the chain by creating a new instance\nof the BoardChain class",
-    "lineNumber": 78,
+    "lineNumber": 86,
     "type": {
       "types": [
         "js/index.js~BoardsChain"
@@ -2276,7 +2288,7 @@
     }
   },
   {
-    "__docId__": 118,
+    "__docId__": 113,
     "kind": "file",
     "static": true,
     "variation": null,
@@ -2286,10 +2298,10 @@
     "access": null,
     "description": null,
     "lineNumber": 1,
-    "content": "import config from 'config';\nimport Particle from 'particle-io';\n\nconst token = config.get(`token`);\n\n/**\n * Utility for handling Johnny Five boards\n * @type {Object}\n */\nmodule.exports = {\n\t/**\n\t * Returns a config for a Johnny Five board with an id and a Particle\n\t * Photon board\n\t * @param  {String} Any name you want to assign to your Photon board\n\t * @param  {String} The Particle.io deviceId of you photon\n\t * @return {Object}\n\t * @example\n\t * const board = createBoard('myFavoriteBoard', '12345');\n\t */\n\tcreateBoard: (id, deviceId) => {\n\t\treturn { id, io: new Particle({ token, deviceId, deviceName: id }) };\n\t}\n};\n"
+    "content": "import config from 'config';\nimport Particle from 'particle-io';\n\nconst token = config.get(`token`);\n\n/**\n * @class Utility for handling Johnny Five boards\n */\nexport default class BoardsUtil {\n\t/**\n\t * Returns a config for a Johnny Five board with an id and a Particle\n\t * Photon board\n\t * @param  {String} id - Any name you want to assign to your Photon board\n\t * @param  {String} deviceId - The Particle.io deviceId of you photon\n\t * @return {Object}\n\t * @example\n\t * const board = createBoard('myFavoriteBoard', '12345');\n\t */\n\tstatic createBoard(id, deviceId) {\n\t\treturn { id, io: new Particle({ token, deviceId, deviceName: id }) };\n\t}\n}\n"
   },
   {
-    "__docId__": 119,
+    "__docId__": 114,
     "kind": "variable",
     "static": true,
     "variation": null,
@@ -2310,7 +2322,75 @@
     }
   },
   {
-    "__docId__": 120,
+    "__docId__": 115,
+    "kind": "class",
+    "static": true,
+    "variation": null,
+    "name": "BoardsUtil",
+    "memberof": "js/utils/boardsUtil.js",
+    "longname": "js/utils/boardsUtil.js~BoardsUtil",
+    "access": null,
+    "export": true,
+    "importPath": "connecting-bits/js/utils/boardsUtil.js",
+    "importStyle": "BoardsUtil",
+    "description": null,
+    "lineNumber": 9,
+    "unknown": [
+      {
+        "tagName": "@class",
+        "tagValue": "Utility for handling Johnny Five boards"
+      }
+    ],
+    "interface": false
+  },
+  {
+    "__docId__": 116,
+    "kind": "method",
+    "static": true,
+    "variation": null,
+    "name": "createBoard",
+    "memberof": "js/utils/boardsUtil.js~BoardsUtil",
+    "longname": "js/utils/boardsUtil.js~BoardsUtil.createBoard",
+    "access": null,
+    "description": "Returns a config for a Johnny Five board with an id and a Particle\nPhoton board",
+    "examples": [
+      "const board = createBoard('myFavoriteBoard', '12345');"
+    ],
+    "lineNumber": 19,
+    "params": [
+      {
+        "nullable": null,
+        "types": [
+          "String"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "id",
+        "description": "Any name you want to assign to your Photon board"
+      },
+      {
+        "nullable": null,
+        "types": [
+          "String"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "deviceId",
+        "description": "The Particle.io deviceId of you photon"
+      }
+    ],
+    "return": {
+      "nullable": null,
+      "types": [
+        "Object"
+      ],
+      "spread": false,
+      "description": ""
+    },
+    "generator": false
+  },
+  {
+    "__docId__": 117,
     "kind": "file",
     "static": true,
     "variation": null,
@@ -2320,10 +2400,10 @@
     "access": null,
     "description": null,
     "lineNumber": 1,
-    "content": "import config from 'config';\nimport { connect } from 'mqtt';\nconst { usr, psw } = config.get('shiftr');\nconst url = `mqtt://${usr}:${psw}@broker.shiftr.io`;\n\n/**\n * Utility for creating Mqtt clients\n * @type {Object}\n */\nmodule.exports = {\n\t/**\n\t * Creates and returns a mqtt client with the give name\n\t * @param  {String} The same name as your Johnny Five board instance\n\t * @return {Mqtt client} An Mqqt client connected via shiftr.io\n\t */\n\tcreateClient: (name) => {\n\t\tconst client = connect(url, { clientId: name });\n\t\tclient.name = name;\n\t\treturn client;\n\t}\n};\n"
+    "content": "import config from 'config';\nimport { connect } from 'mqtt';\nconst { usr, psw } = config.get('shiftr');\nconst url = `mqtt://${usr}:${psw}@broker.shiftr.io`;\n\n/**\n * @class Utility for creating Mqtt clients\n */\nexport default class ClientsUtil {\n\t/**\n\t * Creates and returns a mqtt client with the give name\n\t * @param  {String} name - The same name as your Johnny Five board instance\n\t * @return {Mqtt client} An Mqqt client connected via shiftr.io\n\t */\n\tstatic createClient(name) {\n\t\tconst client = connect(url, { clientId: name });\n\t\tclient.name = name;\n\t\treturn client;\n\t}\n}\n"
   },
   {
-    "__docId__": 121,
+    "__docId__": 118,
     "kind": "variable",
     "static": true,
     "variation": null,
@@ -2344,7 +2424,7 @@
     }
   },
   {
-    "__docId__": 122,
+    "__docId__": 119,
     "kind": "variable",
     "static": true,
     "variation": null,
@@ -2365,7 +2445,62 @@
     }
   },
   {
-    "__docId__": 123,
+    "__docId__": 120,
+    "kind": "class",
+    "static": true,
+    "variation": null,
+    "name": "ClientsUtil",
+    "memberof": "js/utils/clientsUtil.js",
+    "longname": "js/utils/clientsUtil.js~ClientsUtil",
+    "access": null,
+    "export": true,
+    "importPath": "connecting-bits/js/utils/clientsUtil.js",
+    "importStyle": "ClientsUtil",
+    "description": null,
+    "lineNumber": 9,
+    "unknown": [
+      {
+        "tagName": "@class",
+        "tagValue": "Utility for creating Mqtt clients"
+      }
+    ],
+    "interface": false
+  },
+  {
+    "__docId__": 121,
+    "kind": "method",
+    "static": true,
+    "variation": null,
+    "name": "createClient",
+    "memberof": "js/utils/clientsUtil.js~ClientsUtil",
+    "longname": "js/utils/clientsUtil.js~ClientsUtil.createClient",
+    "access": null,
+    "description": "Creates and returns a mqtt client with the give name",
+    "lineNumber": 15,
+    "params": [
+      {
+        "nullable": null,
+        "types": [
+          "String"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "name",
+        "description": "The same name as your Johnny Five board instance"
+      }
+    ],
+    "return": {
+      "nullable": null,
+      "types": [
+        "Mqtt client"
+      ],
+      "spread": false,
+      "description": "An Mqqt client connected via shiftr.io"
+    },
+    "generator": false
+  },
+  {
+    "__docId__": 122,
     "kind": "file",
     "static": true,
     "variation": null,
@@ -2375,10 +2510,10 @@
     "access": null,
     "description": null,
     "lineNumber": 1,
-    "content": "import chalk from 'chalk';\n/**\n * Prefix intended to add a line break an tabulations in the\n * log messages to align them to the title\n * !CAUTION¡ Do not refactor because it look bad. It is intended\n * to be so !CAUTION¡\n * @type {String}\n */\nconst PREFIX_TABULATION = `\n\t\t   `;\n\n/**\n * Retrieves a formatted date like node does. Wraps the square\n * Brackets in a whote color with chalk to imitate the color\n * hilighting of oh-my-zsh\n * @private\n * @return {String}\n * @example\n * const date = getFormattedDate() // Outputs [12:27:57]\n */\nconst getFormattedTime = () => {\n\tconst time = new Date();\n\tconst timeFormatted = ('0' + time.getHours()).slice(-2) +\n\t\t':' + ('0' + time.getMinutes()).slice(-2) +\n\t\t':' + ('0' + time.getSeconds()).slice(-2);\n\treturn chalk.white('[') +\n\t\tchalk.gray(timeFormatted) +\n\t\tchalk.white('] ');\n};\n\n/**\n * Maps logging types to colors for log hilighting\n * @private\n * @param  {String} type - Wether info, hardware, shiftr, error, warning or discrete\n * @return {String} The color associated to the type\n */\nconst getColorByType = (type) => {\n\tswitch (type) {\n\t\tcase 'info':\n\t\t\treturn 'blue';\n\t\tcase 'hardware':\n\t\t\treturn 'magenta';\n\t\tcase 'shiftr':\n\t\t\treturn 'green';\n\t\tcase 'error':\n\t\t\treturn 'red';\n\t\tcase 'warning':\n\t\t\treturn 'orange';\n\t\tcase 'discrete':\n\t\t\treturn 'gray';\n\t\tdefault:\n\t\t\treturn 'white';\n\t}\n};\n\n/**\n * Parses an obtion object and logs whatever is gived to him in the\n * relevant color.\n * @param  {Object} options\n * @private\n */\nconst doLog = (options) => {\n\tconst { type, title, messages } = options;\n\tconst color = getColorByType(type);\n\tconst toLog = [ '\\n' + getFormattedTime() ];\n\tif (title && typeof title === 'string') {\n\t\ttoLog.push(chalk.inverse.bold[ color ](' ' + title + ' '));\n\t}\n\tmessages.forEach((message) => {\n\t\tlet formattedMessage = chalk[ color ](PREFIX_TABULATION, message);\n\t\tif (typeof message === 'object') {\n\t\t\tlet key = Object.keys(message)[0];\n\t\t\tformattedMessage = chalk[ color ](PREFIX_TABULATION,\n\t\t\t\t' ' + chalk.underline(key + ':'), message[key]);\n\t\t}\n\t\ttoLog.push(formattedMessage);\n\t});\n\ttoLog.push('\\n');\n\tconsole.log.apply(console, toLog);\n};\n\nmodule.exports = {\n\t/**\n\t * Log a formatted and hilighted message to the console\n\t * @public\n\t * @param  {String or Object} messageOrOptions - Wether a sing sting\n\t * \t\t\t\t\t\t\t\t\t\t\t\t or an object containing\n\t * \t\t\t\t\t\t\t\t\t\t\t\t title, type and/or messages\n\t * @example\n\t * log({\n\t * \ttype: 'hardware',\n\t * \ttitle: 'Servo motor movement done',\n\t * \tmessages: [\n\t * \t\t{ 'started from': 0 },\n\t * \t\t{ 'Rotated to': 123 }\n\t * \t]\n\t * });\n\t */\n\tlog: (messageOrOptions) => {\n\t\tconst { type, title, messages } = messageOrOptions;\n\t\tif (typeof messageOrOptions === 'object' &&\n\t\t\t(type || title || messages)) {\n\t\t\tconst options = Object.assign({}, {\n\t\t\t\ttype: false,\n\t\t\t\ttitle: false,\n\t\t\t\tmessages: []\n\t\t\t}, messageOrOptions);\n\t\t\tdoLog(options);\n\t\t} else {\n\t\t\tdoLog({\n\t\t\t\ttype: false,\n\t\t\t\ttitle: false,\n\t\t\t\tmessages: messageOrOptions\n\t\t\t});\n\t\t}\n\t}\n};\n"
+    "content": "import chalk from 'chalk';\n/**\n * Prefix intended to add a line break an tabulations in the\n * log messages to align them to the title\n * !CAUTION¡ Do not refactor because it look bad. It is intended\n * to be so !CAUTION¡\n * @type {String}\n */\nconst PREFIX_TABULATION = `\n\t\t   `;\n\n/**\n * Retrieves a formatted date like node does. Wraps the square\n * Brackets in a whote color with chalk to imitate the color\n * hilighting of oh-my-zsh\n * @private\n * @return {String}\n * @example\n * const date = getFormattedDate() // Outputs [12:27:57]\n */\nconst getFormattedTime = () => {\n\tconst time = new Date();\n\tconst timeFormatted = ('0' + time.getHours()).slice(-2) +\n\t\t':' + ('0' + time.getMinutes()).slice(-2) +\n\t\t':' + ('0' + time.getSeconds()).slice(-2);\n\treturn chalk.white('[') +\n\t\tchalk.gray(timeFormatted) +\n\t\tchalk.white('] ');\n};\n\n/**\n * Maps logging types to colors for log hilighting\n * @private\n * @param  {String} type - Wether info, hardware, shiftr, error, warning or discrete\n * @return {String} The color associated to the type\n */\nconst getColorByType = (type) => {\n\tswitch (type) {\n\t\tcase 'info':\n\t\t\treturn 'blue';\n\t\tcase 'hardware':\n\t\t\treturn 'magenta';\n\t\tcase 'shiftr':\n\t\t\treturn 'green';\n\t\tcase 'error':\n\t\t\treturn 'red';\n\t\tcase 'warning':\n\t\t\treturn 'orange';\n\t\tcase 'discrete':\n\t\t\treturn 'gray';\n\t\tdefault:\n\t\t\treturn 'white';\n\t}\n};\n\n/**\n * Parses an obtion object and logs whatever is gived to him in the\n * relevant color.\n * @param  {Object} options\n * @private\n */\nconst doLog = (options) => {\n\tconst { type, title, messages } = options;\n\tconst color = getColorByType(type);\n\tconst toLog = [ '\\n' + getFormattedTime() ];\n\tif (title && typeof title === 'string') {\n\t\ttoLog.push(chalk.inverse.bold[ color ](' ' + title + ' '));\n\t}\n\tmessages.forEach((message) => {\n\t\tlet formattedMessage = chalk[ color ](PREFIX_TABULATION, message);\n\t\tif (typeof message === 'object') {\n\t\t\tlet key = Object.keys(message)[0];\n\t\t\tformattedMessage = chalk[ color ](PREFIX_TABULATION,\n\t\t\t\t' ' + chalk.underline(key + ':'), message[key]);\n\t\t}\n\t\ttoLog.push(formattedMessage);\n\t});\n\ttoLog.push('\\n');\n\tconsole.log.apply(console, toLog);\n};\n\n/**\n * @class Utility for handling Logging\n */\nexport default class LogUtil {\n\t/**\n\t * Log a formatted and hilighted message to the console\n\t * @public\n\t * @param  {String or Object} messageOrOptions - Wether a sing sting\n\t * \t\t\t\t\t\t\t\t\t\t\t\t or an object containing\n\t * \t\t\t\t\t\t\t\t\t\t\t\t title, type and/or messages\n\t * @example\n\t * log({\n\t * \ttype: 'hardware',\n\t * \ttitle: 'Servo motor movement done',\n\t * \tmessages: [\n\t * \t\t{ 'started from': 0 },\n\t * \t\t{ 'Rotated to': 123 }\n\t * \t]\n\t * });\n\t */\n\tstatic log(messageOrOptions) {\n\t\tconst { type, title, messages } = messageOrOptions;\n\t\tif (typeof messageOrOptions === 'object' &&\n\t\t\t(type || title || messages)) {\n\t\t\tconst options = Object.assign({}, {\n\t\t\t\ttype: false,\n\t\t\t\ttitle: false,\n\t\t\t\tmessages: []\n\t\t\t}, messageOrOptions);\n\t\t\tdoLog(options);\n\t\t} else {\n\t\t\tdoLog({\n\t\t\t\ttype: false,\n\t\t\t\ttitle: false,\n\t\t\t\tmessages: messageOrOptions\n\t\t\t});\n\t\t}\n\t}\n}\n"
   },
   {
-    "__docId__": 124,
+    "__docId__": 123,
     "kind": "variable",
     "static": true,
     "variation": null,
@@ -2401,7 +2536,7 @@
     }
   },
   {
-    "__docId__": 125,
+    "__docId__": 124,
     "kind": "variable",
     "static": true,
     "variation": null,
@@ -2432,7 +2567,7 @@
     }
   },
   {
-    "__docId__": 126,
+    "__docId__": 125,
     "kind": "variable",
     "static": true,
     "variation": null,
@@ -2472,7 +2607,7 @@
     }
   },
   {
-    "__docId__": 127,
+    "__docId__": 126,
     "kind": "variable",
     "static": true,
     "variation": null,
@@ -2504,7 +2639,57 @@
     }
   },
   {
-    "__docId__": 129,
+    "__docId__": 127,
+    "kind": "class",
+    "static": true,
+    "variation": null,
+    "name": "LogUtil",
+    "memberof": "js/utils/logUtil.js",
+    "longname": "js/utils/logUtil.js~LogUtil",
+    "access": null,
+    "export": true,
+    "importPath": "connecting-bits/js/utils/logUtil.js",
+    "importStyle": "LogUtil",
+    "description": null,
+    "lineNumber": 85,
+    "unknown": [
+      {
+        "tagName": "@class",
+        "tagValue": "Utility for handling Logging"
+      }
+    ],
+    "interface": false
+  },
+  {
+    "__docId__": 128,
+    "kind": "method",
+    "static": true,
+    "variation": null,
+    "name": "log",
+    "memberof": "js/utils/logUtil.js~LogUtil",
+    "longname": "js/utils/logUtil.js~LogUtil.log",
+    "access": "public",
+    "description": "Log a formatted and hilighted message to the console",
+    "examples": [
+      "log({\n\ttype: 'hardware',\n\ttitle: 'Servo motor movement done',\n\tmessages: [\n\t\t{ 'started from': 0 },\n\t\t{ 'Rotated to': 123 }\n\t]\n});"
+    ],
+    "lineNumber": 102,
+    "params": [
+      {
+        "nullable": null,
+        "types": [
+          "String or Object"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "messageOrOptions",
+        "description": "Wether a sing sting\n\t\t\t\t\t\t\t\t\t\t\t\t or an object containing\n\t\t\t\t\t\t\t\t\t\t\t\t title, type and/or messages"
+      }
+    ],
+    "generator": false
+  },
+  {
+    "__docId__": 130,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -2517,7 +2702,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 130,
+    "__docId__": 131,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -2530,7 +2715,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 131,
+    "__docId__": 132,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -2543,7 +2728,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 132,
+    "__docId__": 133,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -2556,7 +2741,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 133,
+    "__docId__": 134,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -2569,7 +2754,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 134,
+    "__docId__": 135,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -2582,7 +2767,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 135,
+    "__docId__": 136,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -2595,7 +2780,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 136,
+    "__docId__": 137,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -2608,7 +2793,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 137,
+    "__docId__": 138,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -2621,7 +2806,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 138,
+    "__docId__": 139,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -2634,7 +2819,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 139,
+    "__docId__": 140,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -2647,7 +2832,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 140,
+    "__docId__": 141,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -2660,7 +2845,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 141,
+    "__docId__": 142,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -2673,7 +2858,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 142,
+    "__docId__": 143,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -2686,7 +2871,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 143,
+    "__docId__": 144,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -2699,7 +2884,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 144,
+    "__docId__": 145,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -2712,7 +2897,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 145,
+    "__docId__": 146,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -2725,7 +2910,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 146,
+    "__docId__": 147,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -2738,7 +2923,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 147,
+    "__docId__": 148,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -2751,7 +2936,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 148,
+    "__docId__": 149,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -2764,7 +2949,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 149,
+    "__docId__": 150,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -2777,7 +2962,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 150,
+    "__docId__": 151,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -2790,7 +2975,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 151,
+    "__docId__": 152,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -2803,7 +2988,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 152,
+    "__docId__": 153,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -2816,7 +3001,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 153,
+    "__docId__": 154,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -2829,7 +3014,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 154,
+    "__docId__": 155,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -2842,7 +3027,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 155,
+    "__docId__": 156,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -2855,7 +3040,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 156,
+    "__docId__": 157,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -2868,7 +3053,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 157,
+    "__docId__": 158,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -2881,7 +3066,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 158,
+    "__docId__": 159,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -2894,7 +3079,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 159,
+    "__docId__": 160,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -2907,7 +3092,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 160,
+    "__docId__": 161,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -2920,7 +3105,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 161,
+    "__docId__": 162,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -2933,7 +3118,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 162,
+    "__docId__": 163,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -2946,7 +3131,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 163,
+    "__docId__": 164,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -2959,7 +3144,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 164,
+    "__docId__": 165,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -2972,7 +3157,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 165,
+    "__docId__": 166,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -2985,7 +3170,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 166,
+    "__docId__": 167,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -2998,7 +3183,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 167,
+    "__docId__": 168,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -3011,7 +3196,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 168,
+    "__docId__": 169,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -3024,7 +3209,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 169,
+    "__docId__": 170,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -3037,7 +3222,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 170,
+    "__docId__": 171,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -3050,7 +3235,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 171,
+    "__docId__": 172,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -3063,7 +3248,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 172,
+    "__docId__": 173,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -3076,7 +3261,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 173,
+    "__docId__": 174,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -3089,7 +3274,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 174,
+    "__docId__": 175,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -3102,7 +3287,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 175,
+    "__docId__": 176,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -3115,7 +3300,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 177,
+    "__docId__": 178,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -3128,7 +3313,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 178,
+    "__docId__": 179,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -3141,7 +3326,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 179,
+    "__docId__": 180,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -3154,7 +3339,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 180,
+    "__docId__": 181,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -3167,7 +3352,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 181,
+    "__docId__": 182,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -3180,7 +3365,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 182,
+    "__docId__": 183,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -3193,7 +3378,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 183,
+    "__docId__": 184,
     "kind": "external",
     "static": true,
     "variation": null,
@@ -3206,7 +3391,7 @@
     "builtinExternal": true
   },
   {
-    "__docId__": 184,
+    "__docId__": 185,
     "kind": "external",
     "static": true,
     "variation": null,

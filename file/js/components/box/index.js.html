@@ -36,7 +36,7 @@
 <li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">components/box</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/js/components/box/index.js~Box.html">Box</a></span></span></li>
 <li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">components/infrared</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/js/components/infrared/index.js~Intrared.html">Intrared</a></span></span></li>
 <li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">components/light</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/js/components/light/index.js~Light.html">Light</a></span></span></li>
-<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">components/microphone</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/js/components/microphone/index.js~Translator.html">Translator</a></span></span></li>
+<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">components/microphone</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/js/components/microphone/index.js~Microphone.html">Microphone</a></span></span></li>
 <li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">components/microphone/utils/records</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/js/components/microphone/utils/records/index.js~Record.html">Record</a></span></span></li>
 <li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">components/microphone/utils/reports</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/js/components/microphone/utils/reports/index.js~CreateReport.html">CreateReport</a></span></span></li>
 <li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">components/motor</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/js/components/motor/index.js~Motor.html">Motor</a></span></span></li>
@@ -45,6 +45,9 @@
 <li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">constants</div><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-INFRARED_CONSTANTS">INFRARED_CONSTANTS</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-LIGHT_CONSTANTS">LIGHT_CONSTANTS</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-MOTOR_CONSTANTS">MOTOR_CONSTANTS</a></span></span></li>
+<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">utils</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/js/utils/boardsUtil.js~BoardsUtil.html">BoardsUtil</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/js/utils/clientsUtil.js~ClientsUtil.html">ClientsUtil</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/js/utils/logUtil.js~LogUtil.html">LogUtil</a></span></span></li>
 </ul>
 </div>
 </nav>
@@ -75,18 +78,68 @@ export default class Box {
 	 * @param {Object} options - Option containing next, prev and isMaster
 	 */
 	constructor(board, client, options) {
+		/**
+		 * A Johnny Five Board instance
+		 * @type {Board}
+		 */
 		this.board = board;
+		/**
+		 * An Mqtt client
+		 * @type {Mqtt client}
+		 */
 		this.client = client;
+		/**
+		 * Option with next, prev and isMaster
+		 * @type {Object}
+		 */
 		this.options = options;
+		/**
+		 * The Box&apos;s name
+		 * @type {String}
+		 */
 		this.name = this.board.id;
+		/**
+		 * The round actually playing
+		 * @type {Number}
+		 */
 		this.round = 0;
 
 		// initialise subcomponents
+		/**
+		 * The Translator component
+		 * Will be intialized when all boards are ready
+		 * @type {[type]}
+		 */
 		this.translator = null;
+		/**
+		 * The Light component
+		 * Will be intialized when all boards are ready
+		 * @type {Light}
+		 */
 		this.light = null;
+		/**
+		 * The Motor component
+		 * Will be intialized when all boards are ready
+		 * @type {Motor}
+		 */
 		this.motor = null;
+		/**
+		 * The Speak component
+		 * Will be intialized when all boards are ready
+		 * @type {Speak}
+		 */
 		this.speaker = null;
+		/**
+		 * The Infra component
+		 * Will be intialized when all boards are ready
+		 * @type {Infra}
+		 */
 		this.infrared = null;
+		/**
+		 * The Micro component
+		 * Will be intialized when all boards are ready
+		 * @type {Micro}
+		 */
 		this.microphone = null;
 
 		client.on(&apos;connect&apos;, this.onConnect.bind(this));

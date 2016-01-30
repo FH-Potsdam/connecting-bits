@@ -607,10 +607,10 @@
       "trailingComments": [
         {
           "type": "Block",
-          "value": "*\n * Utility for creating Mqtt clients\n * @type {Object}\n ",
+          "value": "*\n * @class Utility for creating Mqtt clients\n ",
           "range": [
             158,
-            220
+            209
           ],
           "loc": {
             "start": {
@@ -618,7 +618,7 @@
               "column": 0
             },
             "end": {
-              "line": 9,
+              "line": 8,
               "column": 3
             }
           }
@@ -626,106 +626,70 @@
       ]
     },
     {
-      "type": "ExpressionStatement",
-      "expression": {
-        "type": "AssignmentExpression",
-        "operator": "=",
-        "left": {
-          "type": "MemberExpression",
-          "computed": false,
-          "object": {
-            "type": "Identifier",
-            "name": "module",
-            "range": [
-              221,
-              227
-            ],
-            "loc": {
-              "start": {
-                "line": 10,
-                "column": 0
-              },
-              "end": {
-                "line": 10,
-                "column": 6
-              }
-            }
-          },
-          "property": {
-            "type": "Identifier",
-            "name": "exports",
-            "range": [
-              228,
-              235
-            ],
-            "loc": {
-              "start": {
-                "line": 10,
-                "column": 7
-              },
-              "end": {
-                "line": 10,
-                "column": 14
-              }
-            }
-          },
+      "type": "ExportDefaultDeclaration",
+      "declaration": {
+        "type": "ClassDeclaration",
+        "id": {
+          "type": "Identifier",
+          "name": "ClientsUtil",
           "range": [
-            221,
-            235
+            231,
+            242
           ],
           "loc": {
             "start": {
-              "line": 10,
-              "column": 0
+              "line": 9,
+              "column": 21
             },
             "end": {
-              "line": 10,
-              "column": 14
+              "line": 9,
+              "column": 32
             }
           }
         },
-        "right": {
-          "type": "ObjectExpression",
-          "properties": [
+        "superClass": null,
+        "body": {
+          "type": "ClassBody",
+          "body": [
             {
-              "type": "Property",
+              "type": "MethodDefinition",
               "key": {
                 "type": "Identifier",
                 "name": "createClient",
                 "range": [
-                  443,
-                  455
+                  462,
+                  474
                 ],
                 "loc": {
                   "start": {
-                    "line": 16,
-                    "column": 1
+                    "line": 15,
+                    "column": 8
                   },
                   "end": {
-                    "line": 16,
-                    "column": 13
+                    "line": 15,
+                    "column": 20
                   }
                 }
               },
               "value": {
-                "type": "ArrowFunctionExpression",
+                "type": "FunctionExpression",
                 "id": null,
                 "params": [
                   {
                     "type": "Identifier",
                     "name": "name",
                     "range": [
-                      458,
-                      462
+                      475,
+                      479
                     ],
                     "loc": {
                       "start": {
-                        "line": 16,
-                        "column": 16
+                        "line": 15,
+                        "column": 21
                       },
                       "end": {
-                        "line": 16,
-                        "column": 20
+                        "line": 15,
+                        "column": 25
                       }
                     }
                   }
@@ -742,16 +706,16 @@
                             "type": "Identifier",
                             "name": "client",
                             "range": [
-                              477,
-                              483
+                              491,
+                              497
                             ],
                             "loc": {
                               "start": {
-                                "line": 17,
+                                "line": 16,
                                 "column": 8
                               },
                               "end": {
-                                "line": 17,
+                                "line": 16,
                                 "column": 14
                               }
                             }
@@ -762,16 +726,16 @@
                               "type": "Identifier",
                               "name": "connect",
                               "range": [
-                                486,
-                                493
+                                500,
+                                507
                               ],
                               "loc": {
                                 "start": {
-                                  "line": 17,
+                                  "line": 16,
                                   "column": 17
                                 },
                                 "end": {
-                                  "line": 17,
+                                  "line": 16,
                                   "column": 24
                                 }
                               }
@@ -781,16 +745,16 @@
                                 "type": "Identifier",
                                 "name": "url",
                                 "range": [
-                                  494,
-                                  497
+                                  508,
+                                  511
                                 ],
                                 "loc": {
                                   "start": {
-                                    "line": 17,
+                                    "line": 16,
                                     "column": 25
                                   },
                                   "end": {
-                                    "line": 17,
+                                    "line": 16,
                                     "column": 28
                                   }
                                 }
@@ -804,16 +768,16 @@
                                       "type": "Identifier",
                                       "name": "clientId",
                                       "range": [
-                                        501,
-                                        509
+                                        515,
+                                        523
                                       ],
                                       "loc": {
                                         "start": {
-                                          "line": 17,
+                                          "line": 16,
                                           "column": 32
                                         },
                                         "end": {
-                                          "line": 17,
+                                          "line": 16,
                                           "column": 40
                                         }
                                       }
@@ -822,16 +786,16 @@
                                       "type": "Identifier",
                                       "name": "name",
                                       "range": [
-                                        511,
-                                        515
+                                        525,
+                                        529
                                       ],
                                       "loc": {
                                         "start": {
-                                          "line": 17,
+                                          "line": 16,
                                           "column": 42
                                         },
                                         "end": {
-                                          "line": 17,
+                                          "line": 16,
                                           "column": 46
                                         }
                                       }
@@ -841,63 +805,63 @@
                                     "shorthand": false,
                                     "computed": false,
                                     "range": [
-                                      501,
-                                      515
+                                      515,
+                                      529
                                     ],
                                     "loc": {
                                       "start": {
-                                        "line": 17,
+                                        "line": 16,
                                         "column": 32
                                       },
                                       "end": {
-                                        "line": 17,
+                                        "line": 16,
                                         "column": 46
                                       }
                                     }
                                   }
                                 ],
                                 "range": [
-                                  499,
-                                  517
+                                  513,
+                                  531
                                 ],
                                 "loc": {
                                   "start": {
-                                    "line": 17,
+                                    "line": 16,
                                     "column": 30
                                   },
                                   "end": {
-                                    "line": 17,
+                                    "line": 16,
                                     "column": 48
                                   }
                                 }
                               }
                             ],
                             "range": [
-                              486,
-                              518
+                              500,
+                              532
                             ],
                             "loc": {
                               "start": {
-                                "line": 17,
+                                "line": 16,
                                 "column": 17
                               },
                               "end": {
-                                "line": 17,
+                                "line": 16,
                                 "column": 49
                               }
                             }
                           },
                           "range": [
-                            477,
-                            518
+                            491,
+                            532
                           ],
                           "loc": {
                             "start": {
-                              "line": 17,
+                              "line": 16,
                               "column": 8
                             },
                             "end": {
-                              "line": 17,
+                              "line": 16,
                               "column": 49
                             }
                           }
@@ -905,16 +869,16 @@
                       ],
                       "kind": "const",
                       "range": [
-                        471,
-                        519
+                        485,
+                        533
                       ],
                       "loc": {
                         "start": {
-                          "line": 17,
+                          "line": 16,
                           "column": 2
                         },
                         "end": {
-                          "line": 17,
+                          "line": 16,
                           "column": 50
                         }
                       }
@@ -931,16 +895,16 @@
                             "type": "Identifier",
                             "name": "client",
                             "range": [
-                              522,
-                              528
+                              536,
+                              542
                             ],
                             "loc": {
                               "start": {
-                                "line": 18,
+                                "line": 17,
                                 "column": 2
                               },
                               "end": {
-                                "line": 18,
+                                "line": 17,
                                 "column": 8
                               }
                             }
@@ -949,31 +913,31 @@
                             "type": "Identifier",
                             "name": "name",
                             "range": [
-                              529,
-                              533
+                              543,
+                              547
                             ],
                             "loc": {
                               "start": {
-                                "line": 18,
+                                "line": 17,
                                 "column": 9
                               },
                               "end": {
-                                "line": 18,
+                                "line": 17,
                                 "column": 13
                               }
                             }
                           },
                           "range": [
-                            522,
-                            533
+                            536,
+                            547
                           ],
                           "loc": {
                             "start": {
-                              "line": 18,
+                              "line": 17,
                               "column": 2
                             },
                             "end": {
-                              "line": 18,
+                              "line": 17,
                               "column": 13
                             }
                           }
@@ -982,46 +946,46 @@
                           "type": "Identifier",
                           "name": "name",
                           "range": [
-                            536,
-                            540
+                            550,
+                            554
                           ],
                           "loc": {
                             "start": {
-                              "line": 18,
+                              "line": 17,
                               "column": 16
                             },
                             "end": {
-                              "line": 18,
+                              "line": 17,
                               "column": 20
                             }
                           }
                         },
                         "range": [
-                          522,
-                          540
+                          536,
+                          554
                         ],
                         "loc": {
                           "start": {
-                            "line": 18,
+                            "line": 17,
                             "column": 2
                           },
                           "end": {
-                            "line": 18,
+                            "line": 17,
                             "column": 20
                           }
                         }
                       },
                       "range": [
-                        522,
-                        541
+                        536,
+                        555
                       ],
                       "loc": {
                         "start": {
-                          "line": 18,
+                          "line": 17,
                           "column": 2
                         },
                         "end": {
-                          "line": 18,
+                          "line": 17,
                           "column": 21
                         }
                       }
@@ -1032,47 +996,47 @@
                         "type": "Identifier",
                         "name": "client",
                         "range": [
-                          551,
-                          557
+                          565,
+                          571
                         ],
                         "loc": {
                           "start": {
-                            "line": 19,
+                            "line": 18,
                             "column": 9
                           },
                           "end": {
-                            "line": 19,
+                            "line": 18,
                             "column": 15
                           }
                         }
                       },
                       "range": [
-                        544,
-                        558
+                        558,
+                        572
                       ],
                       "loc": {
                         "start": {
-                          "line": 19,
+                          "line": 18,
                           "column": 2
                         },
                         "end": {
-                          "line": 19,
+                          "line": 18,
                           "column": 16
                         }
                       }
                     }
                   ],
                   "range": [
-                    467,
-                    561
+                    481,
+                    575
                   ],
                   "loc": {
                     "start": {
-                      "line": 16,
-                      "column": 25
+                      "line": 15,
+                      "column": 27
                     },
                     "end": {
-                      "line": 20,
+                      "line": 19,
                       "column": 2
                     }
                   }
@@ -1080,111 +1044,131 @@
                 "generator": false,
                 "expression": false,
                 "range": [
-                  457,
-                  561
+                  474,
+                  575
                 ],
                 "loc": {
                   "start": {
-                    "line": 16,
-                    "column": 15
+                    "line": 15,
+                    "column": 20
                   },
                   "end": {
-                    "line": 20,
+                    "line": 19,
                     "column": 2
                   }
                 }
               },
-              "kind": "init",
-              "method": false,
-              "shorthand": false,
+              "kind": "method",
               "computed": false,
               "range": [
-                443,
-                561
+                455,
+                575
               ],
               "loc": {
                 "start": {
-                  "line": 16,
+                  "line": 15,
                   "column": 1
                 },
                 "end": {
-                  "line": 20,
+                  "line": 19,
                   "column": 2
                 }
               },
               "leadingComments": [
                 {
                   "type": "Block",
-                  "value": "*\n\t * Creates and returns a mqtt client with the give name\n\t * @param  {String} The same name as your Johnny Five board instance\n\t * @return {Mqtt client} An Mqqt client connected via shiftr.io\n\t ",
+                  "value": "*\n\t * Creates and returns a mqtt client with the give name\n\t * @param  {String} name - The same name as your Johnny Five board instance\n\t * @return {Mqtt client} An Mqqt client connected via shiftr.io\n\t ",
                   "range": [
-                    241,
-                    441
+                    246,
+                    453
                   ],
                   "loc": {
                     "start": {
-                      "line": 11,
+                      "line": 10,
                       "column": 1
                     },
                     "end": {
-                      "line": 15,
+                      "line": 14,
                       "column": 4
                     }
                   }
                 }
-              ]
+              ],
+              "static": true
             }
           ],
           "range": [
-            238,
-            563
+            243,
+            577
           ],
           "loc": {
             "start": {
-              "line": 10,
-              "column": 17
+              "line": 9,
+              "column": 33
             },
             "end": {
-              "line": 21,
+              "line": 20,
               "column": 1
             }
           }
         },
         "range": [
-          221,
-          563
+          225,
+          577
         ],
         "loc": {
           "start": {
-            "line": 10,
-            "column": 0
+            "line": 9,
+            "column": 15
           },
           "end": {
-            "line": 21,
+            "line": 20,
             "column": 1
           }
-        }
+        },
+        "leadingComments": [
+          {
+            "type": "Block",
+            "value": "*\n * @class Utility for creating Mqtt clients\n ",
+            "range": [
+              158,
+              209
+            ],
+            "loc": {
+              "start": {
+                "line": 6,
+                "column": 0
+              },
+              "end": {
+                "line": 8,
+                "column": 3
+              }
+            }
+          }
+        ],
+        "trailingComments": []
       },
       "range": [
-        221,
-        564
+        210,
+        577
       ],
       "loc": {
         "start": {
-          "line": 10,
+          "line": 9,
           "column": 0
         },
         "end": {
-          "line": 21,
-          "column": 2
+          "line": 20,
+          "column": 1
         }
       },
       "leadingComments": [
         {
           "type": "Block",
-          "value": "*\n * Utility for creating Mqtt clients\n * @type {Object}\n ",
+          "value": "*\n * @class Utility for creating Mqtt clients\n ",
           "range": [
             158,
-            220
+            209
           ],
           "loc": {
             "start": {
@@ -1192,7 +1176,7 @@
               "column": 0
             },
             "end": {
-              "line": 9,
+              "line": 8,
               "column": 3
             }
           }
@@ -1203,7 +1187,7 @@
   "sourceType": "module",
   "range": [
     0,
-    564
+    577
   ],
   "loc": {
     "start": {
@@ -1211,17 +1195,17 @@
       "column": 0
     },
     "end": {
-      "line": 21,
-      "column": 2
+      "line": 20,
+      "column": 1
     }
   },
   "comments": [
     {
       "type": "Block",
-      "value": "*\n * Utility for creating Mqtt clients\n * @type {Object}\n ",
+      "value": "*\n * @class Utility for creating Mqtt clients\n ",
       "range": [
         158,
-        220
+        209
       ],
       "loc": {
         "start": {
@@ -1229,25 +1213,25 @@
           "column": 0
         },
         "end": {
-          "line": 9,
+          "line": 8,
           "column": 3
         }
       }
     },
     {
       "type": "Block",
-      "value": "*\n\t * Creates and returns a mqtt client with the give name\n\t * @param  {String} The same name as your Johnny Five board instance\n\t * @return {Mqtt client} An Mqqt client connected via shiftr.io\n\t ",
+      "value": "*\n\t * Creates and returns a mqtt client with the give name\n\t * @param  {String} name - The same name as your Johnny Five board instance\n\t * @return {Mqtt client} An Mqqt client connected via shiftr.io\n\t ",
       "range": [
-        241,
-        441
+        246,
+        453
       ],
       "loc": {
         "start": {
-          "line": 11,
+          "line": 10,
           "column": 1
         },
         "end": {
-          "line": 15,
+          "line": 14,
           "column": 4
         }
       }

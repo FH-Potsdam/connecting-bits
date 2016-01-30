@@ -36,7 +36,7 @@
 <li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">components/box</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/js/components/box/index.js~Box.html">Box</a></span></span></li>
 <li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">components/infrared</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/js/components/infrared/index.js~Intrared.html">Intrared</a></span></span></li>
 <li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">components/light</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/js/components/light/index.js~Light.html">Light</a></span></span></li>
-<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">components/microphone</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/js/components/microphone/index.js~Translator.html">Translator</a></span></span></li>
+<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">components/microphone</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/js/components/microphone/index.js~Microphone.html">Microphone</a></span></span></li>
 <li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">components/microphone/utils/records</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/js/components/microphone/utils/records/index.js~Record.html">Record</a></span></span></li>
 <li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">components/microphone/utils/reports</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/js/components/microphone/utils/reports/index.js~CreateReport.html">CreateReport</a></span></span></li>
 <li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">components/motor</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/js/components/motor/index.js~Motor.html">Motor</a></span></span></li>
@@ -45,6 +45,9 @@
 <li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">constants</div><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-INFRARED_CONSTANTS">INFRARED_CONSTANTS</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-LIGHT_CONSTANTS">LIGHT_CONSTANTS</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-MOTOR_CONSTANTS">MOTOR_CONSTANTS</a></span></span></li>
+<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">utils</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/js/utils/boardsUtil.js~BoardsUtil.html">BoardsUtil</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/js/utils/clientsUtil.js~ClientsUtil.html">ClientsUtil</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/js/utils/logUtil.js~LogUtil.html">LogUtil</a></span></span></li>
 </ul>
 </div>
 </nav>
@@ -137,13 +140,14 @@
     <td>
       <div>
         <p>
-           <span data-ice="name"><span><a href="class/js/components/box/index.js~Box.html#instance-member-board">board</a></span></span><span data-ice="signature">: <span>*</span></span>
+           <span data-ice="name"><span><a href="class/js/components/box/index.js~Box.html#instance-member-board">board</a></span></span><span data-ice="signature">: <span>Board</span></span>
         </p>
       </div>
       <div>
         
         
-        
+        <div data-ice="description"><p>A Johnny Five Board instance</p>
+</div>
       </div>
     </td>
     <td>
@@ -162,13 +166,14 @@
     <td>
       <div>
         <p>
-           <span data-ice="name"><span><a href="class/js/components/box/index.js~Box.html#instance-member-client">client</a></span></span><span data-ice="signature">: <span>*</span></span>
+           <span data-ice="name"><span><a href="class/js/components/box/index.js~Box.html#instance-member-client">client</a></span></span><span data-ice="signature">: <span>Mqtt client</span></span>
         </p>
       </div>
       <div>
         
         
-        
+        <div data-ice="description"><p>An Mqtt client</p>
+</div>
       </div>
     </td>
     <td>
@@ -187,13 +192,15 @@
     <td>
       <div>
         <p>
-           <span data-ice="name"><span><a href="class/js/components/box/index.js~Box.html#instance-member-infrared">infrared</a></span></span><span data-ice="signature">: <span>*</span></span>
+           <span data-ice="name"><span><a href="class/js/components/box/index.js~Box.html#instance-member-infrared">infrared</a></span></span><span data-ice="signature">: <span>Infra</span></span>
         </p>
       </div>
       <div>
         
         
-        
+        <div data-ice="description"><p>The Infra component
+Will be intialized when all boards are ready</p>
+</div>
       </div>
     </td>
     <td>
@@ -212,13 +219,15 @@
     <td>
       <div>
         <p>
-           <span data-ice="name"><span><a href="class/js/components/box/index.js~Box.html#instance-member-light">light</a></span></span><span data-ice="signature">: <span>*</span></span>
+           <span data-ice="name"><span><a href="class/js/components/box/index.js~Box.html#instance-member-light">light</a></span></span><span data-ice="signature">: <span><a href="class/js/components/light/index.js~Light.html">Light</a></span></span>
         </p>
       </div>
       <div>
         
         
-        
+        <div data-ice="description"><p>The Light component
+Will be intialized when all boards are ready</p>
+</div>
       </div>
     </td>
     <td>
@@ -237,13 +246,15 @@
     <td>
       <div>
         <p>
-           <span data-ice="name"><span><a href="class/js/components/box/index.js~Box.html#instance-member-microphone">microphone</a></span></span><span data-ice="signature">: <span>*</span></span>
+           <span data-ice="name"><span><a href="class/js/components/box/index.js~Box.html#instance-member-microphone">microphone</a></span></span><span data-ice="signature">: <span>Micro</span></span>
         </p>
       </div>
       <div>
         
         
-        
+        <div data-ice="description"><p>The Micro component
+Will be intialized when all boards are ready</p>
+</div>
       </div>
     </td>
     <td>
@@ -262,13 +273,15 @@
     <td>
       <div>
         <p>
-           <span data-ice="name"><span><a href="class/js/components/box/index.js~Box.html#instance-member-motor">motor</a></span></span><span data-ice="signature">: <span>*</span></span>
+           <span data-ice="name"><span><a href="class/js/components/box/index.js~Box.html#instance-member-motor">motor</a></span></span><span data-ice="signature">: <span><a href="class/js/components/motor/index.js~Motor.html">Motor</a></span></span>
         </p>
       </div>
       <div>
         
         
-        
+        <div data-ice="description"><p>The Motor component
+Will be intialized when all boards are ready</p>
+</div>
       </div>
     </td>
     <td>
@@ -287,13 +300,14 @@
     <td>
       <div>
         <p>
-           <span data-ice="name"><span><a href="class/js/components/box/index.js~Box.html#instance-member-name">name</a></span></span><span data-ice="signature">: <span>*</span></span>
+           <span data-ice="name"><span><a href="class/js/components/box/index.js~Box.html#instance-member-name">name</a></span></span><span data-ice="signature">: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">String</a></span></span>
         </p>
       </div>
       <div>
         
         
-        
+        <div data-ice="description"><p>The Box&apos;s name</p>
+</div>
       </div>
     </td>
     <td>
@@ -312,13 +326,14 @@
     <td>
       <div>
         <p>
-           <span data-ice="name"><span><a href="class/js/components/box/index.js~Box.html#instance-member-options">options</a></span></span><span data-ice="signature">: <span>*</span></span>
+           <span data-ice="name"><span><a href="class/js/components/box/index.js~Box.html#instance-member-options">options</a></span></span><span data-ice="signature">: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a></span></span>
         </p>
       </div>
       <div>
         
         
-        
+        <div data-ice="description"><p>Option with next, prev and isMaster</p>
+</div>
       </div>
     </td>
     <td>
@@ -337,13 +352,14 @@
     <td>
       <div>
         <p>
-           <span data-ice="name"><span><a href="class/js/components/box/index.js~Box.html#instance-member-round">round</a></span></span><span data-ice="signature">: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a></span></span>
+           <span data-ice="name"><span><a href="class/js/components/box/index.js~Box.html#instance-member-round">round</a></span></span><span data-ice="signature">: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">Number</a></span></span>
         </p>
       </div>
       <div>
         
         
-        
+        <div data-ice="description"><p>The round actually playing</p>
+</div>
       </div>
     </td>
     <td>
@@ -362,13 +378,15 @@
     <td>
       <div>
         <p>
-           <span data-ice="name"><span><a href="class/js/components/box/index.js~Box.html#instance-member-speaker">speaker</a></span></span><span data-ice="signature">: <span>*</span></span>
+           <span data-ice="name"><span><a href="class/js/components/box/index.js~Box.html#instance-member-speaker">speaker</a></span></span><span data-ice="signature">: <span>Speak</span></span>
         </p>
       </div>
       <div>
         
         
-        
+        <div data-ice="description"><p>The Speak component
+Will be intialized when all boards are ready</p>
+</div>
       </div>
     </td>
     <td>
@@ -387,13 +405,15 @@
     <td>
       <div>
         <p>
-           <span data-ice="name"><span><a href="class/js/components/box/index.js~Box.html#instance-member-translator">translator</a></span></span><span data-ice="signature">: <span>*</span></span>
+           <span data-ice="name"><span><a href="class/js/components/box/index.js~Box.html#instance-member-translator">translator</a></span></span><span data-ice="signature">: <span>[type]</span></span>
         </p>
       </div>
       <div>
         
         
-        
+        <div data-ice="description"><p>The Translator component
+Will be intialized when all boards are ready</p>
+</div>
       </div>
     </td>
     <td>
@@ -971,18 +991,19 @@ will be used to communicate with oder boxes</p>
     
     
     
-    <span data-ice="name">board</span><span data-ice="signature">: <span>*</span></span>
+    <span data-ice="name">board</span><span data-ice="signature">: <span>Board</span></span>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/js/components/box/index.js.html#lineNumber26">source</a></span></span>
+      <span data-ice="source"><span><a href="file/js/components/box/index.js.html#lineNumber30">source</a></span></span>
     </span>
   </h3>
 
   
   
   
-  
+  <div data-ice="description"><p>A Johnny Five Board instance</p>
+</div>
 
   
 
@@ -1011,18 +1032,19 @@ will be used to communicate with oder boxes</p>
     
     
     
-    <span data-ice="name">client</span><span data-ice="signature">: <span>*</span></span>
+    <span data-ice="name">client</span><span data-ice="signature">: <span>Mqtt client</span></span>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/js/components/box/index.js.html#lineNumber27">source</a></span></span>
+      <span data-ice="source"><span><a href="file/js/components/box/index.js.html#lineNumber35">source</a></span></span>
     </span>
   </h3>
 
   
   
   
-  
+  <div data-ice="description"><p>An Mqtt client</p>
+</div>
 
   
 
@@ -1051,18 +1073,20 @@ will be used to communicate with oder boxes</p>
     
     
     
-    <span data-ice="name">infrared</span><span data-ice="signature">: <span>*</span></span>
+    <span data-ice="name">infrared</span><span data-ice="signature">: <span>Infra</span></span>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/js/components/box/index.js.html#lineNumber37">source</a></span></span>
+      <span data-ice="source"><span><a href="file/js/components/box/index.js.html#lineNumber82">source</a></span></span>
     </span>
   </h3>
 
   
   
   
-  
+  <div data-ice="description"><p>The Infra component
+Will be intialized when all boards are ready</p>
+</div>
 
   
 
@@ -1091,18 +1115,20 @@ will be used to communicate with oder boxes</p>
     
     
     
-    <span data-ice="name">light</span><span data-ice="signature">: <span>*</span></span>
+    <span data-ice="name">light</span><span data-ice="signature">: <span><a href="class/js/components/light/index.js~Light.html">Light</a></span></span>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/js/components/box/index.js.html#lineNumber34">source</a></span></span>
+      <span data-ice="source"><span><a href="file/js/components/box/index.js.html#lineNumber64">source</a></span></span>
     </span>
   </h3>
 
   
   
   
-  
+  <div data-ice="description"><p>The Light component
+Will be intialized when all boards are ready</p>
+</div>
 
   
 
@@ -1131,18 +1157,20 @@ will be used to communicate with oder boxes</p>
     
     
     
-    <span data-ice="name">microphone</span><span data-ice="signature">: <span>*</span></span>
+    <span data-ice="name">microphone</span><span data-ice="signature">: <span>Micro</span></span>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/js/components/box/index.js.html#lineNumber38">source</a></span></span>
+      <span data-ice="source"><span><a href="file/js/components/box/index.js.html#lineNumber88">source</a></span></span>
     </span>
   </h3>
 
   
   
   
-  
+  <div data-ice="description"><p>The Micro component
+Will be intialized when all boards are ready</p>
+</div>
 
   
 
@@ -1171,18 +1199,20 @@ will be used to communicate with oder boxes</p>
     
     
     
-    <span data-ice="name">motor</span><span data-ice="signature">: <span>*</span></span>
+    <span data-ice="name">motor</span><span data-ice="signature">: <span><a href="class/js/components/motor/index.js~Motor.html">Motor</a></span></span>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/js/components/box/index.js.html#lineNumber35">source</a></span></span>
+      <span data-ice="source"><span><a href="file/js/components/box/index.js.html#lineNumber70">source</a></span></span>
     </span>
   </h3>
 
   
   
   
-  
+  <div data-ice="description"><p>The Motor component
+Will be intialized when all boards are ready</p>
+</div>
 
   
 
@@ -1211,18 +1241,19 @@ will be used to communicate with oder boxes</p>
     
     
     
-    <span data-ice="name">name</span><span data-ice="signature">: <span>*</span></span>
+    <span data-ice="name">name</span><span data-ice="signature">: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">String</a></span></span>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/js/components/box/index.js.html#lineNumber29">source</a></span></span>
+      <span data-ice="source"><span><a href="file/js/components/box/index.js.html#lineNumber45">source</a></span></span>
     </span>
   </h3>
 
   
   
   
-  
+  <div data-ice="description"><p>The Box&apos;s name</p>
+</div>
 
   
 
@@ -1251,18 +1282,19 @@ will be used to communicate with oder boxes</p>
     
     
     
-    <span data-ice="name">options</span><span data-ice="signature">: <span>*</span></span>
+    <span data-ice="name">options</span><span data-ice="signature">: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a></span></span>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/js/components/box/index.js.html#lineNumber28">source</a></span></span>
+      <span data-ice="source"><span><a href="file/js/components/box/index.js.html#lineNumber40">source</a></span></span>
     </span>
   </h3>
 
   
   
   
-  
+  <div data-ice="description"><p>Option with next, prev and isMaster</p>
+</div>
 
   
 
@@ -1291,18 +1323,19 @@ will be used to communicate with oder boxes</p>
     
     
     
-    <span data-ice="name">round</span><span data-ice="signature">: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a></span></span>
+    <span data-ice="name">round</span><span data-ice="signature">: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">Number</a></span></span>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/js/components/box/index.js.html#lineNumber30">source</a></span></span>
+      <span data-ice="source"><span><a href="file/js/components/box/index.js.html#lineNumber50">source</a></span></span>
     </span>
   </h3>
 
   
   
   
-  
+  <div data-ice="description"><p>The round actually playing</p>
+</div>
 
   
 
@@ -1331,18 +1364,20 @@ will be used to communicate with oder boxes</p>
     
     
     
-    <span data-ice="name">speaker</span><span data-ice="signature">: <span>*</span></span>
+    <span data-ice="name">speaker</span><span data-ice="signature">: <span>Speak</span></span>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/js/components/box/index.js.html#lineNumber36">source</a></span></span>
+      <span data-ice="source"><span><a href="file/js/components/box/index.js.html#lineNumber76">source</a></span></span>
     </span>
   </h3>
 
   
   
   
-  
+  <div data-ice="description"><p>The Speak component
+Will be intialized when all boards are ready</p>
+</div>
 
   
 
@@ -1371,18 +1406,20 @@ will be used to communicate with oder boxes</p>
     
     
     
-    <span data-ice="name">translator</span><span data-ice="signature">: <span>*</span></span>
+    <span data-ice="name">translator</span><span data-ice="signature">: <span>[type]</span></span>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/js/components/box/index.js.html#lineNumber33">source</a></span></span>
+      <span data-ice="source"><span><a href="file/js/components/box/index.js.html#lineNumber58">source</a></span></span>
     </span>
   </h3>
 
   
   
   
-  
+  <div data-ice="description"><p>The Translator component
+Will be intialized when all boards are ready</p>
+</div>
 
   
 
@@ -1418,7 +1455,7 @@ will be used to communicate with oder boxes</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/js/components/box/index.js.html#lineNumber260">source</a></span></span>
+      <span data-ice="source"><span><a href="file/js/components/box/index.js.html#lineNumber310">source</a></span></span>
     </span>
   </h3>
 
@@ -1459,7 +1496,7 @@ will be used to communicate with oder boxes</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/js/components/box/index.js.html#lineNumber137">source</a></span></span>
+      <span data-ice="source"><span><a href="file/js/components/box/index.js.html#lineNumber187">source</a></span></span>
     </span>
   </h3>
 
@@ -1510,7 +1547,7 @@ will be used to communicate with oder boxes</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/js/components/box/index.js.html#lineNumber130">source</a></span></span>
+      <span data-ice="source"><span><a href="file/js/components/box/index.js.html#lineNumber180">source</a></span></span>
     </span>
   </h3>
 
@@ -1561,7 +1598,7 @@ will be used to communicate with oder boxes</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/js/components/box/index.js.html#lineNumber289">source</a></span></span>
+      <span data-ice="source"><span><a href="file/js/components/box/index.js.html#lineNumber339">source</a></span></span>
     </span>
   </h3>
 
@@ -1612,7 +1649,7 @@ will be used to communicate with oder boxes</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/js/components/box/index.js.html#lineNumber114">source</a></span></span>
+      <span data-ice="source"><span><a href="file/js/components/box/index.js.html#lineNumber164">source</a></span></span>
     </span>
   </h3>
 
@@ -1653,7 +1690,7 @@ will be used to communicate with oder boxes</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/js/components/box/index.js.html#lineNumber44">source</a></span></span>
+      <span data-ice="source"><span><a href="file/js/components/box/index.js.html#lineNumber94">source</a></span></span>
     </span>
   </h3>
 
@@ -1694,7 +1731,7 @@ will be used to communicate with oder boxes</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/js/components/box/index.js.html#lineNumber58">source</a></span></span>
+      <span data-ice="source"><span><a href="file/js/components/box/index.js.html#lineNumber108">source</a></span></span>
     </span>
   </h3>
 
@@ -1759,7 +1796,7 @@ will be used to communicate with oder boxes</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/js/components/box/index.js.html#lineNumber168">source</a></span></span>
+      <span data-ice="source"><span><a href="file/js/components/box/index.js.html#lineNumber218">source</a></span></span>
     </span>
   </h3>
 
@@ -1800,7 +1837,7 @@ will be used to communicate with oder boxes</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/js/components/box/index.js.html#lineNumber274">source</a></span></span>
+      <span data-ice="source"><span><a href="file/js/components/box/index.js.html#lineNumber324">source</a></span></span>
     </span>
   </h3>
 
@@ -1841,7 +1878,7 @@ will be used to communicate with oder boxes</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/js/components/box/index.js.html#lineNumber224">source</a></span></span>
+      <span data-ice="source"><span><a href="file/js/components/box/index.js.html#lineNumber274">source</a></span></span>
     </span>
   </h3>
 
@@ -1883,7 +1920,7 @@ or when the speech could not be transformed into text</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/js/components/box/index.js.html#lineNumber181">source</a></span></span>
+      <span data-ice="source"><span><a href="file/js/components/box/index.js.html#lineNumber231">source</a></span></span>
     </span>
   </h3>
 
@@ -1924,7 +1961,7 @@ or when the speech could not be transformed into text</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/js/components/box/index.js.html#lineNumber237">source</a></span></span>
+      <span data-ice="source"><span><a href="file/js/components/box/index.js.html#lineNumber287">source</a></span></span>
     </span>
   </h3>
 
@@ -1965,7 +2002,7 @@ or when the speech could not be transformed into text</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/js/components/box/index.js.html#lineNumber200">source</a></span></span>
+      <span data-ice="source"><span><a href="file/js/components/box/index.js.html#lineNumber250">source</a></span></span>
     </span>
   </h3>
 
@@ -2006,7 +2043,7 @@ or when the speech could not be transformed into text</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/js/components/box/index.js.html#lineNumber163">source</a></span></span>
+      <span data-ice="source"><span><a href="file/js/components/box/index.js.html#lineNumber213">source</a></span></span>
     </span>
   </h3>
 
@@ -2047,7 +2084,7 @@ or when the speech could not be transformed into text</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/js/components/box/index.js.html#lineNumber88">source</a></span></span>
+      <span data-ice="source"><span><a href="file/js/components/box/index.js.html#lineNumber138">source</a></span></span>
     </span>
   </h3>
 
@@ -2112,7 +2149,7 @@ or when the speech could not be transformed into text</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/js/components/box/index.js.html#lineNumber214">source</a></span></span>
+      <span data-ice="source"><span><a href="file/js/components/box/index.js.html#lineNumber264">source</a></span></span>
     </span>
   </h3>
 
@@ -2153,7 +2190,7 @@ or when the speech could not be transformed into text</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/js/components/box/index.js.html#lineNumber141">source</a></span></span>
+      <span data-ice="source"><span><a href="file/js/components/box/index.js.html#lineNumber191">source</a></span></span>
     </span>
   </h3>
 
@@ -2194,7 +2231,7 @@ or when the speech could not be transformed into text</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/js/components/box/index.js.html#lineNumber153">source</a></span></span>
+      <span data-ice="source"><span><a href="file/js/components/box/index.js.html#lineNumber203">source</a></span></span>
     </span>
   </h3>
 

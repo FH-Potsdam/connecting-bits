@@ -6,9 +6,21 @@ window.esdocSearchIndex = [
     "class"
   ],
   [
+    "connecting-bits/js/utils/boardsutil.js~boardsutil",
+    "class/js/utils/boardsUtil.js~BoardsUtil.html",
+    "<span>BoardsUtil</span> <span class=\"search-result-import-path\">connecting-bits/js/utils/boardsUtil.js</span>",
+    "class"
+  ],
+  [
     "connecting-bits/js/components/box/index.js~box",
     "class/js/components/box/index.js~Box.html",
     "<span>Box</span> <span class=\"search-result-import-path\">connecting-bits/js/components/box/index.js</span>",
+    "class"
+  ],
+  [
+    "connecting-bits/js/utils/clientsutil.js~clientsutil",
+    "class/js/utils/clientsUtil.js~ClientsUtil.html",
+    "<span>ClientsUtil</span> <span class=\"search-result-import-path\">connecting-bits/js/utils/clientsUtil.js</span>",
     "class"
   ],
   [
@@ -42,10 +54,22 @@ window.esdocSearchIndex = [
     "class"
   ],
   [
+    "connecting-bits/js/utils/logutil.js~logutil",
+    "class/js/utils/logUtil.js~LogUtil.html",
+    "<span>LogUtil</span> <span class=\"search-result-import-path\">connecting-bits/js/utils/logUtil.js</span>",
+    "class"
+  ],
+  [
     "connecting-bits/js/constants/index.js~motor_constants",
     "variable/index.html#static-variable-MOTOR_CONSTANTS",
     "<span>MOTOR_CONSTANTS</span> <span class=\"search-result-import-path\">connecting-bits/js/constants/index.js</span>",
     "variable"
+  ],
+  [
+    "connecting-bits/js/components/microphone/index.js~microphone",
+    "class/js/components/microphone/index.js~Microphone.html",
+    "<span>Microphone</span> <span class=\"search-result-import-path\">connecting-bits/js/components/microphone/index.js</span>",
+    "class"
   ],
   [
     "connecting-bits/js/components/motor/index.js~motor",
@@ -63,12 +87,6 @@ window.esdocSearchIndex = [
     "connecting-bits/js/components/speaker/index.js~speaker",
     "class/js/components/speaker/index.js~Speaker.html",
     "<span>Speaker</span> <span class=\"search-result-import-path\">connecting-bits/js/components/speaker/index.js</span>",
-    "class"
-  ],
-  [
-    "connecting-bits/js/components/microphone/index.js~translator",
-    "class/js/components/microphone/index.js~Translator.html",
-    "<span>Translator</span> <span class=\"search-result-import-path\">connecting-bits/js/components/microphone/index.js</span>",
     "class"
   ],
   [
@@ -606,12 +624,6 @@ window.esdocSearchIndex = [
     "member"
   ],
   [
-    "js/components/infrared/index.js~intrared#debouncedcheck",
-    "class/js/components/infrared/index.js~Intrared.html#instance-member-debouncedCheck",
-    "js/components/infrared/index.js~Intrared#debouncedCheck",
-    "member"
-  ],
-  [
     "js/components/infrared/index.js~intrared#detectpresence",
     "class/js/components/infrared/index.js~Intrared.html#instance-method-detectPresence",
     "js/components/infrared/index.js~Intrared#detectPresence",
@@ -639,6 +651,12 @@ window.esdocSearchIndex = [
     "js/components/infrared/index.js~intrared#resolve",
     "class/js/components/infrared/index.js~Intrared.html#instance-member-resolve",
     "js/components/infrared/index.js~Intrared#resolve",
+    "member"
+  ],
+  [
+    "js/components/infrared/index.js~intrared#throttledcheck",
+    "class/js/components/infrared/index.js~Intrared.html#instance-member-throttledCheck",
+    "js/components/infrared/index.js~Intrared#throttledCheck",
     "member"
   ],
   [
@@ -672,27 +690,9 @@ window.esdocSearchIndex = [
     "file"
   ],
   [
-    "js/components/microphone/index.js~translator#constructor",
-    "class/js/components/microphone/index.js~Translator.html#instance-constructor-constructor",
-    "js/components/microphone/index.js~Translator#constructor",
-    "method"
-  ],
-  [
-    "js/components/microphone/index.js~translator#getaudiodata",
-    "class/js/components/microphone/index.js~Translator.html#instance-method-getAudioData",
-    "js/components/microphone/index.js~Translator#getAudioData",
-    "method"
-  ],
-  [
-    "js/components/microphone/index.js~translator#reportaudio",
-    "class/js/components/microphone/index.js~Translator.html#instance-method-reportAudio",
-    "js/components/microphone/index.js~Translator#reportAudio",
-    "method"
-  ],
-  [
-    "js/components/microphone/index.js~translator#startrecording",
-    "class/js/components/microphone/index.js~Translator.html#instance-method-startRecording",
-    "js/components/microphone/index.js~Translator#startRecording",
+    "js/components/microphone/index.js~microphone#startrecording",
+    "class/js/components/microphone/index.js~Microphone.html#instance-method-startRecording",
+    "js/components/microphone/index.js~Microphone#startRecording",
     "method"
   ],
   [
@@ -748,12 +748,6 @@ window.esdocSearchIndex = [
     "class/js/components/microphone/utils/reports/index.js~CreateReport.html#instance-method-writeJSON",
     "js/components/microphone/utils/reports/index.js~CreateReport#writeJSON",
     "method"
-  ],
-  [
-    "js/components/microphone/utils/speechtotext/index.js",
-    "file/js/components/microphone/utils/speechtotext/index.js.html",
-    "js/components/microphone/utils/speechtotext/index.js",
-    "file"
   ],
   [
     "js/components/motor/index.js",
@@ -888,15 +882,33 @@ window.esdocSearchIndex = [
     "file"
   ],
   [
+    "js/utils/boardsutil.js~boardsutil.createboard",
+    "class/js/utils/boardsUtil.js~BoardsUtil.html#static-method-createBoard",
+    "js/utils/boardsUtil.js~BoardsUtil.createBoard",
+    "method"
+  ],
+  [
     "js/utils/clientsutil.js",
     "file/js/utils/clientsUtil.js.html",
     "js/utils/clientsUtil.js",
     "file"
   ],
   [
+    "js/utils/clientsutil.js~clientsutil.createclient",
+    "class/js/utils/clientsUtil.js~ClientsUtil.html#static-method-createClient",
+    "js/utils/clientsUtil.js~ClientsUtil.createClient",
+    "method"
+  ],
+  [
     "js/utils/logutil.js",
     "file/js/utils/logUtil.js.html",
     "js/utils/logUtil.js",
     "file"
+  ],
+  [
+    "js/utils/logutil.js~logutil.log",
+    "class/js/utils/logUtil.js~LogUtil.html#static-method-log",
+    "js/utils/logUtil.js~LogUtil.log",
+    "method"
   ]
 ]
