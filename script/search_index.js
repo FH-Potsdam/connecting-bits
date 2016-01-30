@@ -18,12 +18,6 @@ window.esdocSearchIndex = [
     "class"
   ],
   [
-    "connecting-bits/js/components/dummymicrophone/index.js~dummymicrophone",
-    "class/js/components/dummyMicrophone/index.js~DummyMicrophone.html",
-    "<span>DummyMicrophone</span> <span class=\"search-result-import-path\">connecting-bits/js/components/dummyMicrophone/index.js</span>",
-    "class"
-  ],
-  [
     "connecting-bits/js/constants/index.js~infrared_constants",
     "variable/index.html#static-variable-INFRARED_CONSTANTS",
     "<span>INFRARED_CONSTANTS</span> <span class=\"search-result-import-path\">connecting-bits/js/constants/index.js</span>",
@@ -600,18 +594,6 @@ window.esdocSearchIndex = [
     "member"
   ],
   [
-    "js/components/dummymicrophone/index.js",
-    "file/js/components/dummyMicrophone/index.js.html",
-    "js/components/dummyMicrophone/index.js",
-    "file"
-  ],
-  [
-    "js/components/dummymicrophone/index.js~dummymicrophone#startrecording",
-    "class/js/components/dummyMicrophone/index.js~DummyMicrophone.html#instance-method-startRecording",
-    "js/components/dummyMicrophone/index.js~DummyMicrophone#startRecording",
-    "method"
-  ],
-  [
     "js/components/infrared/index.js",
     "file/js/components/infrared/index.js.html",
     "js/components/infrared/index.js",
@@ -622,18 +604,6 @@ window.esdocSearchIndex = [
     "class/js/components/infrared/index.js~Intrared.html#instance-member-board",
     "js/components/infrared/index.js~Intrared#board",
     "member"
-  ],
-  [
-    "js/components/infrared/index.js~intrared#checklaterifstillpresent",
-    "class/js/components/infrared/index.js~Intrared.html#instance-method-checkLaterIfStillPresent",
-    "js/components/infrared/index.js~Intrared#checkLaterIfStillPresent",
-    "method"
-  ],
-  [
-    "js/components/infrared/index.js~intrared#constructor",
-    "class/js/components/infrared/index.js~Intrared.html#instance-constructor-constructor",
-    "js/components/infrared/index.js~Intrared#constructor",
-    "method"
   ],
   [
     "js/components/infrared/index.js~intrared#debouncedcheck",
@@ -652,18 +622,6 @@ window.esdocSearchIndex = [
     "class/js/components/infrared/index.js~Intrared.html#instance-member-distance",
     "js/components/infrared/index.js~Intrared#distance",
     "member"
-  ],
-  [
-    "js/components/infrared/index.js~intrared#getinitializedproximity",
-    "class/js/components/infrared/index.js~Intrared.html#instance-method-getInitializedProximity",
-    "js/components/infrared/index.js~Intrared#getInitializedProximity",
-    "method"
-  ],
-  [
-    "js/components/infrared/index.js~intrared#ondata",
-    "class/js/components/infrared/index.js~Intrared.html#instance-method-onData",
-    "js/components/infrared/index.js~Intrared#onData",
-    "method"
   ],
   [
     "js/components/infrared/index.js~intrared#presencedetected",
@@ -688,12 +646,6 @@ window.esdocSearchIndex = [
     "file/js/components/light/index.js.html",
     "js/components/light/index.js",
     "file"
-  ],
-  [
-    "js/components/light/index.js~light#constructor",
-    "class/js/components/light/index.js~Light.html#instance-constructor-constructor",
-    "js/components/light/index.js~Light#constructor",
-    "method"
   ],
   [
     "js/components/light/index.js~light#led",
@@ -808,18 +760,6 @@ window.esdocSearchIndex = [
     "file/js/components/motor/index.js.html",
     "js/components/motor/index.js",
     "file"
-  ],
-  [
-    "js/components/motor/index.js~motor#checkandmove",
-    "class/js/components/motor/index.js~Motor.html#instance-method-checkAndMove",
-    "js/components/motor/index.js~Motor#checkAndMove",
-    "method"
-  ],
-  [
-    "js/components/motor/index.js~motor#constructor",
-    "class/js/components/motor/index.js~Motor.html#instance-constructor-constructor",
-    "js/components/motor/index.js~Motor#constructor",
-    "method"
   ],
   [
     "js/components/motor/index.js~motor#liedown",

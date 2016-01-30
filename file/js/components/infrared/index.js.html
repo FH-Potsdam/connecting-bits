@@ -34,7 +34,6 @@
     
   <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/js/index.js~BoardsChain.html">BoardsChain</a></span></span></li>
 <li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">components/box</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/js/components/box/index.js~Box.html">Box</a></span></span></li>
-<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">components/dummyMicrophone</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/js/components/dummyMicrophone/index.js~DummyMicrophone.html">DummyMicrophone</a></span></span></li>
 <li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">components/infrared</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/js/components/infrared/index.js~Intrared.html">Intrared</a></span></span></li>
 <li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">components/light</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/js/components/light/index.js~Light.html">Light</a></span></span></li>
 <li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">components/microphone</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/js/components/microphone/index.js~Translator.html">Translator</a></span></span></li>
@@ -64,7 +63,16 @@ const {
 	EMPTY_RESOLVE_FUNCTION
 } = INFRARED_CONSTANTS;
 
+/**
+ * @class Manages the infrared sensor
+ */
 export default class Intrared {
+	/**
+	 * Constructor for the Infrared class. Needs a j5 board instance
+	 * to work well. !CAUTION&#xA1; The j5 board must already be ready.
+	 * @param  {Johnny Five board instance} board
+	 * @private
+	 */
 	constructor(board) {
 		this.board = board;
 		this.proximity = this.getInitializedProximity.bind(this)();
@@ -80,6 +88,12 @@ export default class Intrared {
 			this.onData.bind(this)(data.cm);
 		});
 	}
+	/**
+	 * Is called when the infrared detects a distance. In other words,
+	 * all the time.
+	 * @param  {Number} cm
+	 * @private
+	 */
 	onData(cm) {
 		if (cm &lt; MIN_DETECTION_DISTANCE) {
 			this.presenceDetected = true;
@@ -93,6 +107,12 @@ export default class Intrared {
 			this.presenceDetected = false;
 		}
 	}
+	/**
+	 * @return {Johnny Five Proximity class} Return a valid Johnny Five
+	 * instance of the Proximity class. See http://johnny-five.io/api/proximity/
+	 * for mor details.
+	 * @private
+	 */
 	getInitializedProximity() {
 		const unused = new Proximity({
 			controller: CONTROLLER_ID,
@@ -106,11 +126,22 @@ export default class Intrared {
 		});
 		return proximity;
 	}
+	/**
+	 * Is called to start the infrared detection. Overrides the global
+	 * resolve function with the Promise.resolve function.
+	 * @return {Promise}
+	 * @public
+	 */
 	detectPresence() {
 		return new Promise((resolve) =&gt; {
 			this.resolve = resolve;
 		});
 	}
+	/**
+	 * Checks if a presence is detected and resovles the Promise
+	 * if so. Resets the promise to its default.
+	 * @private
+	 */
 	checkLaterIfStillPresent() {
 		if (this.presenceDetected) {
 			logUtil.log({

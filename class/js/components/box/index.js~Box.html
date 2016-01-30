@@ -34,7 +34,6 @@
     
   <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/js/index.js~BoardsChain.html">BoardsChain</a></span></span></li>
 <li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">components/box</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/js/components/box/index.js~Box.html">Box</a></span></span></li>
-<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">components/dummyMicrophone</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/js/components/dummyMicrophone/index.js~DummyMicrophone.html">DummyMicrophone</a></span></span></li>
 <li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">components/infrared</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/js/components/infrared/index.js~Intrared.html">Intrared</a></span></span></li>
 <li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">components/light</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/js/components/light/index.js~Light.html">Light</a></span></span></li>
 <li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">components/microphone</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/js/components/microphone/index.js~Translator.html">Translator</a></span></span></li>
@@ -51,13 +50,13 @@
 </nav>
 
 <div class="content" data-ice="content"><div class="header-notice">
-  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import Box from &apos;<span><a href="file/js/components/box/index.js.html#lineNumber21">connecting-bits/js/components/box/index.js</a></span>&apos;</code></pre></div>
+  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import Box from &apos;<span><a href="file/js/components/box/index.js.html#lineNumber16">connecting-bits/js/components/box/index.js</a></span>&apos;</code></pre></div>
   <span data-ice="access">public</span>
   <span data-ice="kind">class</span>
   
   
   
-  <span data-ice="source">| <span><a href="file/js/components/box/index.js.html#lineNumber21">source</a></span></span>
+  <span data-ice="source">| <span><a href="file/js/components/box/index.js.html#lineNumber16">source</a></span></span>
 </div>
 
 <div class="self-detail detail">
@@ -105,13 +104,14 @@
     <td>
       <div>
         <p>
-           <span data-ice="name"><span><a href="class/js/components/box/index.js~Box.html#instance-constructor-constructor">constructor</a></span></span><span data-ice="signature">(board: <span>*</span>, client: <span>*</span>, options: <span>*</span>)</span>
+           <span data-ice="name"><span><a href="class/js/components/box/index.js~Box.html#instance-constructor-constructor">constructor</a></span></span><span data-ice="signature">(board: <span>JohnnyFive board instanxe</span>, client: <span>Mqtt client</span>, options: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a></span>)</span>
         </p>
       </div>
       <div>
         
         
-        
+        <div data-ice="description"><p>Constructor for the Light class</p>
+</div>
       </div>
     </td>
     <td>
@@ -894,18 +894,19 @@ or when the speech could not be transformed into text</p>
     
     
     
-    <span data-ice="name">constructor</span><span data-ice="signature">(board: <span>*</span>, client: <span>*</span>, options: <span>*</span>)</span>
+    <span data-ice="name">constructor</span><span data-ice="signature">(board: <span>JohnnyFive board instanxe</span>, client: <span>Mqtt client</span>, options: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a></span>)</span>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/js/components/box/index.js.html#lineNumber22">source</a></span></span>
+      <span data-ice="source"><span><a href="file/js/components/box/index.js.html#lineNumber25">source</a></span></span>
     </span>
   </h3>
 
   
   
   
-  
+  <div data-ice="description"><p>Constructor for the Light class</p>
+</div>
 
   
 
@@ -919,21 +920,26 @@ or when the speech could not be transformed into text</p>
     
     <tr data-ice="property" data-depth="0">
       <td data-ice="name" data-depth="0">board</td>
-      <td data-ice="type"><span>*</span></td>
+      <td data-ice="type"><span>JohnnyFive board instanxe</span></td>
       <td data-ice="appendix"></td>
-      <td data-ice="description"></td>
+      <td data-ice="description"><p>this is the board class delivered
+by johnny five for one board. In this case we talk about a photon board</p>
+</td>
     </tr>
 <tr data-ice="property" data-depth="0">
       <td data-ice="name" data-depth="0">client</td>
-      <td data-ice="type"><span>*</span></td>
+      <td data-ice="type"><span>Mqtt client</span></td>
       <td data-ice="appendix"></td>
-      <td data-ice="description"></td>
+      <td data-ice="description"><p>This is an  instance of an mqtt client that
+will be used to communicate with oder boxes</p>
+</td>
     </tr>
 <tr data-ice="property" data-depth="0">
       <td data-ice="name" data-depth="0">options</td>
-      <td data-ice="type"><span>*</span></td>
+      <td data-ice="type"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a></span></td>
       <td data-ice="appendix"></td>
-      <td data-ice="description"></td>
+      <td data-ice="description"><p>Option containing next, prev and isMaster</p>
+</td>
     </tr>
 </tbody>
   </table>
@@ -969,7 +975,7 @@ or when the speech could not be transformed into text</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/js/components/box/index.js.html#lineNumber23">source</a></span></span>
+      <span data-ice="source"><span><a href="file/js/components/box/index.js.html#lineNumber26">source</a></span></span>
     </span>
   </h3>
 
@@ -1009,7 +1015,7 @@ or when the speech could not be transformed into text</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/js/components/box/index.js.html#lineNumber24">source</a></span></span>
+      <span data-ice="source"><span><a href="file/js/components/box/index.js.html#lineNumber27">source</a></span></span>
     </span>
   </h3>
 
@@ -1049,7 +1055,7 @@ or when the speech could not be transformed into text</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/js/components/box/index.js.html#lineNumber34">source</a></span></span>
+      <span data-ice="source"><span><a href="file/js/components/box/index.js.html#lineNumber37">source</a></span></span>
     </span>
   </h3>
 
@@ -1089,7 +1095,7 @@ or when the speech could not be transformed into text</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/js/components/box/index.js.html#lineNumber31">source</a></span></span>
+      <span data-ice="source"><span><a href="file/js/components/box/index.js.html#lineNumber34">source</a></span></span>
     </span>
   </h3>
 
@@ -1129,7 +1135,7 @@ or when the speech could not be transformed into text</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/js/components/box/index.js.html#lineNumber35">source</a></span></span>
+      <span data-ice="source"><span><a href="file/js/components/box/index.js.html#lineNumber38">source</a></span></span>
     </span>
   </h3>
 
@@ -1169,7 +1175,7 @@ or when the speech could not be transformed into text</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/js/components/box/index.js.html#lineNumber32">source</a></span></span>
+      <span data-ice="source"><span><a href="file/js/components/box/index.js.html#lineNumber35">source</a></span></span>
     </span>
   </h3>
 
@@ -1209,7 +1215,7 @@ or when the speech could not be transformed into text</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/js/components/box/index.js.html#lineNumber26">source</a></span></span>
+      <span data-ice="source"><span><a href="file/js/components/box/index.js.html#lineNumber29">source</a></span></span>
     </span>
   </h3>
 
@@ -1249,7 +1255,7 @@ or when the speech could not be transformed into text</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/js/components/box/index.js.html#lineNumber25">source</a></span></span>
+      <span data-ice="source"><span><a href="file/js/components/box/index.js.html#lineNumber28">source</a></span></span>
     </span>
   </h3>
 
@@ -1289,7 +1295,7 @@ or when the speech could not be transformed into text</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/js/components/box/index.js.html#lineNumber27">source</a></span></span>
+      <span data-ice="source"><span><a href="file/js/components/box/index.js.html#lineNumber30">source</a></span></span>
     </span>
   </h3>
 
@@ -1329,7 +1335,7 @@ or when the speech could not be transformed into text</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/js/components/box/index.js.html#lineNumber33">source</a></span></span>
+      <span data-ice="source"><span><a href="file/js/components/box/index.js.html#lineNumber36">source</a></span></span>
     </span>
   </h3>
 
@@ -1369,7 +1375,7 @@ or when the speech could not be transformed into text</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/js/components/box/index.js.html#lineNumber30">source</a></span></span>
+      <span data-ice="source"><span><a href="file/js/components/box/index.js.html#lineNumber33">source</a></span></span>
     </span>
   </h3>
 
@@ -1412,7 +1418,7 @@ or when the speech could not be transformed into text</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/js/components/box/index.js.html#lineNumber257">source</a></span></span>
+      <span data-ice="source"><span><a href="file/js/components/box/index.js.html#lineNumber260">source</a></span></span>
     </span>
   </h3>
 
@@ -1453,7 +1459,7 @@ or when the speech could not be transformed into text</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/js/components/box/index.js.html#lineNumber134">source</a></span></span>
+      <span data-ice="source"><span><a href="file/js/components/box/index.js.html#lineNumber137">source</a></span></span>
     </span>
   </h3>
 
@@ -1504,7 +1510,7 @@ or when the speech could not be transformed into text</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/js/components/box/index.js.html#lineNumber127">source</a></span></span>
+      <span data-ice="source"><span><a href="file/js/components/box/index.js.html#lineNumber130">source</a></span></span>
     </span>
   </h3>
 
@@ -1555,7 +1561,7 @@ or when the speech could not be transformed into text</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/js/components/box/index.js.html#lineNumber286">source</a></span></span>
+      <span data-ice="source"><span><a href="file/js/components/box/index.js.html#lineNumber289">source</a></span></span>
     </span>
   </h3>
 
@@ -1606,7 +1612,7 @@ or when the speech could not be transformed into text</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/js/components/box/index.js.html#lineNumber111">source</a></span></span>
+      <span data-ice="source"><span><a href="file/js/components/box/index.js.html#lineNumber114">source</a></span></span>
     </span>
   </h3>
 
@@ -1647,7 +1653,7 @@ or when the speech could not be transformed into text</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/js/components/box/index.js.html#lineNumber41">source</a></span></span>
+      <span data-ice="source"><span><a href="file/js/components/box/index.js.html#lineNumber44">source</a></span></span>
     </span>
   </h3>
 
@@ -1688,7 +1694,7 @@ or when the speech could not be transformed into text</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/js/components/box/index.js.html#lineNumber55">source</a></span></span>
+      <span data-ice="source"><span><a href="file/js/components/box/index.js.html#lineNumber58">source</a></span></span>
     </span>
   </h3>
 
@@ -1753,7 +1759,7 @@ or when the speech could not be transformed into text</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/js/components/box/index.js.html#lineNumber165">source</a></span></span>
+      <span data-ice="source"><span><a href="file/js/components/box/index.js.html#lineNumber168">source</a></span></span>
     </span>
   </h3>
 
@@ -1794,7 +1800,7 @@ or when the speech could not be transformed into text</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/js/components/box/index.js.html#lineNumber271">source</a></span></span>
+      <span data-ice="source"><span><a href="file/js/components/box/index.js.html#lineNumber274">source</a></span></span>
     </span>
   </h3>
 
@@ -1835,7 +1841,7 @@ or when the speech could not be transformed into text</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/js/components/box/index.js.html#lineNumber221">source</a></span></span>
+      <span data-ice="source"><span><a href="file/js/components/box/index.js.html#lineNumber224">source</a></span></span>
     </span>
   </h3>
 
@@ -1877,7 +1883,7 @@ or when the speech could not be transformed into text</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/js/components/box/index.js.html#lineNumber178">source</a></span></span>
+      <span data-ice="source"><span><a href="file/js/components/box/index.js.html#lineNumber181">source</a></span></span>
     </span>
   </h3>
 
@@ -1918,7 +1924,7 @@ or when the speech could not be transformed into text</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/js/components/box/index.js.html#lineNumber234">source</a></span></span>
+      <span data-ice="source"><span><a href="file/js/components/box/index.js.html#lineNumber237">source</a></span></span>
     </span>
   </h3>
 
@@ -1959,7 +1965,7 @@ or when the speech could not be transformed into text</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/js/components/box/index.js.html#lineNumber197">source</a></span></span>
+      <span data-ice="source"><span><a href="file/js/components/box/index.js.html#lineNumber200">source</a></span></span>
     </span>
   </h3>
 
@@ -2000,7 +2006,7 @@ or when the speech could not be transformed into text</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/js/components/box/index.js.html#lineNumber160">source</a></span></span>
+      <span data-ice="source"><span><a href="file/js/components/box/index.js.html#lineNumber163">source</a></span></span>
     </span>
   </h3>
 
@@ -2041,7 +2047,7 @@ or when the speech could not be transformed into text</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/js/components/box/index.js.html#lineNumber85">source</a></span></span>
+      <span data-ice="source"><span><a href="file/js/components/box/index.js.html#lineNumber88">source</a></span></span>
     </span>
   </h3>
 
@@ -2106,7 +2112,7 @@ or when the speech could not be transformed into text</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/js/components/box/index.js.html#lineNumber211">source</a></span></span>
+      <span data-ice="source"><span><a href="file/js/components/box/index.js.html#lineNumber214">source</a></span></span>
     </span>
   </h3>
 
@@ -2147,7 +2153,7 @@ or when the speech could not be transformed into text</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/js/components/box/index.js.html#lineNumber138">source</a></span></span>
+      <span data-ice="source"><span><a href="file/js/components/box/index.js.html#lineNumber141">source</a></span></span>
     </span>
   </h3>
 
@@ -2188,7 +2194,7 @@ or when the speech could not be transformed into text</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/js/components/box/index.js.html#lineNumber150">source</a></span></span>
+      <span data-ice="source"><span><a href="file/js/components/box/index.js.html#lineNumber153">source</a></span></span>
     </span>
   </h3>
 

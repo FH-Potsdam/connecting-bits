@@ -9,16 +9,16 @@
           "type": "Identifier",
           "name": "Speaker",
           "range": [
-            22,
-            29
+            70,
+            77
           ],
           "loc": {
             "start": {
-              "line": 2,
+              "line": 4,
               "column": 21
             },
             "end": {
-              "line": 2,
+              "line": 4,
               "column": 28
             }
           }
@@ -33,16 +33,16 @@
                 "type": "Identifier",
                 "name": "speakText",
                 "range": [
-                  33,
-                  42
+                  193,
+                  202
                 ],
                 "loc": {
                   "start": {
-                    "line": 3,
+                    "line": 11,
                     "column": 1
                   },
                   "end": {
-                    "line": 3,
+                    "line": 11,
                     "column": 10
                   }
                 }
@@ -62,16 +62,16 @@
                           "type": "Identifier",
                           "name": "Promise",
                           "range": [
-                            60,
-                            67
+                            220,
+                            227
                           ],
                           "loc": {
                             "start": {
-                              "line": 4,
+                              "line": 12,
                               "column": 13
                             },
                             "end": {
-                              "line": 4,
+                              "line": 12,
                               "column": 20
                             }
                           }
@@ -85,16 +85,16 @@
                                 "type": "Identifier",
                                 "name": "resolve",
                                 "range": [
-                                  69,
-                                  76
+                                  229,
+                                  236
                                 ],
                                 "loc": {
                                   "start": {
-                                    "line": 4,
+                                    "line": 12,
                                     "column": 22
                                   },
                                   "end": {
-                                    "line": 4,
+                                    "line": 12,
                                     "column": 29
                                   }
                                 }
@@ -106,32 +106,32 @@
                                 "type": "Identifier",
                                 "name": "resolve",
                                 "range": [
-                                  81,
-                                  88
+                                  241,
+                                  248
                                 ],
                                 "loc": {
                                   "start": {
-                                    "line": 4,
+                                    "line": 12,
                                     "column": 34
                                   },
                                   "end": {
-                                    "line": 4,
+                                    "line": 12,
                                     "column": 41
                                   }
                                 }
                               },
                               "arguments": [],
                               "range": [
-                                81,
-                                90
+                                241,
+                                250
                               ],
                               "loc": {
                                 "start": {
-                                  "line": 4,
+                                  "line": 12,
                                   "column": 34
                                 },
                                 "end": {
-                                  "line": 4,
+                                  "line": 12,
                                   "column": 43
                                 }
                               }
@@ -139,63 +139,63 @@
                             "generator": false,
                             "expression": true,
                             "range": [
-                              68,
-                              90
+                              228,
+                              250
                             ],
                             "loc": {
                               "start": {
-                                "line": 4,
+                                "line": 12,
                                 "column": 21
                               },
                               "end": {
-                                "line": 4,
+                                "line": 12,
                                 "column": 43
                               }
                             }
                           }
                         ],
                         "range": [
-                          56,
-                          91
+                          216,
+                          251
                         ],
                         "loc": {
                           "start": {
-                            "line": 4,
+                            "line": 12,
                             "column": 9
                           },
                           "end": {
-                            "line": 4,
+                            "line": 12,
                             "column": 44
                           }
                         }
                       },
                       "range": [
-                        49,
-                        92
+                        209,
+                        252
                       ],
                       "loc": {
                         "start": {
-                          "line": 4,
+                          "line": 12,
                           "column": 2
                         },
                         "end": {
-                          "line": 4,
+                          "line": 12,
                           "column": 45
                         }
                       }
                     }
                   ],
                   "range": [
-                    45,
-                    95
+                    205,
+                    255
                   ],
                   "loc": {
                     "start": {
-                      "line": 3,
+                      "line": 11,
                       "column": 13
                     },
                     "end": {
-                      "line": 5,
+                      "line": 13,
                       "column": 2
                     }
                   }
@@ -203,16 +203,16 @@
                 "generator": false,
                 "expression": false,
                 "range": [
-                  42,
-                  95
+                  202,
+                  255
                 ],
                 "loc": {
                   "start": {
-                    "line": 3,
+                    "line": 11,
                     "column": 10
                   },
                   "end": {
-                    "line": 5,
+                    "line": 13,
                     "column": 2
                   }
                 }
@@ -220,19 +220,59 @@
               "kind": "method",
               "computed": false,
               "range": [
-                33,
-                95
+                193,
+                255
               ],
               "loc": {
                 "start": {
-                  "line": 3,
+                  "line": 11,
                   "column": 1
                 },
                 "end": {
-                  "line": 5,
+                  "line": 13,
                   "column": 2
                 }
               },
+              "leadingComments": [
+                {
+                  "type": "Block",
+                  "value": "*\n\t * Makes the Box speech its text out loud.\n\t * NOT IMPLEMENTED YET\n\t * @public\n\t * @return {Promise}\n\t ",
+                  "range": [
+                    81,
+                    191
+                  ],
+                  "loc": {
+                    "start": {
+                      "line": 5,
+                      "column": 1
+                    },
+                    "end": {
+                      "line": 10,
+                      "column": 4
+                    }
+                  }
+                }
+              ],
+              "trailingComments": [
+                {
+                  "type": "Block",
+                  "value": "*\n\t * Makes the Box excusing itself for not having\n\t * understood the user and ask to repeat.\n\t * NOT IMPLEMENTED YET\n\t * @public\n\t * @return {Promise}\n\t ",
+                  "range": [
+                    257,
+                    415
+                  ],
+                  "loc": {
+                    "start": {
+                      "line": 14,
+                      "column": 1
+                    },
+                    "end": {
+                      "line": 20,
+                      "column": 4
+                    }
+                  }
+                }
+              ],
               "static": false
             },
             {
@@ -241,16 +281,16 @@
                 "type": "Identifier",
                 "name": "sayNoRecordingError",
                 "range": [
-                  97,
-                  116
+                  417,
+                  436
                 ],
                 "loc": {
                   "start": {
-                    "line": 6,
+                    "line": 21,
                     "column": 1
                   },
                   "end": {
-                    "line": 6,
+                    "line": 21,
                     "column": 20
                   }
                 }
@@ -270,16 +310,16 @@
                           "type": "Identifier",
                           "name": "Promise",
                           "range": [
-                            134,
-                            141
+                            454,
+                            461
                           ],
                           "loc": {
                             "start": {
-                              "line": 7,
+                              "line": 22,
                               "column": 13
                             },
                             "end": {
-                              "line": 7,
+                              "line": 22,
                               "column": 20
                             }
                           }
@@ -293,16 +333,16 @@
                                 "type": "Identifier",
                                 "name": "resolve",
                                 "range": [
-                                  143,
-                                  150
+                                  463,
+                                  470
                                 ],
                                 "loc": {
                                   "start": {
-                                    "line": 7,
+                                    "line": 22,
                                     "column": 22
                                   },
                                   "end": {
-                                    "line": 7,
+                                    "line": 22,
                                     "column": 29
                                   }
                                 }
@@ -314,32 +354,32 @@
                                 "type": "Identifier",
                                 "name": "resolve",
                                 "range": [
-                                  155,
-                                  162
+                                  475,
+                                  482
                                 ],
                                 "loc": {
                                   "start": {
-                                    "line": 7,
+                                    "line": 22,
                                     "column": 34
                                   },
                                   "end": {
-                                    "line": 7,
+                                    "line": 22,
                                     "column": 41
                                   }
                                 }
                               },
                               "arguments": [],
                               "range": [
-                                155,
-                                164
+                                475,
+                                484
                               ],
                               "loc": {
                                 "start": {
-                                  "line": 7,
+                                  "line": 22,
                                   "column": 34
                                 },
                                 "end": {
-                                  "line": 7,
+                                  "line": 22,
                                   "column": 43
                                 }
                               }
@@ -347,63 +387,63 @@
                             "generator": false,
                             "expression": true,
                             "range": [
-                              142,
-                              164
+                              462,
+                              484
                             ],
                             "loc": {
                               "start": {
-                                "line": 7,
+                                "line": 22,
                                 "column": 21
                               },
                               "end": {
-                                "line": 7,
+                                "line": 22,
                                 "column": 43
                               }
                             }
                           }
                         ],
                         "range": [
-                          130,
-                          165
+                          450,
+                          485
                         ],
                         "loc": {
                           "start": {
-                            "line": 7,
+                            "line": 22,
                             "column": 9
                           },
                           "end": {
-                            "line": 7,
+                            "line": 22,
                             "column": 44
                           }
                         }
                       },
                       "range": [
-                        123,
-                        166
+                        443,
+                        486
                       ],
                       "loc": {
                         "start": {
-                          "line": 7,
+                          "line": 22,
                           "column": 2
                         },
                         "end": {
-                          "line": 7,
+                          "line": 22,
                           "column": 45
                         }
                       }
                     }
                   ],
                   "range": [
-                    119,
-                    169
+                    439,
+                    489
                   ],
                   "loc": {
                     "start": {
-                      "line": 6,
+                      "line": 21,
                       "column": 23
                     },
                     "end": {
-                      "line": 8,
+                      "line": 23,
                       "column": 2
                     }
                   }
@@ -411,16 +451,16 @@
                 "generator": false,
                 "expression": false,
                 "range": [
-                  116,
-                  169
+                  436,
+                  489
                 ],
                 "loc": {
                   "start": {
-                    "line": 6,
+                    "line": 21,
                     "column": 20
                   },
                   "end": {
-                    "line": 8,
+                    "line": 23,
                     "column": 2
                   }
                 }
@@ -428,19 +468,59 @@
               "kind": "method",
               "computed": false,
               "range": [
-                97,
-                169
+                417,
+                489
               ],
               "loc": {
                 "start": {
-                  "line": 6,
+                  "line": 21,
                   "column": 1
                 },
                 "end": {
-                  "line": 8,
+                  "line": 23,
                   "column": 2
                 }
               },
+              "leadingComments": [
+                {
+                  "type": "Block",
+                  "value": "*\n\t * Makes the Box excusing itself for not having\n\t * understood the user and ask to repeat.\n\t * NOT IMPLEMENTED YET\n\t * @public\n\t * @return {Promise}\n\t ",
+                  "range": [
+                    257,
+                    415
+                  ],
+                  "loc": {
+                    "start": {
+                      "line": 14,
+                      "column": 1
+                    },
+                    "end": {
+                      "line": 20,
+                      "column": 4
+                    }
+                  }
+                }
+              ],
+              "trailingComments": [
+                {
+                  "type": "Block",
+                  "value": "*\n\t * Makes the Box explain the rules of the game.\n\t * NOT IMPLEMENTED YET\n\t * @public\n\t * @return {Promise}\n\t ",
+                  "range": [
+                    491,
+                    606
+                  ],
+                  "loc": {
+                    "start": {
+                      "line": 24,
+                      "column": 1
+                    },
+                    "end": {
+                      "line": 29,
+                      "column": 4
+                    }
+                  }
+                }
+              ],
               "static": false
             },
             {
@@ -449,16 +529,16 @@
                 "type": "Identifier",
                 "name": "explainRules",
                 "range": [
-                  171,
-                  183
+                  608,
+                  620
                 ],
                 "loc": {
                   "start": {
-                    "line": 9,
+                    "line": 30,
                     "column": 1
                   },
                   "end": {
-                    "line": 9,
+                    "line": 30,
                     "column": 13
                   }
                 }
@@ -478,16 +558,16 @@
                           "type": "Identifier",
                           "name": "Promise",
                           "range": [
-                            201,
-                            208
+                            638,
+                            645
                           ],
                           "loc": {
                             "start": {
-                              "line": 10,
+                              "line": 31,
                               "column": 13
                             },
                             "end": {
-                              "line": 10,
+                              "line": 31,
                               "column": 20
                             }
                           }
@@ -501,16 +581,16 @@
                                 "type": "Identifier",
                                 "name": "resolve",
                                 "range": [
-                                  210,
-                                  217
+                                  647,
+                                  654
                                 ],
                                 "loc": {
                                   "start": {
-                                    "line": 10,
+                                    "line": 31,
                                     "column": 22
                                   },
                                   "end": {
-                                    "line": 10,
+                                    "line": 31,
                                     "column": 29
                                   }
                                 }
@@ -522,32 +602,32 @@
                                 "type": "Identifier",
                                 "name": "resolve",
                                 "range": [
-                                  222,
-                                  229
+                                  659,
+                                  666
                                 ],
                                 "loc": {
                                   "start": {
-                                    "line": 10,
+                                    "line": 31,
                                     "column": 34
                                   },
                                   "end": {
-                                    "line": 10,
+                                    "line": 31,
                                     "column": 41
                                   }
                                 }
                               },
                               "arguments": [],
                               "range": [
-                                222,
-                                231
+                                659,
+                                668
                               ],
                               "loc": {
                                 "start": {
-                                  "line": 10,
+                                  "line": 31,
                                   "column": 34
                                 },
                                 "end": {
-                                  "line": 10,
+                                  "line": 31,
                                   "column": 43
                                 }
                               }
@@ -555,63 +635,63 @@
                             "generator": false,
                             "expression": true,
                             "range": [
-                              209,
-                              231
+                              646,
+                              668
                             ],
                             "loc": {
                               "start": {
-                                "line": 10,
+                                "line": 31,
                                 "column": 21
                               },
                               "end": {
-                                "line": 10,
+                                "line": 31,
                                 "column": 43
                               }
                             }
                           }
                         ],
                         "range": [
-                          197,
-                          232
+                          634,
+                          669
                         ],
                         "loc": {
                           "start": {
-                            "line": 10,
+                            "line": 31,
                             "column": 9
                           },
                           "end": {
-                            "line": 10,
+                            "line": 31,
                             "column": 44
                           }
                         }
                       },
                       "range": [
-                        190,
-                        233
+                        627,
+                        670
                       ],
                       "loc": {
                         "start": {
-                          "line": 10,
+                          "line": 31,
                           "column": 2
                         },
                         "end": {
-                          "line": 10,
+                          "line": 31,
                           "column": 45
                         }
                       }
                     }
                   ],
                   "range": [
-                    186,
-                    236
+                    623,
+                    673
                   ],
                   "loc": {
                     "start": {
-                      "line": 9,
+                      "line": 30,
                       "column": 16
                     },
                     "end": {
-                      "line": 11,
+                      "line": 32,
                       "column": 2
                     }
                   }
@@ -619,16 +699,16 @@
                 "generator": false,
                 "expression": false,
                 "range": [
-                  183,
-                  236
+                  620,
+                  673
                 ],
                 "loc": {
                   "start": {
-                    "line": 9,
+                    "line": 30,
                     "column": 13
                   },
                   "end": {
-                    "line": 11,
+                    "line": 32,
                     "column": 2
                   }
                 }
@@ -636,84 +716,216 @@
               "kind": "method",
               "computed": false,
               "range": [
-                171,
-                236
+                608,
+                673
               ],
               "loc": {
                 "start": {
-                  "line": 9,
+                  "line": 30,
                   "column": 1
                 },
                 "end": {
-                  "line": 11,
+                  "line": 32,
                   "column": 2
                 }
               },
+              "leadingComments": [
+                {
+                  "type": "Block",
+                  "value": "*\n\t * Makes the Box explain the rules of the game.\n\t * NOT IMPLEMENTED YET\n\t * @public\n\t * @return {Promise}\n\t ",
+                  "range": [
+                    491,
+                    606
+                  ],
+                  "loc": {
+                    "start": {
+                      "line": 24,
+                      "column": 1
+                    },
+                    "end": {
+                      "line": 29,
+                      "column": 4
+                    }
+                  }
+                }
+              ],
               "static": false
             }
           ],
           "range": [
-            30,
-            238
+            78,
+            675
           ],
           "loc": {
             "start": {
-              "line": 2,
+              "line": 4,
               "column": 29
             },
             "end": {
-              "line": 12,
+              "line": 33,
               "column": 1
             }
           }
         },
         "range": [
-          16,
-          238
+          64,
+          675
         ],
         "loc": {
           "start": {
-            "line": 2,
+            "line": 4,
             "column": 15
           },
           "end": {
-            "line": 12,
+            "line": 33,
             "column": 1
           }
         },
-        "leadingComments": [],
+        "leadingComments": [
+          {
+            "type": "Block",
+            "value": "*\n * @class Manages the Speaker components\n ",
+            "range": [
+              0,
+              48
+            ],
+            "loc": {
+              "start": {
+                "line": 1,
+                "column": 0
+              },
+              "end": {
+                "line": 3,
+                "column": 3
+              }
+            }
+          }
+        ],
         "trailingComments": []
       },
       "range": [
-        1,
-        238
+        49,
+        675
       ],
       "loc": {
         "start": {
-          "line": 2,
+          "line": 4,
           "column": 0
         },
         "end": {
-          "line": 12,
+          "line": 33,
           "column": 1
         }
-      }
+      },
+      "leadingComments": [
+        {
+          "type": "Block",
+          "value": "*\n * @class Manages the Speaker components\n ",
+          "range": [
+            0,
+            48
+          ],
+          "loc": {
+            "start": {
+              "line": 1,
+              "column": 0
+            },
+            "end": {
+              "line": 3,
+              "column": 3
+            }
+          }
+        }
+      ]
     }
   ],
   "sourceType": "module",
   "range": [
-    1,
-    238
+    49,
+    675
   ],
   "loc": {
     "start": {
-      "line": 2,
+      "line": 4,
       "column": 0
     },
     "end": {
-      "line": 12,
+      "line": 33,
       "column": 1
     }
   },
-  "comments": []
+  "comments": [
+    {
+      "type": "Block",
+      "value": "*\n * @class Manages the Speaker components\n ",
+      "range": [
+        0,
+        48
+      ],
+      "loc": {
+        "start": {
+          "line": 1,
+          "column": 0
+        },
+        "end": {
+          "line": 3,
+          "column": 3
+        }
+      }
+    },
+    {
+      "type": "Block",
+      "value": "*\n\t * Makes the Box speech its text out loud.\n\t * NOT IMPLEMENTED YET\n\t * @public\n\t * @return {Promise}\n\t ",
+      "range": [
+        81,
+        191
+      ],
+      "loc": {
+        "start": {
+          "line": 5,
+          "column": 1
+        },
+        "end": {
+          "line": 10,
+          "column": 4
+        }
+      }
+    },
+    {
+      "type": "Block",
+      "value": "*\n\t * Makes the Box excusing itself for not having\n\t * understood the user and ask to repeat.\n\t * NOT IMPLEMENTED YET\n\t * @public\n\t * @return {Promise}\n\t ",
+      "range": [
+        257,
+        415
+      ],
+      "loc": {
+        "start": {
+          "line": 14,
+          "column": 1
+        },
+        "end": {
+          "line": 20,
+          "column": 4
+        }
+      }
+    },
+    {
+      "type": "Block",
+      "value": "*\n\t * Makes the Box explain the rules of the game.\n\t * NOT IMPLEMENTED YET\n\t * @public\n\t * @return {Promise}\n\t ",
+      "range": [
+        491,
+        606
+      ],
+      "loc": {
+        "start": {
+          "line": 24,
+          "column": 1
+        },
+        "end": {
+          "line": 29,
+          "column": 4
+        }
+      }
+    }
+  ]
 }

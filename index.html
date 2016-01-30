@@ -34,7 +34,6 @@
     
   <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/js/index.js~BoardsChain.html">BoardsChain</a></span></span></li>
 <li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">components/box</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/js/components/box/index.js~Box.html">Box</a></span></span></li>
-<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">components/dummyMicrophone</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/js/components/dummyMicrophone/index.js~DummyMicrophone.html">DummyMicrophone</a></span></span></li>
 <li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">components/infrared</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/js/components/infrared/index.js~Intrared.html">Intrared</a></span></span></li>
 <li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">components/light</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/js/components/light/index.js~Light.html">Light</a></span></span></li>
 <li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">components/microphone</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/js/components/microphone/index.js~Translator.html">Translator</a></span></span></li>
@@ -52,10 +51,14 @@
 
 <div class="content" data-ice="content"><div data-ice="index" class="github-markdown"><p><a href="https://gitter.im/FH-Potsdam/connecting-bits?utm_source=badge&amp;utm_medium=badge&amp;utm_campaign=pr-badge&amp;utm_content=badge"><img src="https://badges.gitter.im/FH-Potsdam/connecting-bits.svg" alt="Join the chat at https://gitter.im/FH-Potsdam/connecting-bits"></a> [![ZenHub] (<a href="https://raw.githubusercontent.com/ZenHubIO/support/master/zenhub-badge.png">https://raw.githubusercontent.com/ZenHubIO/support/master/zenhub-badge.png</a>)] (<a href="https://zenhub.io">https://zenhub.io</a>) <a href="https://app.asana.com/-/share?s=80136391129690-GUJvZiI4OufoWMTDhjjkZauXYEhwvhpqUgnTvw22tMr-74348281972886"><img src="https://raw.githubusercontent.com/FH-Potsdam/connecting-bits/master/documentation/asanabadge.jpg" alt="Managed with asana"></a></p>
 <h1 id="connecting-bits-play-the-_chinese-whispers_-game-with-machines">Connecting bits - Play the <em>Chinese whispers</em> game with machines</h1>
-<h2 id="what-is-connecting-bits-">What is Connecting bits?</h2>
-<p>Connecting bits is a chain of multilingual machines to play the <em>Chinese whispers</em> game with. It consists of four boxes situated in a room. Every box can record one person&apos;s voice and transfer it to its next sibling box. Every time a new box receives the message, it translates it and speaks it loud in another language. Finally, when the chain is over, the box the person originally spoke to recites the original message after it has been translated for the fourth time. As in the <em>Chinese whispers</em> game so far, we expect the message to be the same unless something distorted it during the process.</p>
-<h2 id="what-are-these-boxes-">What are these boxes?</h2>
-<p>A box is a home made cubic machine composed of various mechanical elements and electronics. Inside the box, the following components are to be found:</p>
+<h2 id="the-project-">The project.</h2>
+<p>Connecting bits is a chain of multilingual machines to play the <em>Chinese whispers</em> game with. It consists of four boxes situated in a room. Any box can record one person&apos;s voice, turn it into text and transfer it to its next sibling box. Every time a new box receives the message, it translates it to a different language and says it out loud. Finally, when the message has been transfered through all four boxes, the message goes back to the first original box. As in the <em>Chinese whispers</em> game so far, one expects the message to be the same unless something distorted or altered it during the process.</p>
+<h2 id="the-boxes-">The boxes.</h2>
+<p>These boxes are home made cubic machines composed of various mechanical elements and electronics.</p>
+<h3 id="the-design-">The design.</h3>
+<p>blabla</p>
+<h3 id="the-hardware-">The hardware.</h3>
+<p>The boxes consist of:</p>
 <ul>
 <li><strong>A led:</strong> To indicate that the box is speaking</li>
 <li><strong>Two servo motors:</strong> To move the box as it listens and speaks and to give it a living character</li>
@@ -64,9 +67,9 @@
 <li><strong>A speaker:</strong> To&#x2026; you know&#x2026; speak&#x2026;</li>
 <li><strong>A particle photon board:</strong> To control all this and be controlled over wifi</li>
 </ul>
-<h2 id="who-made-this-">Who made this?</h2>
-<p>We are student from the <a href="http://fh-potsdam.de">University of Applied Sciences of Potsdam</a> [aka] @fh-potsdam. We are interface designers, product designers, and graphic designers that took part to the course <a href="https://fhp.incom.org/workspace/6176">&#x201C;Input Output - Introduction to process-oriented design&#x201D;</a> supervised by <a href="http://fabianmoronzirfas.me/">Fabian Mor&#xF3;n Zirfas</a>. This project was made during the last third of the course. To see other project from us look at <a href="https://github.com/FH-Potsdam/steel-ant-input-output">this repository</a>.</p>
-<h2 id="how-did-you-made-it-">How did you made it?</h2>
+<h2 id="the-makers-">The makers.</h2>
+<p>We are student from the <a href="http://fh-potsdam.de">University of Applied Sciences of Potsdam</a> [aka] @fh-potsdam. Our team is composed of interface, product, and graphic designers that took part in the course <a href="https://fhp.incom.org/workspace/6176">&#x201C;Input Output - Introduction to process-oriented design&#x201D;</a> supervised by <a href="https://github.com/fabiantheblind">Fabian Mor&#xF3;n Zirfas</a>. This project was developed during the last third of the course. To see other projects we have made, visit <a href="https://interface.fh-potsdam.de/eingabe-ausgabe/2015-2016/">this repository</a>.</p>
+<h2 id="the-process-">The process.</h2>
 <p>Coming soon</p>
 <h3 id="the-base-reference">The base reference</h3>
 <p>Coming soon</p>
@@ -75,12 +78,6 @@
 <h4 id="our-final-choice">Our final choice</h4>
 <p>Coming soon</p>
 <h3 id="organization">Organization</h3>
-<p>Coming soon</p>
-<h4 id="product-design">Product design</h4>
-<p>Coming soon</p>
-<h4 id="hardware">Hardware</h4>
-<p>Coming soon</p>
-<h4 id="software">Software</h4>
 <p>Coming soon</p>
 </div>
 </div>

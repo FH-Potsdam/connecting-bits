@@ -34,7 +34,6 @@
     
   <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/js/index.js~BoardsChain.html">BoardsChain</a></span></span></li>
 <li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">components/box</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/js/components/box/index.js~Box.html">Box</a></span></span></li>
-<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">components/dummyMicrophone</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/js/components/dummyMicrophone/index.js~DummyMicrophone.html">DummyMicrophone</a></span></span></li>
 <li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">components/infrared</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/js/components/infrared/index.js~Intrared.html">Intrared</a></span></span></li>
 <li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">components/light</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/js/components/light/index.js~Light.html">Light</a></span></span></li>
 <li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">components/microphone</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/js/components/microphone/index.js~Translator.html">Translator</a></span></span></li>
@@ -54,15 +53,18 @@
 <pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import config from &apos;config&apos;;
 import { Boards } from &apos;johnny-five&apos;;
 import Box from &apos;./components/box&apos;;
-import { createBoard, getBoardInBoardsByName } from &apos;./utils/boardsUtil&apos;;
-import { createClient, getClientInClientsByName } from &apos;./utils/clientsUtil&apos;;
+import { createBoard } from &apos;./utils/boardsUtil&apos;;
+import { createClient } from &apos;./utils/clientsUtil&apos;;
 import logUtil from &apos;./utils/logUtil&apos;;
 
 /**
- * @class Most global class
- * @param none
+ * @class Represents the whole chain of Boxes
  */
 export default class BoardsChain {
+	/**
+	 * Initializes boards, mqqtt clients and starts the masterBox
+	 * automatically. Is not meant to be imported.
+	 */
 	constructor() {
 		const boardsConfigs = config.get(&apos;boards&apos;);
 		const boards = new Boards(boardsConfigs.map((board) =&gt;
@@ -107,6 +109,11 @@ export default class BoardsChain {
 		this.masterBox = this.boxes[0];
 		boards.on(&apos;ready&apos;, this.onAllBoardsReady.bind(this));
 	}
+	/**
+	 * Is called when all Johnny Five boards are ready.
+	 * Starts the event chain by calling start the show
+	 * on the master Box.
+	 */
 	onAllBoardsReady() {
 		logUtil.log({
 			type: &apos;hardware&apos;,
@@ -116,6 +123,10 @@ export default class BoardsChain {
 	}
 }
 
+/**
+ * Automatically starts the chain by creating a new instance
+ * of the BoardChain class
+ */
 const chain = new BoardsChain();
 </code></pre>
 

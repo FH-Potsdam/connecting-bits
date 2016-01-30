@@ -34,7 +34,6 @@
     
   <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/js/index.js~BoardsChain.html">BoardsChain</a></span></span></li>
 <li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">components/box</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/js/components/box/index.js~Box.html">Box</a></span></span></li>
-<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">components/dummyMicrophone</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/js/components/dummyMicrophone/index.js~DummyMicrophone.html">DummyMicrophone</a></span></span></li>
 <li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">components/infrared</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/js/components/infrared/index.js~Intrared.html">Intrared</a></span></span></li>
 <li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">components/light</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/js/components/light/index.js~Light.html">Light</a></span></span></li>
 <li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">components/microphone</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/js/components/microphone/index.js~Translator.html">Translator</a></span></span></li>
@@ -56,18 +55,22 @@ import Particle from &apos;particle-io&apos;;
 
 const token = config.get(`token`);
 
+/**
+ * Utility for handling Johnny Five boards
+ * @type {Object}
+ */
 module.exports = {
+	/**
+	 * Returns a config for a Johnny Five board with an id and a Particle
+	 * Photon board
+	 * @param  {String} Any name you want to assign to your Photon board
+	 * @param  {String} The Particle.io deviceId of you photon
+	 * @return {Object}
+	 * @example
+	 * const board = createBoard(&apos;myFavoriteBoard&apos;, &apos;12345&apos;);
+	 */
 	createBoard: (id, deviceId) =&gt; {
 		return { id, io: new Particle({ token, deviceId, deviceName: id }) };
-	},
-	getBoardInBoardsByName: (boardsArray, name) =&gt; {
-		let relevantBoard;
-		boardsArray.each((board) =&gt; {
-			if (board.id === name) {
-				relevantBoard = board;
-			}
-		});
-		return relevantBoard;
 	}
 };
 </code></pre>

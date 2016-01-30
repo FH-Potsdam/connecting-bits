@@ -9,16 +9,16 @@
           "type": "Identifier",
           "name": "Translator",
           "range": [
-            22,
-            32
+            93,
+            103
           ],
           "loc": {
             "start": {
-              "line": 2,
+              "line": 4,
               "column": 21
             },
             "end": {
-              "line": 2,
+              "line": 4,
               "column": 31
             }
           }
@@ -33,16 +33,16 @@
                 "type": "Identifier",
                 "name": "translateText",
                 "range": [
-                  36,
-                  49
+                  226,
+                  239
                 ],
                 "loc": {
                   "start": {
-                    "line": 3,
+                    "line": 11,
                     "column": 1
                   },
                   "end": {
-                    "line": 3,
+                    "line": 11,
                     "column": 14
                   }
                 }
@@ -62,16 +62,16 @@
                           "type": "Identifier",
                           "name": "Promise",
                           "range": [
-                            67,
-                            74
+                            257,
+                            264
                           ],
                           "loc": {
                             "start": {
-                              "line": 4,
+                              "line": 12,
                               "column": 13
                             },
                             "end": {
-                              "line": 4,
+                              "line": 12,
                               "column": 20
                             }
                           }
@@ -85,16 +85,16 @@
                                 "type": "Identifier",
                                 "name": "resolve",
                                 "range": [
-                                  76,
-                                  83
+                                  266,
+                                  273
                                 ],
                                 "loc": {
                                   "start": {
-                                    "line": 4,
+                                    "line": 12,
                                     "column": 22
                                   },
                                   "end": {
-                                    "line": 4,
+                                    "line": 12,
                                     "column": 29
                                   }
                                 }
@@ -106,32 +106,32 @@
                                 "type": "Identifier",
                                 "name": "resolve",
                                 "range": [
-                                  88,
-                                  95
+                                  278,
+                                  285
                                 ],
                                 "loc": {
                                   "start": {
-                                    "line": 4,
+                                    "line": 12,
                                     "column": 34
                                   },
                                   "end": {
-                                    "line": 4,
+                                    "line": 12,
                                     "column": 41
                                   }
                                 }
                               },
                               "arguments": [],
                               "range": [
-                                88,
-                                97
+                                278,
+                                287
                               ],
                               "loc": {
                                 "start": {
-                                  "line": 4,
+                                  "line": 12,
                                   "column": 34
                                 },
                                 "end": {
-                                  "line": 4,
+                                  "line": 12,
                                   "column": 43
                                 }
                               }
@@ -139,63 +139,63 @@
                             "generator": false,
                             "expression": true,
                             "range": [
-                              75,
-                              97
+                              265,
+                              287
                             ],
                             "loc": {
                               "start": {
-                                "line": 4,
+                                "line": 12,
                                 "column": 21
                               },
                               "end": {
-                                "line": 4,
+                                "line": 12,
                                 "column": 43
                               }
                             }
                           }
                         ],
                         "range": [
-                          63,
-                          98
+                          253,
+                          288
                         ],
                         "loc": {
                           "start": {
-                            "line": 4,
+                            "line": 12,
                             "column": 9
                           },
                           "end": {
-                            "line": 4,
+                            "line": 12,
                             "column": 44
                           }
                         }
                       },
                       "range": [
-                        56,
-                        99
+                        246,
+                        289
                       ],
                       "loc": {
                         "start": {
-                          "line": 4,
+                          "line": 12,
                           "column": 2
                         },
                         "end": {
-                          "line": 4,
+                          "line": 12,
                           "column": 45
                         }
                       }
                     }
                   ],
                   "range": [
-                    52,
-                    102
+                    242,
+                    292
                   ],
                   "loc": {
                     "start": {
-                      "line": 3,
+                      "line": 11,
                       "column": 17
                     },
                     "end": {
-                      "line": 5,
+                      "line": 13,
                       "column": 2
                     }
                   }
@@ -203,16 +203,16 @@
                 "generator": false,
                 "expression": false,
                 "range": [
-                  49,
-                  102
+                  239,
+                  292
                 ],
                 "loc": {
                   "start": {
-                    "line": 3,
+                    "line": 11,
                     "column": 14
                   },
                   "end": {
-                    "line": 5,
+                    "line": 13,
                     "column": 2
                   }
                 }
@@ -220,84 +220,180 @@
               "kind": "method",
               "computed": false,
               "range": [
-                36,
-                102
+                226,
+                292
               ],
               "loc": {
                 "start": {
-                  "line": 3,
+                  "line": 11,
                   "column": 1
                 },
                 "end": {
-                  "line": 5,
+                  "line": 13,
                   "column": 2
                 }
               },
+              "leadingComments": [
+                {
+                  "type": "Block",
+                  "value": "*\n\t * Translated the initial input in four languages\n\t * NOT IMPLEMENTED YET\n\t * @public\n\t * @return {Promise}\n\t ",
+                  "range": [
+                    107,
+                    224
+                  ],
+                  "loc": {
+                    "start": {
+                      "line": 5,
+                      "column": 1
+                    },
+                    "end": {
+                      "line": 10,
+                      "column": 4
+                    }
+                  }
+                }
+              ],
               "static": false
             }
           ],
           "range": [
-            33,
-            104
+            104,
+            294
           ],
           "loc": {
             "start": {
-              "line": 2,
+              "line": 4,
               "column": 32
             },
             "end": {
-              "line": 6,
+              "line": 14,
               "column": 1
             }
           }
         },
         "range": [
-          16,
-          104
+          87,
+          294
         ],
         "loc": {
           "start": {
-            "line": 2,
+            "line": 4,
             "column": 15
           },
           "end": {
-            "line": 6,
+            "line": 14,
             "column": 1
           }
         },
-        "leadingComments": [],
+        "leadingComments": [
+          {
+            "type": "Block",
+            "value": "*\n * @class Translator class for managing different Box languages\n ",
+            "range": [
+              0,
+              71
+            ],
+            "loc": {
+              "start": {
+                "line": 1,
+                "column": 0
+              },
+              "end": {
+                "line": 3,
+                "column": 3
+              }
+            }
+          }
+        ],
         "trailingComments": []
       },
       "range": [
-        1,
-        104
+        72,
+        294
       ],
       "loc": {
         "start": {
-          "line": 2,
+          "line": 4,
           "column": 0
         },
         "end": {
-          "line": 6,
+          "line": 14,
           "column": 1
         }
-      }
+      },
+      "leadingComments": [
+        {
+          "type": "Block",
+          "value": "*\n * @class Translator class for managing different Box languages\n ",
+          "range": [
+            0,
+            71
+          ],
+          "loc": {
+            "start": {
+              "line": 1,
+              "column": 0
+            },
+            "end": {
+              "line": 3,
+              "column": 3
+            }
+          }
+        }
+      ]
     }
   ],
   "sourceType": "module",
   "range": [
-    1,
-    104
+    72,
+    294
   ],
   "loc": {
     "start": {
-      "line": 2,
+      "line": 4,
       "column": 0
     },
     "end": {
-      "line": 6,
+      "line": 14,
       "column": 1
     }
   },
-  "comments": []
+  "comments": [
+    {
+      "type": "Block",
+      "value": "*\n * @class Translator class for managing different Box languages\n ",
+      "range": [
+        0,
+        71
+      ],
+      "loc": {
+        "start": {
+          "line": 1,
+          "column": 0
+        },
+        "end": {
+          "line": 3,
+          "column": 3
+        }
+      }
+    },
+    {
+      "type": "Block",
+      "value": "*\n\t * Translated the initial input in four languages\n\t * NOT IMPLEMENTED YET\n\t * @public\n\t * @return {Promise}\n\t ",
+      "range": [
+        107,
+        224
+      ],
+      "loc": {
+        "start": {
+          "line": 5,
+          "column": 1
+        },
+        "end": {
+          "line": 10,
+          "column": 4
+        }
+      }
+    }
+  ]
 }

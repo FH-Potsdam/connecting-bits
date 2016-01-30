@@ -34,7 +34,6 @@
     
   <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/js/index.js~BoardsChain.html">BoardsChain</a></span></span></li>
 <li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">components/box</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/js/components/box/index.js~Box.html">Box</a></span></span></li>
-<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">components/dummyMicrophone</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/js/components/dummyMicrophone/index.js~DummyMicrophone.html">DummyMicrophone</a></span></span></li>
 <li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">components/infrared</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/js/components/infrared/index.js~Intrared.html">Intrared</a></span></span></li>
 <li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">components/light</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/js/components/light/index.js~Light.html">Light</a></span></span></li>
 <li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">components/microphone</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/js/components/microphone/index.js~Translator.html">Translator</a></span></span></li>
@@ -51,7 +50,12 @@
 </nav>
 
 <div class="content" data-ice="content"><h1 data-ice="title">js/constants/index.js</h1>
-<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">export const INFRARED_CONSTANTS = {
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">/**
+ * All hardcoded values and constants
+ * for the infrared class
+ * @type {Object}
+ */
+export const INFRARED_CONSTANTS = {
 	UNUSED_PIN: 3,
 	USED_PIN: 4,
 	MIN_DETECTION_DISTANCE: 35,
@@ -60,11 +64,21 @@
 	EMPTY_RESOLVE_FUNCTION: () =&gt; {}
 };
 
+/**
+ * All hardcoded values and constants
+ * for the light class
+ * @type {Object}
+ */
 export const LIGHT_CONSTANTS = {
 	PIN: &apos;D7&apos;,
 	BLINK_SPEED: 500
 };
 
+/**
+ * All hardcoded values and constants
+ * for the motor class
+ * @type {Object}
+ */
 export const MOTOR_CONSTANTS = {
 	LIFT_PIN: 1,
 	TILT_PIN: 2,
