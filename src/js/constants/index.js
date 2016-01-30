@@ -1,3 +1,8 @@
+/**
+ * All hardcoded values and constants
+ * for the infrared class
+ * @type {Object}
+ */
 export const INFRARED_CONSTANTS = {
 	UNUSED_PIN: 3,
 	USED_PIN: 4,
@@ -7,11 +12,21 @@ export const INFRARED_CONSTANTS = {
 	EMPTY_RESOLVE_FUNCTION: () => {}
 };
 
+/**
+ * All hardcoded values and constants
+ * for the light class
+ * @type {Object}
+ */
 export const LIGHT_CONSTANTS = {
 	PIN: 'D7',
 	BLINK_SPEED: 500
 };
 
+/**
+ * All hardcoded values and constants
+ * for the motor class
+ * @type {Object}
+ */
 export const MOTOR_CONSTANTS = {
 	LIFT_PIN: 1,
 	TILT_PIN: 2,

@@ -1,20 +1,27 @@
 import config from 'config';
 import { Boards } from 'johnny-five';
 import Box from './components/box';
-import { createBoard, getBoardInBoardsByName } from './utils/boardsUtil';
-import { createClient, getClientInClientsByName } from './utils/clientsUtil';
+import { createBoard } from './utils/boardsUtil';
+import { createClient } from './utils/clientsUtil';
 import logUtil from './utils/logUtil';
 
 /**
- * @class Most global class
- * @param none
+ * @class Represents the whole chain of Boxes
  */
 export default class BoardsChain {
+	/**
+	 * Initializes boards, mqqtt clients and starts the masterBox
+	 * automatically. Is not meant to be imported.
+	 */
 	constructor() {
 		const boardsConfigs = config.get('boards');
 		const boards = new Boards(boardsConfigs.map((board) =>
 			createBoard(board.name, board.id)));
 
+		/**
+		 * Collection of Boxes taking part to the show
+		 * @type {Array}
+		 */
 		this.boxes = [];
 		boards.each((board, index) => {
 			let next;
@@ -51,9 +58,18 @@ export default class BoardsChain {
 			this.boxes.push(new Box(board, client, { next, isMaster, prev }));
 		});
 
+		/**
+		 * The first box to start the show, the one recoring
+		 * @type {Array}
+		 */
 		this.masterBox = this.boxes[0];
 		boards.on('ready', this.onAllBoardsReady.bind(this));
 	}
+	/**
+	 * Is called when all Johnny Five boards are ready.
+	 * Starts the event chain by calling start the show
+	 * on the master Box.
+	 */
 	onAllBoardsReady() {
 		logUtil.log({
 			type: 'hardware',
@@ -63,4 +79,8 @@ export default class BoardsChain {
 	}
 }
 
+/**
+ * Automatically starts the chain by creating a new instance
+ * of the BoardChain class
+ */
 const chain = new BoardsChain();

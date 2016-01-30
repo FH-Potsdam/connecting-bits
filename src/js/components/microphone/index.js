@@ -4,12 +4,15 @@ import fs from 'fs';
 import Record from './utils/records';
 import Report from './utils/reports';
 
-export default class Translator {
-	constructor() {
-		this.reportAudio = this.reportAudio.bind(this);
-		this.getAudioData = this.getAudioData.bind(this);
-		this.startRecording = this.startRecording.bind(this);
-	}
+/**
+ * @class Manages the Recording
+ */
+export default class Microphone {
+	/**
+	 * Writes a report file for the audi recoring
+	 * @param  {Number} index
+	 * @private
+	 */
 	reportAudio(index) {
 		const { location, filename } = config.get('Report');
 		const data = this.getAudioData.bind(this)(index);
@@ -21,6 +24,11 @@ export default class Translator {
 			newReport.extendJSON();
 		}
 	}
+	/**
+	 * Retrieves the relevant audio report
+	 * @param  {Number} index
+	 * @private
+	 */
 	getAudioData(index) {
 		const {
 			location,
@@ -35,6 +43,11 @@ export default class Translator {
 		return { filename, id, location, sampleRate,
 			maxRecordingTime, recordingDate };
 	}
+	/**
+	 * Start recording
+	 * @param  {Function} callback
+	 * @public
+	 */
 	startRecording(callback) {
 		const { location, filename } = config.get('Report');
 		const filePath = location + filename;

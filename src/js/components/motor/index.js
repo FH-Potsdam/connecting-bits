@@ -12,14 +12,31 @@ const {
 	STRAIGHT
 } = MOTOR_CONSTANTS;
 
+/**
+ * @class Manages the servor motors
+ */
 export default class Motor {
+	/**
+	 * Constructor for the Motor class. Needs a j5 board instance
+	 * to work well. !CAUTION¡ The j5 board must already be ready.
+	 * @param  {Johnny Five board instance} board
+	 * @private
+	 */
 	constructor(board) {
+		/**
+		 * The servo meant to lift the box up and down
+		 * @type {Servo}
+		 */
 		this.liftServo = new Servo({
 			pin: LIFT_PIN,
 			startAt: LYING,
 			type: LIFT_TYPE,
 			board
 		});
+		/**
+		 * The servo meant to make the box look up and straight
+		 * @type {Servo}
+		 */
 		this.tiltServo = new Servo({
 			pin: TILT_PIN,
 			startAt: STRAIGHT,
@@ -27,30 +44,92 @@ export default class Motor {
 			board
 		});
 
+		/**
+		 * Is the Box standing up?
+		 * @type {Boolean}
+		 */
 		this.stands = false;
+		/**
+		 * Is the Box looking up?
+		 * @type {Boolean}
+		 */
 		this.titls = false;
 	}
-	checkAndMove(tocheck, checkValue, position) {
+	/**
+	 * Generic function that checks if a servo is already in the
+	 * whished position and rotates it if not.
+	 * @param  {Boolean} actualPositionState - The actual state to check
+	 * @param  {Boolean} whishedPositionState - The whished state
+	 * @param  {Number} positionToMoveTo - The rotation the servo need to accomplish
+	 * @param  {Johnny Five Servo instance} servo
+	 * @return {Promise}
+	 * @private
+	 */
+	moveServo({
+		actualPositionState,
+		whishedPositionState,
+		positionToMoveTo,
+		servo }) {
 		return new Promise((resolve) => {
-			if (tocheck === checkValue) {
+			if (actualPositionState === whishedPositionState) {
 				resolve();
 				return;
 			}
-			this.liftServo('move:complete', resolve);
-			this.liftServo.to(position, SPEED);
-			this.liftServo('move:complete', false);
+			servo('move:complete', resolve);
+			servo.to(positionToMoveTo, SPEED);
+			servo('move:complete', false);
 		});
 	}
+	/**
+	 * Lifts the Box down
+	 * @return {Promise}
+	 * @public
+	 */
 	lieDown() {
-		return this.checkAndMove(this.stands, false, LYING);
+		return this.checkAndMove({
+			actualPositionState: this.stands,
+			whishedPositionState: false,
+			positionToMoveTo: LYING,
+			servo: this.liftServo
+		});
 	}
+	/**
+	 * Lifts the Box up
+	 * @return {Promise}
+	 * @public
+	 */
 	standUp() {
-		return this.checkAndMove(this.stands, true, STANDING);
+		return this.checkAndMove({
+			actualPositionState: this.stands,
+			whishedPositionState: true,
+			positionToMoveTo: STANDING,
+			servo: this.liftServo
+		});
 	}
+	/**
+	 * Makes the Box look up
+	 * @return {Promise}
+	 * @public
+	 */
 	lookUp() {
-		return this.checkAndMove(this.titls, true, TILTED);
+		return this.checkAndMove({
+			actualPositionState: this.titls,
+			whishedPositionState: true,
+			positionToMoveTo: TILTED,
+			servo: this.liftServo
+		});
 	}
+	/**
+	 * Makes the Box look down
+	 * @return {Promise}
+	 * @public
+	 */
 	lookStraight() {
-		return this.checkAndMove(this.thils, false, STRAIGHT);
+		return this.checkAndMove({
+			actualPositionState: this.thils,
+			whishedPositionState: false,
+			positionToMoveTo: STRAIGHT,
+			servo: this.liftServo
+		});
 	}
 }

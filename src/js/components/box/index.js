@@ -1,7 +1,6 @@
 import { Led } from 'johnny-five';
 import config from 'config';
-// import Microphone from '../microphone'; // TODO: @Andre > Replace when implemented
-import Microphone from '../dummyMicrophone';
+import Microphone from '../microphone';
 import Translator from '../translator';
 import Light from '../light';
 import Motor from '../motor';
@@ -13,25 +12,79 @@ import logUtil from '../../utils/logUtil';
  * @class Box is the class that contains the methods for all actions a Box
  * should be able to perform. It takes care of orchestring the chain of
  * events.
- * @param {JohnnyFive board instanxe} board this is the board class delivered
- * by johnny five for one board. In this case we talk about a photon board
- * @param {Mqtt client} client This is an  instance of an mqtt client that
- * will be used to communicate with oder boxes
  */
 export default class Box {
+	/**
+	 * Constructor for the Light class
+	 * @param {JohnnyFive board instanxe} board - this is the board class delivered
+	 * by johnny five for one board. In this case we talk about a photon board
+	 * @param {Mqtt client} client - This is an  instance of an mqtt client that
+	 * will be used to communicate with oder boxes
+	 * @param {Object} options - Option containing next, prev and isMaster
+	 */
 	constructor(board, client, options) {
+		/**
+		 * A Johnny Five Board instance
+		 * @type {Board}
+		 */
 		this.board = board;
+		/**
+		 * An Mqtt client
+		 * @type {Mqtt client}
+		 */
 		this.client = client;
+		/**
+		 * Option with next, prev and isMaster
+		 * @type {Object}
+		 */
 		this.options = options;
+		/**
+		 * The Box's name
+		 * @type {String}
+		 */
 		this.name = this.board.id;
+		/**
+		 * The round actually playing
+		 * @type {Number}
+		 */
 		this.round = 0;
 
 		// initialise subcomponents
+		/**
+		 * The Translator component
+		 * Will be intialized when all boards are ready
+		 * @type {[type]}
+		 */
 		this.translator = null;
+		/**
+		 * The Light component
+		 * Will be intialized when all boards are ready
+		 * @type {Light}
+		 */
 		this.light = null;
+		/**
+		 * The Motor component
+		 * Will be intialized when all boards are ready
+		 * @type {Motor}
+		 */
 		this.motor = null;
+		/**
+		 * The Speak component
+		 * Will be intialized when all boards are ready
+		 * @type {Speak}
+		 */
 		this.speaker = null;
+		/**
+		 * The Infra component
+		 * Will be intialized when all boards are ready
+		 * @type {Infra}
+		 */
 		this.infrared = null;
+		/**
+		 * The Micro component
+		 * Will be intialized when all boards are ready
+		 * @type {Micro}
+		 */
 		this.microphone = null;
 
 		client.on('connect', this.onConnect.bind(this));
@@ -49,8 +102,8 @@ export default class Box {
 	}
 	/**
 	 * Is called when a mqtt message is received
-	 * @param  {string} topic   the mqtt topic the message was sent on
-	 * @param  {string} message the message sent via mqtt
+	 * @param  {string} topic - the mqtt topic the message was sent on
+	 * @param  {string} message - the message sent via mqtt
 	 */
 	onMessage(topic, message) {
 		clearTimeout(this.interval);
@@ -79,8 +132,8 @@ export default class Box {
 	}
 	/**
 	 * Send a message to wether the nex or the previous Box via mqtt
-	 * @param  {string} message   message to be sent to the sibling Box
-	 * @param  {string} recipient wether "next" or "prev"
+	 * @param  {string} message - message to be sent to the sibling Box
+	 * @param  {string} recipient - wether "next" or "prev"
 	 */
 	sendMessage(message, recipient = 'next') {
 		const recipientBox = this.options[ recipient ];
