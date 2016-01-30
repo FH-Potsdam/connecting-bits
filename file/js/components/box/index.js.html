@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <base data-ice="baseUrl" href="../../../../">
+  <title data-ice="title">js/components/box/index.js | API Document</title>
+  <link type="text/css" rel="stylesheet" href="css/style.css">
+  <link type="text/css" rel="stylesheet" href="css/prettify-tomorrow.css">
+  <script src="script/prettify/prettify.js"></script>
+  
+  
+  <script src="script/manual.js"></script>
+</head>
+<body class="layout-container" data-ice="rootContainer">
+
+<header>
+  <a href="./">Home</a>
+  
+  <a href="identifiers.html">Reference</a>
+  <a href="source.html">Source</a>
+  
+  <a data-ice="repoURL" href="git+https://github.com/FH-Potsdam/connecting-bits.git">Repository</a>
+  <div class="search-box">
+  <span>
+    <img src="./image/search.png">
+    <span class="search-input-edge"></span><input class="search-input"><span class="search-input-edge"></span>
+  </span>
+    <ul class="search-result"></ul>
+  </div>
+</header>
+
+<nav class="navigation" data-ice="nav"><div>
+  <ul>
+    
+  <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/js/index.js~BoardsChain.html">BoardsChain</a></span></span></li>
+<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">components/box</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/js/components/box/index.js~Box.html">Box</a></span></span></li>
+<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">components/dummyMicrophone</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/js/components/dummyMicrophone/index.js~DummyMicrophone.html">DummyMicrophone</a></span></span></li>
+<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">components/infrared</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/js/components/infrared/index.js~Intrared.html">Intrared</a></span></span></li>
+<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">components/light</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/js/components/light/index.js~Light.html">Light</a></span></span></li>
+<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">components/microphone</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/js/components/microphone/index.js~Translator.html">Translator</a></span></span></li>
+<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">components/microphone/utils/records</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/js/components/microphone/utils/records/index.js~Record.html">Record</a></span></span></li>
+<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">components/microphone/utils/reports</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/js/components/microphone/utils/reports/index.js~CreateReport.html">CreateReport</a></span></span></li>
+<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">components/motor</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/js/components/motor/index.js~Motor.html">Motor</a></span></span></li>
+<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">components/speaker</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/js/components/speaker/index.js~Speaker.html">Speaker</a></span></span></li>
+<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">components/translator</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/js/components/translator/index.js~Translator.html">Translator</a></span></span></li>
+<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">constants</div><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-INFRARED_CONSTANTS">INFRARED_CONSTANTS</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-LIGHT_CONSTANTS">LIGHT_CONSTANTS</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-MOTOR_CONSTANTS">MOTOR_CONSTANTS</a></span></span></li>
+</ul>
+</div>
+</nav>
+
+<div class="content" data-ice="content"><h1 data-ice="title">js/components/box/index.js</h1>
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import { Led } from &apos;johnny-five&apos;;
+import config from &apos;config&apos;;
+// import Microphone from &apos;../microphone&apos;; // TODO: @Andre &gt; Replace when implemented
+import Microphone from &apos;../dummyMicrophone&apos;;
+import Translator from &apos;../translator&apos;;
+import Light from &apos;../light&apos;;
+import Motor from &apos;../motor&apos;;
+import Speaker from &apos;../speaker&apos;;
+import Infrared from &apos;../infrared&apos;;
+import logUtil from &apos;../../utils/logUtil&apos;;
+
+/**
+ * @class Box is the class that contains the methods for all actions a Box
+ * should be able to perform. It takes care of orchestring the chain of
+ * events.
+ * @param {JohnnyFive board instanxe} board this is the board class delivered
+ * by johnny five for one board. In this case we talk about a photon board
+ * @param {Mqtt client} client This is an  instance of an mqtt client that
+ * will be used to communicate with oder boxes
+ */
+export default class Box {
+	constructor(board, client, options) {
+		this.board = board;
+		this.client = client;
+		this.options = options;
+		this.name = this.board.id;
+		this.round = 0;
+
+		// initialise subcomponents
+		this.translator = null;
+		this.light = null;
+		this.motor = null;
+		this.speaker = null;
+		this.infrared = null;
+		this.microphone = null;
+
+		client.on(&apos;connect&apos;, this.onConnect.bind(this));
+		client.on(&apos;message&apos;, this.onMessage.bind(this));
+	}
+	/** Is called when the Box&apos;s mqtt client is ready and connected. */
+	onConnect() {
+		logUtil.log({
+			type: &apos;shiftr&apos;,
+			title: `Box &quot;${ this.name }&quot; connected and subscribed`,
+			messages: [ { &apos;subscription topic&apos;: `/inputs/${ this.name }` } ]
+		});
+		this.client.subscribe(`/inputs/${ this.name }`);
+		this.board.on(&apos;ready&apos;, this.onBoardReady.bind(this));
+	}
+	/**
+	 * Is called when a mqtt message is received
+	 * @param  {string} topic   the mqtt topic the message was sent on
+	 * @param  {string} message the message sent via mqtt
+	 */
+	onMessage(topic, message) {
+		clearTimeout(this.interval);
+		logUtil.log({
+			type: &apos;shiftr&apos;,
+			title: `Box &quot;${ this.name }&quot; received a message`,
+			messages: [
+				{ topic },
+				{ message: message.toString() }
+			]
+		});
+
+		switch (message.toString()) {
+			case &apos;done&apos;:
+				this.round++;
+				this.prepareToSpeak.bind(this)();
+				break;
+			case &apos;readyToListen&apos;:
+				this.speakText.bind(this)();
+				break;
+			case &apos;readyToSpeak&apos;:
+				this.onPreviousBoxSpeaking.bind(this)();
+				break;
+			default: return;
+		}
+	}
+	/**
+	 * Send a message to wether the nex or the previous Box via mqtt
+	 * @param  {string} message   message to be sent to the sibling Box
+	 * @param  {string} recipient wether &quot;next&quot; or &quot;prev&quot;
+	 */
+	sendMessage(message, recipient = &apos;next&apos;) {
+		const recipientBox = this.options[ recipient ];
+		if (!recipientBox) {
+			logUtil.log({
+				type: &apos;warning&apos;,
+				title: `Box &quot;${ this.name }&quot; has an invalid next sibling`,
+				messages: [
+					{ sibling: recipientBox.name }
+				]
+			});
+		}
+
+		const topic = `/inputs/${ recipientBox.name }`;
+		logUtil.log({
+			type: &apos;shiftr&apos;,
+			title: `Box &quot;${ this.name }&quot; forwarded a message`,
+			messages: [
+				{ from: this.name },
+				{ to: recipientBox.name },
+				{ topic },
+				{ message }
+			]
+		});
+		this.client.publish(topic, message);
+	}
+	/** Is called when the Photon board is ready */
+	onBoardReady() {
+		this.translator = new Translator();
+		this.speaker = new Speaker();
+		this.microphone = new Microphone();
+		this.motor = new Motor(this.board);
+		this.light = new Light(this.board);
+		this.infrared = new Infrared(this.board);
+		logUtil.log({
+			type: &apos;hardware&apos;,
+			title: `Box&apos;s board of &quot;${ this.name }&quot; is ready`
+		});
+	}
+	/**
+	 * Retruns the Box&apos;s mqtt client
+	 * @return {Mqtt client instance}
+	 */
+	getClient() {
+		return this.client;
+	}
+	/**
+	 * Returns the Box&apos;s j5 board
+	 * @return {Johnny Five board instance}
+	 */
+	getBoard() {
+		return this.board;
+	}
+	/** Internal start, starts detecting */
+	start() {
+		this.motor.lieDown()
+			.then(() =&gt; {
+				logUtil.log({
+					type: &apos;hardware&apos;,
+					title: `Box&apos;s &quot;${ this.name }&quot; starts detecting`
+				});
+				this.infrared.detectPresence()
+					.then(this.onPresenceDetected.bind(this));
+			});
+	}
+	/** External start, intreases the round */
+	startTheShow() {
+		this.round++;
+		logUtil.log({
+			type: &apos;info&apos;,
+			title: `Box &quot;${ this.name }&quot; starts the show`,
+			messages: [ { round: this.round } ]
+		});
+		this.start.bind(this)();
+	}
+	/** Restarts the complete show and resets the round */
+	restartTheShow() {
+		this.round = 1;
+		this.start.bind(this)();
+	}
+	/** Is called when the infrared detects a presence */
+	onPresenceDetected() {
+		logUtil.log({
+			type: &apos;info&apos;,
+			title: `Box &quot;${ this.name }&quot; detected a presence`
+		});
+		this.motor.standUp()
+			.then(() =&gt; {
+				this.light.startBlinking();
+				this.speaker.explainRules()
+					.then(this.onRulesExplained.bind(this));
+			});
+	}
+	/** Is called when the Box has spoken the rules out loud */
+	onRulesExplained() {
+		logUtil.log({
+			type: &apos;info&apos;,
+			title: `Box &quot;${ this.name }&quot; explained the rules`
+		});
+		this.motor.lookUp()
+			.then(() =&gt; {
+				this.microphone.startRecording()
+					.then(() =&gt; {
+						logUtil.log({
+							type: &apos;info&apos;,
+							title: `Box &quot;${ this.name }&quot; has successfully recorded a voice`
+						});
+						this.prepareToSpeak.bind(this)();
+					})
+					.catch(this.onRecordingFailed.bind(this));
+			});
+	}
+	/** Is called when the Box is meant to speak */
+	prepareToSpeak() {
+		const isLastRound = this.isLastRound.bind(this)();
+		if (isLastRound) {
+			this.speakText.bind(this)();
+		} else {
+			this.sendMessage.bind(this)(&apos;readyToSpeak&apos;);
+		}
+		logUtil.log({
+			type: &apos;info&apos;,
+			title: `Box &quot;${ this.name }&quot; is prepared to speak`,
+			messages: [ { round: this.round } ]
+		});
+	}
+	/** Speaks the text out loud */
+	speakText() {
+		this.light.stopBlinking();
+		this.motor.lookStraight();
+		this.speaker.speakText()
+			.then(this.onTextSpoken.bind(this));
+	}
+	/**
+	 * Is called when the voice was badly recorded, when no sound was identified
+	 * or when the speech could not be transformed into text
+	 */
+	onRecordingFailed() {
+		logUtil.log({
+			type: &apos;warning&apos;,
+			title: `Box &quot;${ this.name }&quot; failed to record the voice`,
+			messages: [ { then: &apos;Starts over again&apos; } ]
+		});
+		this.motor.lookStraight()
+			.then(() =&gt; {
+				this.speaker.sayNoRecordingError()
+					.then(this.startTheShow.bind(this));
+			});
+	}
+	/** Is called whe the box has successfully spoken the text out loud */
+	onTextSpoken() {
+		logUtil.log({
+			type: &apos;info&apos;,
+			title: `Box &quot;${ this.name }&quot; repeated the text`
+		});
+		if (this.options.isMaster) {
+			if (this.round === 1) {
+				this.translator.translateText()
+					.then(this.finish.bind(this));
+			} else {
+				logUtil.log({
+					type: &apos;info&apos;,
+					title: `Box &quot;${ this.name }&quot;s show is over`,
+					messages: [ { then: &apos;Starts over again&apos; } ]
+				});
+				this.round = 0;
+				this.startTheShow.bind(this)();
+			}
+		} else {
+			this.finish.bind(this)();
+		}
+	}
+	/** Ends the show of the box */
+	finish() {
+		logUtil.log({
+			type: &apos;info&apos;,
+			title: `Box &quot;${ this.name }&quot; finished its round`,
+			messages: [ { round: this.round } ]
+		});
+		this.sendMessage.bind(this)(&apos;done&apos;);
+		this.motor.lieDown();
+		logUtil.log({
+			type: &apos;info&apos;,
+			title: `Box &quot;${ this.name }&quot;s show is over`
+		});
+	}
+	/** Is called when the previous box is speaking the text out loud */
+	onPreviousBoxSpeaking() {
+		logUtil.log({
+			type: &apos;info&apos;,
+			title: `Box &quot;${ this.name }&quot; is listening to its previous sibling`
+		});
+		this.motor.standUp()
+			.then(() =&gt; {
+				this.light.startBlinking();
+				this.motor.lookUp()
+					.then(() =&gt; {
+						this.sendMessage.bind(this)(&apos;readyToListen&apos;, &apos;prev&apos;);
+					});
+			});
+	}
+	/** Is called to check is this is the last round */
+	isLastRound() {
+		return this.options.isMaster &amp;&amp; this.round &gt; 1;
+	}
+}
+</code></pre>
+
+</div>
+
+<footer class="footer">
+  Generated by <a href="https://esdoc.org">ESDoc<span data-ice="esdocVersion">(0.4.3)</span></a>
+</footer>
+
+<script src="script/search_index.js"></script>
+<script src="script/search.js"></script>
+<script src="script/pretty-print.js"></script>
+<script src="script/inherited-summary.js"></script>
+<script src="script/test-summary.js"></script>
+<script src="script/inner-link.js"></script>
+<script src="script/patch-for-local.js"></script>
+</body>
+</html>
