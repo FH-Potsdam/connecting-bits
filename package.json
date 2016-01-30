@@ -42,14 +42,12 @@
     "gulp-babel": "^6.1.1",
     "gulp-esdoc": "^0.2.0",
     "gulp-eslint": "^1.1.1",
-    "gulp-gh-pages": "^0.5.4",
     "gulp-nodemon": "^2.0.6",
     "gulp-plumber": "^1.0.1",
     "gulp-rimraf": "^0.2.0",
     "gulp-sourcemaps": "^1.6.0",
     "gulp-util": "^3.0.7",
-    "mqtt": "^1.6.3",
-    "open": "0.0.5"
+    "mqtt": "^1.6.3"
   },
   "dependencies": {
     "chalk": "^1.1.1",
