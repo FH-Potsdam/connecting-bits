@@ -5,9 +5,11 @@ var nodemon = require('gulp-nodemon');
 var plumber = require('gulp-plumber');
 var gutil = require('gulp-util');
 var eslint = require('gulp-eslint');
+var esdoc = require('gulp-esdoc');
 var paths = {
 	src: {
 		root: 'src',
+		jsRoot: 'src/js',
 		javascript: [
 			'!src/js/libs/**',
 			'src/js/**/*.js'
@@ -16,7 +18,8 @@ var paths = {
 	dest: {
 		root: 'dest',
 		index: 'dest/js/index.js',
-		javascript: 'dest/js'
+		javascript: 'dest/js',
+		jsdoc: 'documentation/jsdoc'
 	}
 };
 
@@ -24,6 +27,12 @@ function throwError (error) {
 	gutil.log(gutil.colors.red(error.toString()));
 	this.emit('end');
 }
+
+gulp.task('document-js', function(){
+	gulp.src(paths.src.jsRoot)
+		.pipe(esdoc({ destination: paths.dest.jsdoc }))
+		.on('error', throwError);
+});
 
 gulp.task('clean-js', function(){
 	gulp.src(paths.dest.root + 'js')

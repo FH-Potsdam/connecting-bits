@@ -1,0 +1,8 @@
+{
+	"source": "./src/js",
+	"destination": "./documentation/esdoc",
+	"index": "./readme.md",
+	"package": "./package.json",
+	"title": "Software documentation - connecting-bits",
+	"plugins": [ { "name": "esdoc-es7-plugin", } ]
+}
