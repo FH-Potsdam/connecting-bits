@@ -65,7 +65,7 @@ export default class Motor {
 	 * @return {Promise}
 	 * @private
 	 */
-	moveServo({
+	checkAndMove({
 		actualPositionState,
 		whishedPositionState,
 		positionToMoveTo,
@@ -75,9 +75,12 @@ export default class Motor {
 				resolve();
 				return;
 			}
-			servo('move:complete', resolve);
+			servo
+				.removeAllListeners('move:complete')
+				.on('move:complete', () => {
+					resolve();
+				});
 			servo.to(positionToMoveTo, SPEED);
-			servo('move:complete', false);
 		});
 	}
 	/**

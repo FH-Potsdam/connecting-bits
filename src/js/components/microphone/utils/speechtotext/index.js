@@ -35,8 +35,6 @@ export default class SpeechToText {
 
 	}
 	convert(filename, accessToken, language, callback) {
-		console.log(`convert(): ${filename}`);
-
 		fs.readFile(filename, function(err, waveData) {
 			if (err) {
 				return callback(err);

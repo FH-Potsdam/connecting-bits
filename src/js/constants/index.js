@@ -4,8 +4,8 @@
  * @type {Object}
  */
 export const INFRARED_CONSTANTS = {
-	UNUSED_PIN: 3,
-	USED_PIN: 4,
+	UNUSED_PIN: 'A3',
+	USED_PIN: 'A4',
 	MIN_DETECTION_DISTANCE: 35,
 	CONTROLLER_ID: '2Y0A02',
 	MIN_PRESENCE_DURATION: 1200,
@@ -18,7 +18,7 @@ export const INFRARED_CONSTANTS = {
  * @type {Object}
  */
 export const LIGHT_CONSTANTS = {
-	PIN: 'D7',
+	PIN: 'D0',
 	BLINK_SPEED: 500
 };
 
@@ -28,13 +28,13 @@ export const LIGHT_CONSTANTS = {
  * @type {Object}
  */
 export const MOTOR_CONSTANTS = {
-	LIFT_PIN: 1,
-	TILT_PIN: 2,
+	LIFT_PIN: 'D3',
+	TILT_PIN: 'D2',
 	LIFT_TYPE: 'standard',
 	TILT_TYPE: 'standard',
 	SPEED: 200,
-	LYING: 30,
-	STANDING: 105,
-	TILTED: 120,
+	LYING: 90,
+	STANDING: 159,
+	TILTED: 90,
 	STRAIGHT: 30
 };

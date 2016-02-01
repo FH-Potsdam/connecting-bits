@@ -43,12 +43,6 @@ export default class Intrared {
 		 */
 		this.presenceDetected = false;
 		/**
-		 * The Function to resolve in case a long presence
-		 * has been detected
-		 * @type {Function}
-		 */
-		this.resolve = EMPTY_RESOLVE_FUNCTION;
-		/**
 		 * A throttled function checking if a human presence
 		 * is still detected after a certain time
 		 * @type {Throttled Function}
@@ -57,10 +51,6 @@ export default class Intrared {
 			this.checkLaterIfStillPresent.bind(this),
 			MIN_PRESENCE_DURATION
 		);
-
-		this.proximity.on('data', (data) => {
-			this.onData.bind(this)(data.cm);
-		});
 	}
 	/**
 	 * Is called when the infrared detects a distance. In other words,
@@ -108,6 +98,9 @@ export default class Intrared {
 	 */
 	detectPresence() {
 		return new Promise((resolve) => {
+			this.proximity.on('data', (data) => {
+				this.onData.bind(this)(data.cm);
+			});
 			this.resolve = resolve;
 		});
 	}
@@ -117,13 +110,16 @@ export default class Intrared {
 	 * @private
 	 */
 	checkLaterIfStillPresent() {
-		if (this.presenceDetected) {
-			logUtil.log({
-				type: 'hardware',
-				title: 'Long presence detected'
-			});
-			this.resolve();
-			this.resolve = EMPTY_RESOLVE_FUNCTION;
-		}
+		clearTimeout(this.timeout);
+		this.timeout = setTimeout(() => {
+			if (this.presenceDetected) {
+				logUtil.log({
+					type: 'hardware',
+					title: 'Long presence detected'
+				});
+				this.resolve();
+				this.proximity.removeAllListeners('data');
+			}
+		}, MIN_PRESENCE_DURATION);
 	}
 }

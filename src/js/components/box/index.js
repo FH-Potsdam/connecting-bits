@@ -165,9 +165,9 @@ export default class Box {
 		this.translator = new Translator(this.name, this.options.language);
 		this.speaker = new Speaker(this.name, this.options.language);
 		this.microphone = new Microphone(this.name, this.options.language);
-		// this.motor = new Motor(this.board);
-		// this.light = new Light(this.board);
-		// this.infrared = new Infrared(this.board);
+		this.motor = new Motor(this.board);
+		this.light = new Light(this.board);
+		this.infrared = new Infrared(this.board);
 		logUtil.log({
 			type: 'hardware',
 			title: `Box's board of "${ this.name }" is ready`
@@ -207,26 +207,7 @@ export default class Box {
 			title: `Box "${ this.name }" starts the show`,
 			messages: [ { round: this.round } ]
 		});
-		// this.start.bind(this)();
-		this.speaker.tellRules()
-			.then(this.microphone.startRecording)
-			.then(this.speaker.speakText)
-			.then(() => {
-				this.speaker.translateNext(this.options.next);
-			});
-		// this.speaker.tellRules()
-		// 	.then(() => {
-		// 		this.microphone.startRecording()
-		// 			.then(() => {
-		// 				this.speaker.speakText()
-		// 					.then(() => {
-		// 						this.translator.translateNext(this.options.next)
-		// 							.then(() => {
-
-		// 							});
-		// 					});
-		// 			});
-		// 	});
+		this.start.bind(this)();
 	}
 	/** Restarts the complete show and resets the round */
 	restartTheShow() {

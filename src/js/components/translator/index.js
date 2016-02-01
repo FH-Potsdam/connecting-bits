@@ -11,7 +11,6 @@ export default class Translate {
 		return new Promise((resolve, reject) => {
 			const texts = this.getTexts.bind(this)().texts;
 
-			console.log(texts[this.name].output);
 			this.translate.bind(this)(this.language, next.language, texts[this.name].output)
 				.then((response) => {
 					this.addTranslation.bind(this)(response)
@@ -26,7 +25,7 @@ export default class Translate {
 			const url = 'https://www.googleapis.com/language/translate' +
 				`/v2?key=${api_key}&q=${output}` +
 				`&source=${sourceLanguage}&target=${targetLanguage}`;
-			console.log(url);
+
 			fetch(url)
 				.then(res => res.json())
 				.then(jsonContent => {
