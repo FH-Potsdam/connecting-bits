@@ -1,8 +1,8 @@
 import config from 'config';
 import { Boards } from 'johnny-five';
 import Box from './components/box';
-import { createBoard } from './utils/boardsUtil';
-import { createClient } from './utils/clientsUtil';
+import BoardUtil from './utils/boardsUtil';
+import ClientUtil from './utils/clientsUtil';
 import logUtil from './utils/logUtil';
 
 /**
@@ -16,7 +16,7 @@ export default class BoardsChain {
 	constructor() {
 		const boardsConfigs = config.get('boards');
 		const boards = new Boards(boardsConfigs.map((board) =>
-			createBoard(board.name, board.id)));
+			BoardUtil.createBoard(board.name, board.id)));
 
 		/**
 		 * Collection of Boxes taking part to the show
@@ -27,6 +27,7 @@ export default class BoardsChain {
 			let next;
 			let prev;
 			let isMaster = false;
+			const language = boardsConfigs[index].language;
 
 			if (index === 0) {
 				isMaster = true;
@@ -54,8 +55,8 @@ export default class BoardsChain {
 					{ isMaster }
 				]
 			});
-			const client = createClient(board.id);
-			this.boxes.push(new Box(board, client, { next, isMaster, prev }));
+			const client = ClientUtil.createClient(board.id);
+			this.boxes.push(new Box(board, client, { next, isMaster, prev, language }));
 		});
 
 		/**

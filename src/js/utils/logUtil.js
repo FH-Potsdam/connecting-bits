@@ -7,7 +7,7 @@ import chalk from 'chalk';
  * @type {String}
  */
 const PREFIX_TABULATION = `
-		   `;
+           `;
 
 /**
  * Retrieves a formatted date like node does. Wraps the square
@@ -64,7 +64,7 @@ const doLog = (options) => {
 	const color = getColorByType(type);
 	const toLog = [ '\n' + getFormattedTime() ];
 	if (title && typeof title === 'string') {
-		toLog.push(chalk.inverse.bold[ color ](' ' + title + ' '));
+		toLog.push(chalk.inverse.bold[ color ](` ${title} `));
 	}
 	messages.forEach((message) => {
 		let formattedMessage = chalk[ color ](PREFIX_TABULATION, message);

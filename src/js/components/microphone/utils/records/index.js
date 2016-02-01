@@ -1,32 +1,57 @@
 import fs from 'fs';
 import rec from 'node-record-lpcm16';
 
-/**
- * @class Manages the audio recording
- */
 export default class Record {
-	/**
-	 * Records and writes the audio in a wav file
-	 * @param  {Object} options
-	 * @param  {Function} callback
-	 */
-	constructor(options, callback) {
+	constructor() {
+		this.recordMaster = this.recordMaster.bind(this);
+		this.recordInput = this.recordInput.bind(this);
+	}
+
+	recordMaster(options, callback) {
 		const {
 			location,
 			filename,
 			id,
-			sampleRate
+			sampleRate,
+			temp,
+			master,
+			maxRecordingTime
 		} = options;
 
 		const file = fs.createWriteStream(
-			`${location}${filename}${id}.wav`, {
+			`${location}${temp}.wav`, {
 				encoding: 'binary'
 			});
 		rec.start({ sampleRate, verbose: true });
 
-		setTimeout(() => {
+		const timeout = setTimeout(() => {
 			rec.stop().pipe(file);
 			callback();
-		}, options.maxRecordingTime);
+			clearTimeout(timeout);
+		}, maxRecordingTime);
+	}
+
+	recordInput(options) {
+		return new Promise((resolve, reject) => {
+			const {
+				location,
+				filename,
+				id,
+				sampleRate,
+				maxRecordingTime
+			} = options;
+
+			const file = fs.createWriteStream(
+				`${location}${filename}.wav`, {
+					encoding: 'binary'
+				});
+			rec.start({ sampleRate, verbose: true });
+
+			const timeout = setTimeout(() => {
+				rec.stop().pipe(file);
+				clearTimeout(timeout);
+				resolve(id);
+			}, maxRecordingTime);
+		});
 	}
 }

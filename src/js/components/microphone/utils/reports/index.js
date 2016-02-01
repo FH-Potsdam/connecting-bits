@@ -1,66 +1,41 @@
 import fs from 'fs';
-import logUtil from '../../../../utils/logUtil';
+import config from 'config';
 
-/**
- * @class Manages the audio reports
- */
 export default class CreateReport {
-	/**
-	 * @param  {String} location
-	 * @param  {String} filename
-	 * @param  {Object} data
-	 */
-	constructor(location, filename, data) {
-		this.writeJSON.bind(this);
-		this.extendJSON.bind(this);
-
-		/**
-		 * Audio data
-		 * @type {Object}
-		 */
+	constructor(data) {
 		this.data = data;
-		/**
-		 * Complete file path
-		 * @type {String}
-		 */
-		this.filePath = `${location}${filename}`;
 
-		/**
-		 * New audio report config
-		 * @type {Object}
-		 */
 		this.newObject = { results: [] };
 		this.newObject.results.push(data);
-
-		logUtil.log({
-			type: 'info',
-			title: 'Audio report initialized'
-		});
 	}
-	/**
-	 * Writes an audio report in a json file
-	 * @public
-	 */
 	writeJSON() {
-		fs.writeFileSync(this.filePath, JSON.stringify(this.newObject));
-		logUtil.log({
-			type: 'info',
-			title: 'New audio JSON-file written'
+		return new Promise((resolve, reject) => {
+			const { location, filename } = config.get('Report');
+			const filePath = `${location}${filename}`;
+			fs.writeFile(filePath, JSON.stringify(this.newObject), (writeError) => {
+				if (writeError) {
+					reject(writeError);
+					return;
+				}
+				resolve();
+			});
 		});
 	}
-	/**
-	 * Extends the audio report in an existing json file
-	 * @public
-	 */
 	extendJSON() {
-		let contents = fs.readFileSync(this.filePath);
-		let jsonContent = JSON.parse(contents);
+		return new Promise((resolve, reject) => {
+			const { location, filename } = config.get('Report');
+			const filePath = `${location}${filename}`;
+			let contents = fs.readFileSync(filePath);
+			let jsonContent = JSON.parse(contents);
 
-		jsonContent.results.push(this.data);
-		fs.writeFileSync(this.filePath, JSON.stringify(jsonContent));
-		logUtil.log({
-			type: 'info',
-			title: 'Audio JSON-file extended'
+			jsonContent.results.push(this.data);
+			fs.writeFile(filePath, JSON.stringify(jsonContent), (writeError) => {
+				if (writeError) {
+					reject(writeError);
+					return;
+				}
+				resolve();
+			});
 		});
 	}
 }

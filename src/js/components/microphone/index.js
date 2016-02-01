@@ -1,69 +1,128 @@
-// thanks to: https://gist.github.com/lukehoban/0ee5c1bef438dc5bd7cb
 import config from 'config';
 import fs from 'fs';
 import Record from './utils/records';
+import SoundOutput from './utils/output';
 import Report from './utils/reports';
+import SpeechToText from './utils/speechtotext';
+import Translate from './../translator';
+import logUtil from '../../utils/logUtil';
 
-/**
- * @class Manages the Recording
- */
 export default class Microphone {
-	/**
-	 * Writes a report file for the audi recoring
-	 * @param  {Number} index
-	 * @private
-	 */
-	reportAudio(index) {
-		const { location, filename } = config.get('Report');
-		const data = this.getAudioData.bind(this)(index);
-		const newReport = new Report(location, filename, data);
-
-		if (!fs.existsSync(location + filename)) {
-			newReport.writeJSON();
-		} else {
-			newReport.extendJSON();
-		}
+	constructor(name, language) {
+		this.name = name;
+		this.language = language;
 	}
-	/**
-	 * Retrieves the relevant audio report
-	 * @param  {Number} index
-	 * @private
-	 */
+	startRecording() {
+		return new Promise((resolve, reject) => {
+			const { location, filename } = config.get('Report');
+			const filePath = location + filename;
+			let index = 0;
+
+			if (fs.existsSync(filePath)) {
+				let contents = fs.readFileSync(filePath);
+				let jsonContent = JSON.parse(contents);
+				index = jsonContent.results.length;
+			}
+
+			const recordingOptions = this.getAudioData.bind(this)(index);
+			const startRecord = new Record();
+			startRecord.recordInput(recordingOptions)
+				.then((id) => {
+					this.reportAudio.bind(this)(id)
+						.then((data) => {
+							this.convertSpeech.bind(this)(data)
+								.then(resolve)
+								.catch(reject);
+						})
+						.catch(reject);
+				})
+				.catch(reject);
+		});
+	}
 	getAudioData(index) {
 		const {
 			location,
 			filename,
 			sampleRate,
-			maxRecordingTime
+			maxRecordingTime,
+			temp
 		} = config.get('Audio');
 
 		const id = index;
 		const recordingDate = new Date();
 
-		return { filename, id, location, sampleRate,
-			maxRecordingTime, recordingDate };
+		return {
+			filename: filename + id,
+			id, location, sampleRate,
+			maxRecordingTime, recordingDate, temp
+		};
+
 	}
-	/**
-	 * Start recording
-	 * @param  {Function} callback
-	 * @public
-	 */
-	startRecording(callback) {
-		const { location, filename } = config.get('Report');
-		const filePath = location + filename;
-		let index = 0;
+	reportAudio(index) {
+		return new Promise((resolve, reject) => {
+			const data = this.getAudioData.bind(this)(index);
+			const newReport = new Report(data);
+			const { location, filename } = config.get('Report');
+			const filePath = location + filename;
 
-		if (fs.existsSync(filePath)) {
-			let contents = fs.readFileSync(filePath);
-			let jsonContent = JSON.parse(contents);
+			if (!fs.existsSync(filePath)) {
+				newReport.writeJSON()
+					.then(() => resolve(data))
+					.catch((writeError) => {
+						reject(writeError);
+					});
+			} else {
+				newReport.extendJSON()
+					.then(() => {
+						resolve(data);
+					})
+					.catch((writeError) => {
+						reject(writeError);
+					});
+			}
+		});
+	}
+	convertSpeech(audioData) {
+		return new Promise((resolve, reject) => {
+			const { azure } = config.get('APIKeys');
+			const { location, filename } = config.get('Convert');
+			const pathToText = `${location}${filename}`;
+			const pathToAudio = `${audioData.location}${audioData.filename}.wav`;
 
-			index = jsonContent.results.length;
-		}
+			let speechToText = new SpeechToText();
 
-		const recordingOptions = this.getAudioData(index);
-		recordingOptions.language = 'german';
+			speechToText.getAccessToken('azureApp', azure, (accessTokenError, accessToken) => {
+				if (accessTokenError) {
+					reject(accessTokenError);
+				}
 
-		const startRecord = new Record(recordingOptions, this.reportAudio.bind(this));
+				speechToText.convert(pathToAudio, accessToken, this.language, (speechToTextError, res) => {
+					if (speechToTextError) {
+						reject(speechToTextError);
+					}
+
+					let textOutput = res.results[0].lexical; // result of written text from audio
+					let jsonToSave = {};
+					let resultValue = {
+						language: this.language,
+						output: textOutput
+					};
+					let convertFile;
+					if (!fs.existsSync(pathToText)) {
+						convertFile = JSON.parse(fs.readFileSync(pathToText));
+						jsonToSave = convertFile.texts[this.name] = resultValue;
+					} else {
+						jsonToSave[this.name] = resultValue;
+						jsonToSave = { texts: jsonToSave };
+					}
+					fs.writeFile(pathToText, JSON.stringify(jsonToSave), (writeError) => {
+						if (writeError) {
+							reject(writeError);
+						}
+						resolve();
+					});
+				});
+			});
+		});
 	}
 }
-

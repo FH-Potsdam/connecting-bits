@@ -65,7 +65,13 @@ gulp.task('clean-js', function(){
 gulp.task('serve', ['babel'], function(){
 	nodemon({
 		'script': paths.dest.index,
-		'ignore': ['audio', 'src']
+		'ignore': [
+			'audio',
+			'src',
+			'convert',
+			'circuits',
+			'documentation'
+		]
 	})
 	.on('crash', function() {
 		gutil.log(gutil.colors.red('Nodemon crashed!!'));
