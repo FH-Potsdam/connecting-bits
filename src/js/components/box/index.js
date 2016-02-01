@@ -209,18 +209,24 @@ export default class Box {
 		});
 		// this.start.bind(this)();
 		this.speaker.tellRules()
+			.then(this.microphone.startRecording)
+			.then(this.speaker.speakText)
 			.then(() => {
-				this.microphone.startRecording()
-					.then(() => {
-						this.speaker.speakText()
-							.then(() => {
-								this.translator.startTranslation()
-									.then(() => {
-
-									});
-							});
-					});
+				this.speaker.translateNext(this.options.next);
 			});
+		// this.speaker.tellRules()
+		// 	.then(() => {
+		// 		this.microphone.startRecording()
+		// 			.then(() => {
+		// 				this.speaker.speakText()
+		// 					.then(() => {
+		// 						this.translator.translateNext(this.options.next)
+		// 							.then(() => {
+
+		// 							});
+		// 					});
+		// 			});
+		// 	});
 	}
 	/** Restarts the complete show and resets the round */
 	restartTheShow() {
@@ -304,7 +310,7 @@ export default class Box {
 		});
 		if (this.options.isMaster) {
 			if (this.round === 1) {
-				this.translator.startTranslation()
+				this.translator.translateNext(this.options.next)
 					.then(this.finish.bind(this));
 			} else {
 				logUtil.log({
