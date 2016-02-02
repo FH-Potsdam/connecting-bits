@@ -222,9 +222,14 @@ export default class Box {
 		});
 		this.motor.standUp()
 			.then(() => {
-				this.light.startBlinking();
 				this.speaker.explainRules()
-					.then(this.onRulesExplained.bind(this));
+					.then(this.onRulesExplained.bind(this))
+					.catch(() => {
+						logUtil.log({
+							type: 'error',
+							title: `Rules not explained`
+						});
+					});
 			});
 	}
 	/** Is called when the Box has spoken the rules out loud */
@@ -235,6 +240,7 @@ export default class Box {
 		});
 		this.motor.lookUp()
 			.then(() => {
+				this.light.startBlinking();
 				this.microphone.startRecording()
 					.then(() => {
 						logUtil.log({
@@ -248,6 +254,7 @@ export default class Box {
 	}
 	/** Is called when the Box is meant to speak */
 	prepareToSpeak() {
+		this.light.stopBlinking();
 		const isLastRound = this.isLastRound.bind(this)();
 		if (isLastRound) {
 			this.speakText.bind(this)();
@@ -262,7 +269,6 @@ export default class Box {
 	}
 	/** Speaks the text out loud */
 	speakText() {
-		this.light.stopBlinking();
 		this.motor.lookStraight();
 		this.speaker.speakText()
 			.then(this.onTextSpoken.bind(this));
@@ -291,6 +297,15 @@ export default class Box {
 		});
 		if (this.options.isMaster) {
 			if (this.round === 1) {
+				logUtil.log({
+					type: 'info',
+					title: `Box "${ this.name }"s is now translating`,
+					messages: [
+						{ next: this.options.next.name },
+						{ 'from language': this.options.language },
+						{ 'to language': this.options.next.language }
+					]
+				});
 				this.translator.translateNext(this.options.next)
 					.then(this.finish.bind(this));
 			} else {

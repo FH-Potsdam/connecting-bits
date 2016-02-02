@@ -63,7 +63,7 @@ export default class SoundOutput {
 	 * Explains the rules of the game
 	 * @return {Promise} - Is done when all rules are told
 	 */
-	tellRules() {
+	explainRules() {
 		return new Promise((resolve, reject) => {
 			this.say.bind(this)('Anna', 'Drei. Zwei. Eins. Los gehts baby!')
 				.then(resolve);

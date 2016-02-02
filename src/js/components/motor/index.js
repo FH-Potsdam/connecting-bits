@@ -119,7 +119,7 @@ export default class Motor {
 			actualPositionState: this.titls,
 			whishedPositionState: true,
 			positionToMoveTo: TILTED,
-			servo: this.liftServo
+			servo: this.tiltServo
 		});
 	}
 	/**
@@ -129,10 +129,10 @@ export default class Motor {
 	 */
 	lookStraight() {
 		return this.checkAndMove({
-			actualPositionState: this.thils,
+			actualPositionState: this.tilts,
 			whishedPositionState: false,
 			positionToMoveTo: STRAIGHT,
-			servo: this.liftServo
+			servo: this.tiltServo
 		});
 	}
 }

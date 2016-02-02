@@ -1,6 +1,7 @@
 import config from 'config';
 import fs from 'fs';
 const fetch = require('node-fetch');
+import logUtil from '../../utils/logUtil';
 
 /**
  * @class Class to translate audio texts into other languages
@@ -31,9 +32,10 @@ export default class Translate {
 	 */
 	translateNext(next) {
 		return new Promise((resolve, reject) => {
-			const texts = this.getTexts.bind(this)().texts;
+			const texts = this.getTexts.bind(this)();
 
-			this.translate.bind(this)(this.language, next.language, texts[this.name].output)
+			this.next = next;
+			this.translate.bind(this)(this.language, this.next.language, texts[this.name].output)
 				.then((response) => {
 					this.addTranslation.bind(this)(response)
 						.then(resolve);
@@ -52,13 +54,19 @@ export default class Translate {
 		return new Promise((resolve, reject) => {
 			const api_key = config.get('APIKeys.google');
 			const url = 'https://www.googleapis.com/language/translate' +
-				`/v2?key=${api_key}&q=${output}` +
+				`/v2?key=${api_key}&q=${escape(output)}` +
 				`&source=${sourceLanguage}&target=${targetLanguage}`;
 
 			fetch(url)
 				.then(res => res.json())
 				.then(jsonContent => {
-					resolve({ language: targetLanguage, output: jsonContent });
+					const translation = unescape(jsonContent.data.translations[1].translatedText);
+					logUtil.log({
+						type: 'info',
+						title: 'Tranlation done',
+						messages: [ { 'translated text': translation } ]
+					});
+					resolve({ language: targetLanguage, output: translation });
 				})
 				.catch((translationError) => {
 					reject(translationError);
@@ -74,7 +82,7 @@ export default class Translate {
 		const filePath = location + filename;
 		const contents = fs.readFileSync(filePath);
 		const texts = JSON.parse(contents).texts;
-		return { filePath, texts };
+		return texts;
 	}
 	/**
 	 * Adds a new translation to the texts file
@@ -82,11 +90,30 @@ export default class Translate {
 	 */
 	addTranslation(response) {
 		return new Promise((resolve, reject) => {
-			const { texts, filePath } = this.getTexts.bind(this)();
-			texts[this.next.name] = response;
-			const jsonToSave = { texts: jsonToSave };
+			const { location, filename } = config.get('Convert');
+			const filePath = location + filename;
+			const texts = this.getTexts();
+			const newTexts = Object.assign({}, texts, {
+				[this.next.name]: response
+			});
+			const jsonToSave = {
+				texts: newTexts
+			};
+			console.log(jsonToSave.texts.Nude.output);
+			logUtil.log({
+				type: 'info',
+				title: 'Now adding the translation to the texts',
+				messages: [ { 'saving in': filePath } ]
+			});
 			fs.writeFile(filePath, JSON.stringify(jsonToSave), (writeError) => {
 				if (writeError) {
+					logUtil.log({
+						type: 'Error',
+						title: 'Error while saving text',
+						messages: [
+							{ Error: writeError }
+						]
+					});
 					reject(writeError);
 				}
 				resolve();
