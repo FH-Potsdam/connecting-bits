@@ -306,8 +306,6 @@ export default class Box {
 						{ 'to language': this.options.next.language }
 					]
 				});
-				this.translator.translateNext(this.options.next)
-					.then(this.finish.bind(this));
 			} else {
 				logUtil.log({
 					type: 'info',
@@ -317,9 +315,9 @@ export default class Box {
 				this.round = 0;
 				this.startTheShow.bind(this)();
 			}
-		} else {
-			this.finish.bind(this)();
 		}
+		this.translator.translateNext(this.options.next)
+				.then(this.finish.bind(this));
 	}
 	/** Ends the show of the box */
 	finish() {

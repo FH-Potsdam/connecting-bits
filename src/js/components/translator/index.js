@@ -99,7 +99,6 @@ export default class Translate {
 			const jsonToSave = {
 				texts: newTexts
 			};
-			console.log(jsonToSave.texts.Nude.output);
 			logUtil.log({
 				type: 'info',
 				title: 'Now adding the translation to the texts',

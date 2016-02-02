@@ -31,7 +31,7 @@ export default class BoardsChain {
 
 			if (index === 0) {
 				isMaster = true;
-				prev = boardsConfigs[index + 1];
+				prev = boardsConfigs[boardsConfigs.length - 1];
 			} else {
 				prev = boardsConfigs[index - 1];
 			}
