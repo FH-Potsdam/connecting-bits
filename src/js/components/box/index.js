@@ -229,6 +229,7 @@ export default class Box {
 							type: 'error',
 							title: `Rules not explained`
 						});
+						this.startTheShow.bind(this)();
 					});
 			});
 	}
@@ -271,7 +272,20 @@ export default class Box {
 	speakText() {
 		this.motor.lookStraight();
 		this.speaker.speakText()
-			.then(this.onTextSpoken.bind(this));
+			.then(this.onTextSpoken.bind(this))
+			.catch(() => {
+				logUtil.log({
+					type: 'warning',
+					title: `Box "${ this.name }" failed to repeat the text`,
+					messages: [ { then: 'Retries on time again' } ]
+				});
+				this.speaker.speakText()
+					.then(this.onTextSpoken.bind(this))
+					.catch(() => {
+						this.speaker.sayNoRecordingError()
+							.then(this.startTheShow.bind(this));
+					});
+			});
 	}
 	/**
 	 * Is called when the voice was badly recorded, when no sound was identified

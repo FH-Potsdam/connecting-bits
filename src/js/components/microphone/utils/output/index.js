@@ -1,6 +1,7 @@
 import terminal from 'oh-my-terminal';
 import fs from 'fs';
 import config from 'config';
+import logUtil from '../../../utils/logUtil';
 
 /**
  * @class Transforms text into speech
@@ -38,7 +39,10 @@ export default class SoundOutput {
 			const text = jsonContent.texts[this.name].output;
 			this.say.bind(this)(voice, text)
 				.then(resolve)
-				.catch(reject);
+				.catch((err) => {
+					this.catchError(err);
+					reject(err);
+				});
 		});
 	}
 	/**
@@ -53,6 +57,7 @@ export default class SoundOutput {
 			let output = `say -v "${voice}" ${message}`;
 			terminal.exec(output, (err) => {
 				if (err) {
+					this.catchError(err);
 					reject(err);
 					return;
 				}
@@ -67,7 +72,11 @@ export default class SoundOutput {
 	explainRules() {
 		return new Promise((resolve, reject) => {
 			this.say.bind(this)('Anna', 'Drei. Zwei. Eins. Los gehts baby!')
-				.then(resolve);
+				.then(resolve)
+				.catch((err) => {
+					this.catchError(err);
+					reject(err);
+				});
 		});
 	}
 	/**
@@ -86,5 +95,31 @@ export default class SoundOutput {
 			default:
 				return 'Lee';
 		}
+	}
+	/**
+	 * To be called when the recording was unsuccessful
+	 * @return {Promise} - Is done when the error message has been told
+	 */
+	sayNoRecordingError() {
+		return new Promise((resolve, reject) => {
+			this.say.bind(this)('Anna', 'Ich konnte Sie nicht gut verstehen. ' +
+				'Bitte fangen Sie von vorne wieder an. Drei. Zwei. Eins. Los!')
+				.then(resolve)
+				.catch((err) => {
+					this.catchError(err);
+					reject(err);
+				});
+		});
+	}
+	/**
+	 * Logs an error
+	 * @param  {Error} err  - The original Error
+	 */
+	catchError(err) {
+		logUtil.log({
+			type: 'error',
+			title: 'Failed to speak text',
+			messages: [ { 'Original error': err } ]
+		});
 	}
 }
