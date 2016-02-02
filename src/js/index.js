@@ -78,7 +78,10 @@ export default class BoardsChain {
 		});
 		this.boxes.forEach((box) => {
 			box.reset();
+			box.testMotor();
 		});
+		// this.boxes[0].reset();
+		// this.boxes[0].testMotor();
 		// this.masterBox.startTheShow();
 	}
 }

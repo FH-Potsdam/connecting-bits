@@ -33,8 +33,8 @@ export const MOTOR_CONSTANTS = {
 	LIFT_TYPE: 'standard',
 	TILT_TYPE: 'standard',
 	SPEED: 200,
-	LYING: 90,
-	STANDING: 159,
-	TILTED: 90,
+	LYING: 30,
+	STANDING: 105,
+	TILTED: 120,
 	STRAIGHT: 30
 };

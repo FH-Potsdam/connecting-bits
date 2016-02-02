@@ -87,6 +87,8 @@ export default class Box {
 		 */
 		this.microphone = null;
 
+		this.testMotor = this.testMotor.bind(this);
+
 		client.on('connect', this.onConnect.bind(this));
 		client.on('message', this.onMessage.bind(this));
 	}
@@ -374,6 +376,28 @@ export default class Box {
 	}
 	reset() {
 		this.motor.lieDown();
+		this.motor.lookStraight();
 		this.light.stopBlinking();
+	}
+	testMotor() {
+		this.delayedCall.bind(this)(this.motor.standUp)
+			.then(() => {
+				this.delayedCall.bind(this)(this.motor.lookUp)
+					.then(() => {
+						this.delayedCall.bind(this)(this.motor.lookStraight)
+							.then(() => {
+								this.delayedCall.bind(this)(this.motor.lieDown);
+							});
+					});
+			});
+	}
+	delayedCall(callback) {
+		return new Promise((resolve) => {
+			this.timeout = setTimeout(() => {
+				callback();
+				clearTimeout(this.timeout);
+				resolve();
+			}, 1000);
+		});
 	}
 }
