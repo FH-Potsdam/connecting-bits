@@ -69,6 +69,10 @@ export default class Motor {
 	 */
 	lieDown() {
 		return new Promise((resolve, reject) => {
+			if (this.liftServo.position === LYING) {
+				resolve();
+				return;
+			}
 			this.liftServo
 				.removeAllListeners('move:complete')
 				.on('move:complete', () => {
@@ -94,6 +98,10 @@ export default class Motor {
 	 */
 	standUp() {
 		return new Promise((resolve, reject) => {
+			if (this.liftServo.position === STANDING) {
+				resolve();
+				return;
+			}
 			this.liftServo
 				.removeAllListeners('move:complete')
 				.on('move:complete', () => {
@@ -119,6 +127,10 @@ export default class Motor {
 	 */
 	lookUp() {
 		return new Promise((resolve, reject) => {
+			if (this.tiltServo.position === TILTED) {
+				resolve();
+				return;
+			}
 			this.tiltServo
 				.removeAllListeners('move:complete')
 				.on('move:complete', () => {
@@ -144,6 +156,10 @@ export default class Motor {
 	 */
 	lookStraight() {
 		return new Promise((resolve, reject) => {
+			if (this.tiltServo.position === STRAIGHT) {
+				resolve();
+				return;
+			}
 			this.tiltServo
 				.removeAllListeners('move:complete')
 				.on('move:complete', () => {

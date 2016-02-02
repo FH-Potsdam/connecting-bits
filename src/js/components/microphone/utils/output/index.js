@@ -94,6 +94,8 @@ export default class SoundOutput {
 				return 'Aurelie';
 			case 'ar':
 				return 'Tarik';
+			case 'es':
+				return 'Angelica';
 			default:
 				return 'Lee';
 		}
