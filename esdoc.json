@@ -4,5 +4,6 @@
 	"index": "./readme.md",
 	"package": "./package.json",
 	"title": "Software documentation - connecting-bits",
+	"force": true,
 	"plugins": [ { "name": "esdoc-es7-plugin", } ]
 }
