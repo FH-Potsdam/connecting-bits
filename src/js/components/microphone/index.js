@@ -137,7 +137,11 @@ export default class Microphone {
 				}
 
 				speechToText.convert(pathToAudio, accessToken, this.language, (speechToTextError, res) => {
-					if (speechToTextError) {
+					if (speechToTextError || !res) {
+						if (!res) {
+							reject(new Error('Speech to text failed'));
+							return;
+						}
 						reject(speechToTextError);
 					}
 

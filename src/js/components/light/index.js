@@ -37,7 +37,7 @@ export default class Light {
 	 */
 	stopBlinking() {
 		return new Promise((resolve) => {
-			this.led.stop.off();
+			this.led.stop().off();
 			resolve();
 		});
 	}

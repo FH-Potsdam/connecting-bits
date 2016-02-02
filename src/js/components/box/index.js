@@ -87,6 +87,8 @@ export default class Box {
 		 */
 		this.microphone = null;
 
+		this.testMotor = this.testMotor.bind(this);
+
 		client.on('connect', this.onConnect.bind(this));
 		client.on('message', this.onMessage.bind(this));
 	}
@@ -255,33 +257,33 @@ export default class Box {
 	}
 	/** Is called when the Box is meant to speak */
 	prepareToSpeak() {
-		this.light.stopBlinking();
-		const isLastRound = this.isLastRound.bind(this)();
-		if (isLastRound) {
-			this.speakText.bind(this)();
-		} else {
-			this.sendMessage.bind(this)('readyToSpeak');
-		}
-		logUtil.log({
-			type: 'info',
-			title: `Box "${ this.name }" is prepared to speak`,
-			messages: [ { round: this.round } ]
-		});
+		this.light.stopBlinking()
+			.then(() => {
+				const isLastRound = this.isLastRound.bind(this)();
+				if (isLastRound) {
+					this.speakText.bind(this)();
+				} else {
+					this.sendMessage.bind(this)('readyToSpeak');
+				}
+				logUtil.log({
+					type: 'info',
+					title: `Box "${ this.name }" is prepared to speak`,
+					messages: [ { round: this.round } ]
+				});
+			});
 	}
 	/** Speaks the text out loud */
 	speakText() {
-		this.motor.lookStraight();
-		this.speaker.speakText()
-			.then(this.onTextSpoken.bind(this))
-			.catch(() => {
-				logUtil.log({
-					type: 'warning',
-					title: `Box "${ this.name }" failed to repeat the text`,
-					messages: [ { then: 'Retries on time again' } ]
-				});
+		this.motor.lookStraight()
+			.then(() => {
 				this.speaker.speakText()
 					.then(this.onTextSpoken.bind(this))
-					.catch(() => {
+					.catch((err) => {
+						logUtil.log({
+							type: 'warning',
+							title: `Box "${ this.name }" failed to repeat the text`,
+							messages: [ { then: 'Retries on time again' } ]
+						});
 						this.speaker.sayNoRecordingError()
 							.then(this.startTheShow.bind(this));
 					});
@@ -292,15 +294,18 @@ export default class Box {
 	 * or when the speech could not be transformed into text
 	 */
 	onRecordingFailed() {
-		logUtil.log({
-			type: 'warning',
-			title: `Box "${ this.name }" failed to record the voice`,
-			messages: [ { then: 'Starts over again' } ]
-		});
-		this.motor.lookStraight()
+		this.light.stopBlinking()
 			.then(() => {
-				this.speaker.sayNoRecordingError()
-					.then(this.startTheShow.bind(this));
+				logUtil.log({
+					type: 'warning',
+					title: `Box "${ this.name }" failed to record the voice`,
+					messages: [ { then: 'Starts over again' } ]
+				});
+				this.motor.lookStraight()
+					.then(() => {
+						this.speaker.sayNoRecordingError()
+							.then(this.startTheShow.bind(this));
+					});
 			});
 	}
 	/** Is called whe the box has successfully spoken the text out loud */
@@ -309,6 +314,11 @@ export default class Box {
 			type: 'info',
 			title: `Box "${ this.name }" repeated the text`
 		});
+		this.motor.lieDown()
+			.then(this.handleTranslation.bind(this));
+	}
+	/** Ends the show of the box */
+	handleTranslation() {
 		if (this.options.isMaster) {
 			if (this.round === 1) {
 				logUtil.log({
@@ -336,7 +346,6 @@ export default class Box {
 				.then(this.finish.bind(this));
 		}
 	}
-	/** Ends the show of the box */
 	finish() {
 		logUtil.log({
 			type: 'info',
@@ -344,7 +353,6 @@ export default class Box {
 			messages: [ { round: this.round } ]
 		});
 		this.sendMessage.bind(this)('done');
-		this.motor.lieDown();
 		logUtil.log({
 			type: 'info',
 			title: `Box "${ this.name }"s show is over`
@@ -368,5 +376,31 @@ export default class Box {
 	/** Is called to check is this is the last round */
 	isLastRound() {
 		return this.options.isMaster && this.round > 1;
+	}
+	reset() {
+		this.motor.lieDown();
+		this.motor.lookStraight();
+		this.light.stopBlinking();
+	}
+	testMotor() {
+		this.delayedCall.bind(this)(this.motor.standUp)
+			.then(() => {
+				this.delayedCall.bind(this)(this.motor.lookUp)
+					.then(() => {
+						this.delayedCall.bind(this)(this.motor.lookStraight)
+							.then(() => {
+								this.delayedCall.bind(this)(this.motor.lieDown);
+							});
+					});
+			});
+	}
+	delayedCall(callback) {
+		return new Promise((resolve) => {
+			this.timeout = setTimeout(() => {
+				callback();
+				clearTimeout(this.timeout);
+				resolve();
+			}, 1000);
+		});
 	}
 }
