@@ -1,4 +1,5 @@
 import { Servo } from 'johnny-five';
+import logUtil from '../../utils/logUtil';
 import { MOTOR_CONSTANTS } from '../../constants';
 const {
 	LIFT_PIN,
@@ -54,35 +55,12 @@ export default class Motor {
 		 * @type {Boolean}
 		 */
 		this.titls = false;
-	}
-	/**
-	 * Generic function that checks if a servo is already in the
-	 * whished position and rotates it if not.
-	 * @param  {Boolean} actualPositionState - The actual state to check
-	 * @param  {Boolean} whishedPositionState - The whished state
-	 * @param  {Number} positionToMoveTo - The rotation the servo need to accomplish
-	 * @param  {Johnny Five Servo instance} servo
-	 * @return {Promise}
-	 * @private
-	 */
-	checkAndMove(
-		actualPositionState,
-		whishedPositionState,
-		positionToMoveTo,
-		servo) {
-		return new Promise((resolve) => {
-			if (actualPositionState === whishedPositionState) {
-				resolve();
-				return;
-			}
-			servo
-				.removeAllListeners('move:complete')
-				.on('move:complete', () => {
-					servo.removeAllListeners('move:complete');
-					resolve();
-				});
-			servo.to(positionToMoveTo, SPEED);
-		});
+
+		this.checkAndMove = this.checkAndMove;
+		this.lieDown = this.lieDown.bind(this);
+		this.standUp = this.standUp.bind(this);
+		this.lookUp = this.lookUp.bind(this);
+		this.lookStraight = this.lookStraight.bind(this);
 	}
 	/**
 	 * Lifts the Box down
@@ -90,12 +68,19 @@ export default class Motor {
 	 * @public
 	 */
 	lieDown() {
-		return this.checkAndMove(
-			this.stands,
-			false,
-			LYING,
+		return new Promise((resolve, reject) => {
+			if (this.stands === false) {
+				resolve();
+				return;
+			}
 			this.liftServo
-		);
+				.removeAllListeners('move:complete')
+				.on('move:complete', () => {
+					this.stands = false;
+					resolve();
+				});
+			this.liftServo.to(LYING, SPEED);
+		});
 	}
 	/**
 	 * Lifts the Box up
@@ -103,12 +88,19 @@ export default class Motor {
 	 * @public
 	 */
 	standUp() {
-		return this.checkAndMove(
-			this.stands,
-			true,
-			STANDING,
+		return new Promise((resolve, reject) => {
+			if (this.stands === true) {
+				resolve();
+				return;
+			}
 			this.liftServo
-		);
+				.removeAllListeners('move:complete')
+				.on('move:complete', () => {
+					this.stands = true;
+					resolve();
+				});
+			this.liftServo.to(STANDING, SPEED);
+		});
 	}
 	/**
 	 * Makes the Box look up
@@ -116,12 +108,19 @@ export default class Motor {
 	 * @public
 	 */
 	lookUp() {
-		return this.checkAndMove(
-			this.titls,
-			true,
-			TILTED,
+		return new Promise((resolve, reject) => {
+			if (this.titls === true) {
+				resolve();
+				return;
+			}
 			this.tiltServo
-		);
+				.removeAllListeners('move:complete')
+				.on('move:complete', () => {
+					this.titls = true;
+					resolve();
+				});
+			this.tiltServo.to(TILTED, SPEED);
+		});
 	}
 	/**
 	 * Makes the Box look down
@@ -129,11 +128,18 @@ export default class Motor {
 	 * @public
 	 */
 	lookStraight() {
-		return this.checkAndMove(
-			this.tilts,
-			false,
-			STRAIGHT,
+		return new Promise((resolve, reject) => {
+			if (this.titls === false) {
+				resolve();
+				return;
+			}
 			this.tiltServo
-		);
+				.removeAllListeners('move:complete')
+				.on('move:complete', () => {
+					this.titls = false;
+					resolve();
+				});
+			this.tiltServo.to(STRAIGHT, SPEED);
+		});
 	}
 }

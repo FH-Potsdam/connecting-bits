@@ -1,7 +1,7 @@
 import terminal from 'oh-my-terminal';
 import fs from 'fs';
 import config from 'config';
-import logUtil from '../../../utils/logUtil';
+import logUtil from '../../../../utils/logUtil';
 
 /**
  * @class Transforms text into speech

@@ -383,16 +383,22 @@ export default class Box {
 		this.light.stopBlinking();
 	}
 	testMotor() {
-		this.delayedCall.bind(this)(this.motor.standUp)
-			.then(() => {
-				this.delayedCall.bind(this)(this.motor.lookUp)
-					.then(() => {
-						this.delayedCall.bind(this)(this.motor.lookStraight)
-							.then(() => {
-								this.delayedCall.bind(this)(this.motor.lieDown);
-							});
-					});
-			});
+		return new Promise((resolve, reject) => {
+			this.delayedCall.bind(this)(this.motor.standUp)
+				.then(() => {
+					this.delayedCall.bind(this)(this.motor.lookUp)
+						.then(() => {
+							this.delayedCall.bind(this)(this.motor.lookStraight)
+								.then(() => {
+									this.delayedCall.bind(this)(this.motor.lieDown)
+										.then(resolve);
+								});
+						});
+				})
+				.catch((err) => {
+					console.log(err);
+				});
+		});
 	}
 	delayedCall(callback) {
 		return new Promise((resolve) => {
