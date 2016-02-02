@@ -38,6 +38,9 @@ audio/report/audio.report.json
 # Ignore the audio files
 audio/recordings/*.wav
 
+# Ognore the converted texts
+convert/*.json
+
 documentation/esdoc
 
 # Sublime

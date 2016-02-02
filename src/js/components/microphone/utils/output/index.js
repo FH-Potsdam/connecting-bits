@@ -29,7 +29,7 @@ export default class SoundOutput {
 	 * @return {Promise} - Is done when the whole text has been spoken out loup
 	 */
 	speakText() {
-		return new Promise((resolve) => {
+		return new Promise((resolve, reject) => {
 			const voice = this.getVoiceByLanguage.bind(this)(this.language);
 			const { location, filename } = config.get('Convert');
 			const filePath = `${location}${filename}`;
@@ -37,7 +37,8 @@ export default class SoundOutput {
 			const jsonContent = JSON.parse(contents);
 			const text = jsonContent.texts[this.name].output;
 			this.say.bind(this)(voice, text)
-				.then(resolve);
+				.then(resolve)
+				.catch(reject);
 		});
 	}
 	/**
