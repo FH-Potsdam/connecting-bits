@@ -394,9 +394,6 @@ export default class Box {
 										.then(resolve);
 								});
 						});
-				})
-				.catch((err) => {
-					console.log(err);
 				});
 		});
 	}

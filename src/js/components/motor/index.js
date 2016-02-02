@@ -69,10 +69,6 @@ export default class Motor {
 	 */
 	lieDown() {
 		return new Promise((resolve, reject) => {
-			if (this.stands === false) {
-				resolve();
-				return;
-			}
 			this.liftServo
 				.removeAllListeners('move:complete')
 				.on('move:complete', () => {
@@ -80,6 +76,15 @@ export default class Motor {
 					resolve();
 				});
 			this.liftServo.to(LYING, SPEED);
+			logUtil.log({
+				type: 'hardware',
+				title: 'Servo lieDown',
+				messages: [
+					{ stands: this.stands },
+					{ tilts: this.titls },
+					{ position: this.liftServo.position }
+				]
+			});
 		});
 	}
 	/**
@@ -89,10 +94,6 @@ export default class Motor {
 	 */
 	standUp() {
 		return new Promise((resolve, reject) => {
-			if (this.stands === true) {
-				resolve();
-				return;
-			}
 			this.liftServo
 				.removeAllListeners('move:complete')
 				.on('move:complete', () => {
@@ -100,6 +101,15 @@ export default class Motor {
 					resolve();
 				});
 			this.liftServo.to(STANDING, SPEED);
+			logUtil.log({
+				type: 'hardware',
+				title: 'Servo standUp',
+				messages: [
+					{ stands: this.stands },
+					{ tilts: this.titls },
+					{ position: this.liftServo.position }
+				]
+			});
 		});
 	}
 	/**
@@ -109,10 +119,6 @@ export default class Motor {
 	 */
 	lookUp() {
 		return new Promise((resolve, reject) => {
-			if (this.titls === true) {
-				resolve();
-				return;
-			}
 			this.tiltServo
 				.removeAllListeners('move:complete')
 				.on('move:complete', () => {
@@ -120,6 +126,15 @@ export default class Motor {
 					resolve();
 				});
 			this.tiltServo.to(TILTED, SPEED);
+			logUtil.log({
+				type: 'hardware',
+				title: 'Servo lookUp',
+				messages: [
+					{ stands: this.stands },
+					{ tilts: this.titls },
+					{ position: this.tiltServo.position }
+				]
+			});
 		});
 	}
 	/**
@@ -129,10 +144,6 @@ export default class Motor {
 	 */
 	lookStraight() {
 		return new Promise((resolve, reject) => {
-			if (this.titls === false) {
-				resolve();
-				return;
-			}
 			this.tiltServo
 				.removeAllListeners('move:complete')
 				.on('move:complete', () => {
@@ -140,6 +151,15 @@ export default class Motor {
 					resolve();
 				});
 			this.tiltServo.to(STRAIGHT, SPEED);
+			logUtil.log({
+				type: 'hardware',
+				title: 'Servo lookStraight',
+				messages: [
+					{ stands: this.stands },
+					{ tilts: this.titls },
+					{ position: this.tiltServo.position }
+				]
+			});
 		});
 	}
 }
