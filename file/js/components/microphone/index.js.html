@@ -34,14 +34,15 @@
     
   <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/js/index.js~BoardsChain.html">BoardsChain</a></span></span></li>
 <li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">components/box</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/js/components/box/index.js~Box.html">Box</a></span></span></li>
-<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">components/infrared</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/js/components/infrared/index.js~Intrared.html">Intrared</a></span></span></li>
+<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">components/infrared</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/js/components/infrared/index.js~Infrared.html">Infrared</a></span></span></li>
 <li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">components/light</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/js/components/light/index.js~Light.html">Light</a></span></span></li>
 <li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">components/microphone</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/js/components/microphone/index.js~Microphone.html">Microphone</a></span></span></li>
+<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">components/microphone/utils/output</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/js/components/microphone/utils/output/index.js~SoundOutput.html">SoundOutput</a></span></span></li>
 <li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">components/microphone/utils/records</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/js/components/microphone/utils/records/index.js~Record.html">Record</a></span></span></li>
 <li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">components/microphone/utils/reports</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/js/components/microphone/utils/reports/index.js~CreateReport.html">CreateReport</a></span></span></li>
+<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">components/microphone/utils/speechtotext</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/js/components/microphone/utils/speechtotext/index.js~SpeechToText.html">SpeechToText</a></span></span></li>
 <li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">components/motor</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/js/components/motor/index.js~Motor.html">Motor</a></span></span></li>
-<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">components/speaker</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/js/components/speaker/index.js~Speaker.html">Speaker</a></span></span></li>
-<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">components/translator</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/js/components/translator/index.js~Translator.html">Translator</a></span></span></li>
+<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">components/translator</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/js/components/translator/index.js~Translate.html">Translate</a></span></span></li>
 <li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">constants</div><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-INFRARED_CONSTANTS">INFRARED_CONSTANTS</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-LIGHT_CONSTANTS">LIGHT_CONSTANTS</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-MOTOR_CONSTANTS">MOTOR_CONSTANTS</a></span></span></li>
@@ -53,75 +54,174 @@
 </nav>
 
 <div class="content" data-ice="content"><h1 data-ice="title">js/components/microphone/index.js</h1>
-<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">// thanks to: https://gist.github.com/lukehoban/0ee5c1bef438dc5bd7cb
-import config from &apos;config&apos;;
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import config from &apos;config&apos;;
 import fs from &apos;fs&apos;;
 import Record from &apos;./utils/records&apos;;
+import SoundOutput from &apos;./utils/output&apos;;
 import Report from &apos;./utils/reports&apos;;
+import SpeechToText from &apos;./utils/speechtotext&apos;;
+import Translate from &apos;./../translator&apos;;
+import logUtil from &apos;../../utils/logUtil&apos;;
 
 /**
- * @class Manages the Recording
+ * A class managing the audio recording and turning soud into text
  */
 export default class Microphone {
 	/**
-	 * Writes a report file for the audi recoring
-	 * @param  {Number} index
-	 * @private
+	 * Class&apos;s constructor. Is called when initialized with the &quot;new&quot; keyword.
+	 * @param  {String} name     - Name of the box. Used to save the audio by Box name
+	 * @param  {String} language - Language of the box. Used for speeching
+	 *                             and translating it later on
+	 * @return {[type]}          [description]
 	 */
-	reportAudio(index) {
-		const { location, filename } = config.get(&apos;Report&apos;);
-		const data = this.getAudioData.bind(this)(index);
-		const newReport = new Report(location, filename, data);
-
-		if (!fs.existsSync(location + filename)) {
-			newReport.writeJSON();
-		} else {
-			newReport.extendJSON();
-		}
+	constructor(name, language) {
+		/**
+		 * Name of the box. Used to save the audio by Box name
+		 * @type {String}
+		 */
+		this.name = name;
+		/**
+		 * Language of the box. Used for speeching
+		 * and translating it later on
+		 * @type {String} In form of an alpha code
+		 * @example
+		 * de, fr, en, ar...
+		 */
+		this.language = language;
 	}
 	/**
-	 * Retrieves the relevant audio report
-	 * @param  {Number} index
-	 * @private
+	 * Records a voice, transforms the input into text and saves it
+	 * @return {Promise} Is done when all operations are done
+	 */
+	startRecording() {
+		return new Promise((resolve, reject) =&gt; {
+			const { location, filename } = config.get(&apos;Report&apos;);
+			const filePath = location + filename;
+			let index = 0;
+
+			if (fs.existsSync(filePath)) {
+				let contents = fs.readFileSync(filePath);
+				let jsonContent = JSON.parse(contents);
+				index = jsonContent.results.length;
+			}
+
+			const recordingOptions = this.getAudioData.bind(this)(index);
+			const startRecord = new Record();
+			startRecord.recordInput(recordingOptions)
+				.then((id) =&gt; {
+					this.reportAudio.bind(this)(id)
+						.then((data) =&gt; {
+							this.convertSpeech.bind(this)(data)
+								.then(resolve)
+								.catch(reject);
+						})
+						.catch(reject);
+				})
+				.catch(reject);
+		});
+	}
+	/**
+	 * Retrieves all needed configs for the recording
+	 * @param  {Number} index - Unique id for the record
+	 * @return {Object}       - Each key is an indication
 	 */
 	getAudioData(index) {
 		const {
 			location,
 			filename,
 			sampleRate,
-			maxRecordingTime
+			maxRecordingTime,
+			temp
 		} = config.get(&apos;Audio&apos;);
 
 		const id = index;
 		const recordingDate = new Date();
 
-		return { filename, id, location, sampleRate,
-			maxRecordingTime, recordingDate };
+		return {
+			filename: filename + id,
+			id, location, sampleRate,
+			maxRecordingTime, recordingDate, temp
+		};
+
 	}
 	/**
-	 * Start recording
-	 * @param  {Function} callback
-	 * @public
+	 * Creates an audio report
+	 * @param  {[Number} index - Id of the report
+	 * @return {Promise}       - Is done when the report is written
 	 */
-	startRecording(callback) {
-		const { location, filename } = config.get(&apos;Report&apos;);
-		const filePath = location + filename;
-		let index = 0;
+	reportAudio(index) {
+		return new Promise((resolve, reject) =&gt; {
+			const data = this.getAudioData.bind(this)(index);
+			const newReport = new Report(data);
+			const { location, filename } = config.get(&apos;Report&apos;);
+			const filePath = location + filename;
 
-		if (fs.existsSync(filePath)) {
-			let contents = fs.readFileSync(filePath);
-			let jsonContent = JSON.parse(contents);
+			if (!fs.existsSync(filePath)) {
+				newReport.writeJSON()
+					.then(() =&gt; resolve(data))
+					.catch((writeError) =&gt; {
+						reject(writeError);
+					});
+			} else {
+				newReport.extendJSON()
+					.then(() =&gt; {
+						resolve(data);
+					})
+					.catch((writeError) =&gt; {
+						reject(writeError);
+					});
+			}
+		});
+	}
+	/**
+	 * Converts the audio input into text
+	 * @param  {[type]} audioData [description]
+	 * @return {[type]}           [description]
+	 */
+	convertSpeech(audioData) {
+		return new Promise((resolve, reject) =&gt; {
+			const { azure } = config.get(&apos;APIKeys&apos;);
+			const { location, filename } = config.get(&apos;Convert&apos;);
+			const pathToText = `${location}${filename}`;
+			const pathToAudio = `${audioData.location}${audioData.filename}.wav`;
 
-			index = jsonContent.results.length;
-		}
+			let speechToText = new SpeechToText();
 
-		const recordingOptions = this.getAudioData(index);
-		recordingOptions.language = &apos;german&apos;;
+			speechToText.getAccessToken(&apos;azureApp&apos;, azure, (accessTokenError, accessToken) =&gt; {
+				if (accessTokenError) {
+					reject(accessTokenError);
+				}
 
-		const startRecord = new Record(recordingOptions, this.reportAudio.bind(this));
+				speechToText.convert(pathToAudio, accessToken, this.language, (speechToTextError, res) =&gt; {
+					if (speechToTextError) {
+						reject(speechToTextError);
+					}
+
+					let textOutput = res.results[0].lexical; // result of written text from audio
+					let jsonToSave = {};
+					let resultValue = {
+						language: this.language,
+						output: textOutput
+					};
+					let convertFile;
+					if (!fs.existsSync(pathToText)) {
+						convertFile = JSON.parse(fs.readFileSync(pathToText));
+						jsonToSave = convertFile.texts[this.name] = resultValue;
+					} else {
+						jsonToSave[this.name] = resultValue;
+						jsonToSave = { texts: jsonToSave };
+					}
+					fs.writeFile(pathToText, JSON.stringify(jsonToSave), (writeError) =&gt; {
+						if (writeError) {
+							reject(writeError);
+						}
+						resolve();
+					});
+				});
+			});
+		});
 	}
 }
-
 </code></pre>
 
 </div>

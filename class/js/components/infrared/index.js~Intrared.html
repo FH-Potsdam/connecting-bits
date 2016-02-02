@@ -37,11 +37,13 @@
 <li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">components/infrared</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/js/components/infrared/index.js~Intrared.html">Intrared</a></span></span></li>
 <li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">components/light</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/js/components/light/index.js~Light.html">Light</a></span></span></li>
 <li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">components/microphone</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/js/components/microphone/index.js~Microphone.html">Microphone</a></span></span></li>
+<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">components/microphone/utils/output</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/js/components/microphone/utils/output/index.js~SoundOutput.html">SoundOutput</a></span></span></li>
 <li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">components/microphone/utils/records</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/js/components/microphone/utils/records/index.js~Record.html">Record</a></span></span></li>
 <li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">components/microphone/utils/reports</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/js/components/microphone/utils/reports/index.js~CreateReport.html">CreateReport</a></span></span></li>
+<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">components/microphone/utils/speechtotext</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/js/components/microphone/utils/speechtotext/index.js~SpeechToText.html">SpeechToText</a></span></span></li>
+<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">components/microphone/utils/welcome</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/js/components/microphone/utils/welcome/index.js~Welcome.html">Welcome</a></span></span></li>
 <li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">components/motor</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/js/components/motor/index.js~Motor.html">Motor</a></span></span></li>
-<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">components/speaker</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/js/components/speaker/index.js~Speaker.html">Speaker</a></span></span></li>
-<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">components/translator</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/js/components/translator/index.js~Translator.html">Translator</a></span></span></li>
+<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">components/translator</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/js/components/translator/index.js~Translate.html">Translate</a></span></span></li>
 <li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">constants</div><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-INFRARED_CONSTANTS">INFRARED_CONSTANTS</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-LIGHT_CONSTANTS">LIGHT_CONSTANTS</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-MOTOR_CONSTANTS">MOTOR_CONSTANTS</a></span></span></li>
@@ -212,15 +214,13 @@
     <td>
       <div>
         <p>
-           <span data-ice="name"><span><a href="class/js/components/infrared/index.js~Intrared.html#instance-member-resolve">resolve</a></span></span><span data-ice="signature">: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function">Function</a></span></span>
+           <span data-ice="name"><span><a href="class/js/components/infrared/index.js~Intrared.html#instance-member-resolve">resolve</a></span></span><span data-ice="signature">: <span>*</span></span>
         </p>
       </div>
       <div>
         
         
-        <div data-ice="description"><p>The Function to resolve in case a long presence
-has been detected</p>
-</div>
+        
       </div>
     </td>
     <td>
@@ -248,6 +248,31 @@ has been detected</p>
         <div data-ice="description"><p>A throttled function checking if a human presence
 is still detected after a certain time</p>
 </div>
+      </div>
+    </td>
+    <td>
+      
+      
+    </td>
+  </tr>
+<tr data-ice="target">
+    <td>
+      <span class="access" data-ice="access">public</span>
+      
+      
+      
+      <span class="override" data-ice="override"></span>
+    </td>
+    <td>
+      <div>
+        <p>
+           <span data-ice="name"><span><a href="class/js/components/infrared/index.js~Intrared.html#instance-member-timeout">timeout</a></span></span><span data-ice="signature">: <span>*</span></span>
+        </p>
+      </div>
+      <div>
+        
+        
+        
       </div>
     </td>
     <td>
@@ -470,20 +495,18 @@ is still detected after a certain time</p>
     
     
     
-    <span data-ice="name">resolve</span><span data-ice="signature">: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function">Function</a></span></span>
+    <span data-ice="name">resolve</span><span data-ice="signature">: <span>*</span></span>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/js/components/infrared/index.js.html#lineNumber50">source</a></span></span>
+      <span data-ice="source"><span><a href="file/js/components/infrared/index.js.html#lineNumber104">source</a></span></span>
     </span>
   </h3>
 
   
   
   
-  <div data-ice="description"><p>The Function to resolve in case a long presence
-has been detected</p>
-</div>
+  
 
   
 
@@ -516,7 +539,7 @@ has been detected</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/js/components/infrared/index.js.html#lineNumber56">source</a></span></span>
+      <span data-ice="source"><span><a href="file/js/components/infrared/index.js.html#lineNumber50">source</a></span></span>
     </span>
   </h3>
 
@@ -526,6 +549,46 @@ has been detected</p>
   <div data-ice="description"><p>A throttled function checking if a human presence
 is still detected after a certain time</p>
 </div>
+
+  
+
+  <div data-ice="properties">
+</div>
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+</div>
+<div class="detail" data-ice="detail">
+  <h3 data-ice="anchor" id="instance-member-timeout">
+    <span class="access" data-ice="access">public</span>
+    
+    
+    
+    
+    <span data-ice="name">timeout</span><span data-ice="signature">: <span>*</span></span>
+    <span class="right-info">
+      
+      
+      <span data-ice="source"><span><a href="file/js/components/infrared/index.js.html#lineNumber114">source</a></span></span>
+    </span>
+  </h3>
+
+  
+  
+  
+  
 
   
 
@@ -561,7 +624,7 @@ is still detected after a certain time</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/js/components/infrared/index.js.html#lineNumber109">source</a></span></span>
+      <span data-ice="source"><span><a href="file/js/components/infrared/index.js.html#lineNumber99">source</a></span></span>
     </span>
   </h3>
 

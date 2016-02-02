@@ -2,865 +2,66 @@
   "type": "Program",
   "body": [
     {
-      "type": "ExportDefaultDeclaration",
-      "declaration": {
-        "type": "ClassDeclaration",
-        "id": {
-          "type": "Identifier",
-          "name": "Speaker",
-          "range": [
-            70,
-            77
-          ],
-          "loc": {
-            "start": {
-              "line": 4,
-              "column": 21
-            },
-            "end": {
-              "line": 4,
-              "column": 28
-            }
-          }
-        },
-        "superClass": null,
-        "body": {
-          "type": "ClassBody",
-          "body": [
-            {
-              "type": "MethodDefinition",
-              "key": {
-                "type": "Identifier",
-                "name": "speakText",
-                "range": [
-                  193,
-                  202
-                ],
-                "loc": {
-                  "start": {
-                    "line": 11,
-                    "column": 1
-                  },
-                  "end": {
-                    "line": 11,
-                    "column": 10
-                  }
-                }
-              },
-              "value": {
-                "type": "FunctionExpression",
-                "id": null,
-                "params": [],
-                "body": {
-                  "type": "BlockStatement",
-                  "body": [
-                    {
-                      "type": "ReturnStatement",
-                      "argument": {
-                        "type": "NewExpression",
-                        "callee": {
-                          "type": "Identifier",
-                          "name": "Promise",
-                          "range": [
-                            220,
-                            227
-                          ],
-                          "loc": {
-                            "start": {
-                              "line": 12,
-                              "column": 13
-                            },
-                            "end": {
-                              "line": 12,
-                              "column": 20
-                            }
-                          }
-                        },
-                        "arguments": [
-                          {
-                            "type": "ArrowFunctionExpression",
-                            "id": null,
-                            "params": [
-                              {
-                                "type": "Identifier",
-                                "name": "resolve",
-                                "range": [
-                                  229,
-                                  236
-                                ],
-                                "loc": {
-                                  "start": {
-                                    "line": 12,
-                                    "column": 22
-                                  },
-                                  "end": {
-                                    "line": 12,
-                                    "column": 29
-                                  }
-                                }
-                              }
-                            ],
-                            "body": {
-                              "type": "CallExpression",
-                              "callee": {
-                                "type": "Identifier",
-                                "name": "resolve",
-                                "range": [
-                                  241,
-                                  248
-                                ],
-                                "loc": {
-                                  "start": {
-                                    "line": 12,
-                                    "column": 34
-                                  },
-                                  "end": {
-                                    "line": 12,
-                                    "column": 41
-                                  }
-                                }
-                              },
-                              "arguments": [],
-                              "range": [
-                                241,
-                                250
-                              ],
-                              "loc": {
-                                "start": {
-                                  "line": 12,
-                                  "column": 34
-                                },
-                                "end": {
-                                  "line": 12,
-                                  "column": 43
-                                }
-                              }
-                            },
-                            "generator": false,
-                            "expression": true,
-                            "range": [
-                              228,
-                              250
-                            ],
-                            "loc": {
-                              "start": {
-                                "line": 12,
-                                "column": 21
-                              },
-                              "end": {
-                                "line": 12,
-                                "column": 43
-                              }
-                            }
-                          }
-                        ],
-                        "range": [
-                          216,
-                          251
-                        ],
-                        "loc": {
-                          "start": {
-                            "line": 12,
-                            "column": 9
-                          },
-                          "end": {
-                            "line": 12,
-                            "column": 44
-                          }
-                        }
-                      },
-                      "range": [
-                        209,
-                        252
-                      ],
-                      "loc": {
-                        "start": {
-                          "line": 12,
-                          "column": 2
-                        },
-                        "end": {
-                          "line": 12,
-                          "column": 45
-                        }
-                      }
-                    }
-                  ],
-                  "range": [
-                    205,
-                    255
-                  ],
-                  "loc": {
-                    "start": {
-                      "line": 11,
-                      "column": 13
-                    },
-                    "end": {
-                      "line": 13,
-                      "column": 2
-                    }
-                  }
-                },
-                "generator": false,
-                "expression": false,
-                "range": [
-                  202,
-                  255
-                ],
-                "loc": {
-                  "start": {
-                    "line": 11,
-                    "column": 10
-                  },
-                  "end": {
-                    "line": 13,
-                    "column": 2
-                  }
-                }
-              },
-              "kind": "method",
-              "computed": false,
-              "range": [
-                193,
-                255
-              ],
-              "loc": {
-                "start": {
-                  "line": 11,
-                  "column": 1
-                },
-                "end": {
-                  "line": 13,
-                  "column": 2
-                }
-              },
-              "leadingComments": [
-                {
-                  "type": "Block",
-                  "value": "*\n\t * Makes the Box speech its text out loud.\n\t * NOT IMPLEMENTED YET\n\t * @public\n\t * @return {Promise}\n\t ",
-                  "range": [
-                    81,
-                    191
-                  ],
-                  "loc": {
-                    "start": {
-                      "line": 5,
-                      "column": 1
-                    },
-                    "end": {
-                      "line": 10,
-                      "column": 4
-                    }
-                  }
-                }
-              ],
-              "trailingComments": [
-                {
-                  "type": "Block",
-                  "value": "*\n\t * Makes the Box excusing itself for not having\n\t * understood the user and ask to repeat.\n\t * NOT IMPLEMENTED YET\n\t * @public\n\t * @return {Promise}\n\t ",
-                  "range": [
-                    257,
-                    415
-                  ],
-                  "loc": {
-                    "start": {
-                      "line": 14,
-                      "column": 1
-                    },
-                    "end": {
-                      "line": 20,
-                      "column": 4
-                    }
-                  }
-                }
-              ],
-              "static": false
-            },
-            {
-              "type": "MethodDefinition",
-              "key": {
-                "type": "Identifier",
-                "name": "sayNoRecordingError",
-                "range": [
-                  417,
-                  436
-                ],
-                "loc": {
-                  "start": {
-                    "line": 21,
-                    "column": 1
-                  },
-                  "end": {
-                    "line": 21,
-                    "column": 20
-                  }
-                }
-              },
-              "value": {
-                "type": "FunctionExpression",
-                "id": null,
-                "params": [],
-                "body": {
-                  "type": "BlockStatement",
-                  "body": [
-                    {
-                      "type": "ReturnStatement",
-                      "argument": {
-                        "type": "NewExpression",
-                        "callee": {
-                          "type": "Identifier",
-                          "name": "Promise",
-                          "range": [
-                            454,
-                            461
-                          ],
-                          "loc": {
-                            "start": {
-                              "line": 22,
-                              "column": 13
-                            },
-                            "end": {
-                              "line": 22,
-                              "column": 20
-                            }
-                          }
-                        },
-                        "arguments": [
-                          {
-                            "type": "ArrowFunctionExpression",
-                            "id": null,
-                            "params": [
-                              {
-                                "type": "Identifier",
-                                "name": "resolve",
-                                "range": [
-                                  463,
-                                  470
-                                ],
-                                "loc": {
-                                  "start": {
-                                    "line": 22,
-                                    "column": 22
-                                  },
-                                  "end": {
-                                    "line": 22,
-                                    "column": 29
-                                  }
-                                }
-                              }
-                            ],
-                            "body": {
-                              "type": "CallExpression",
-                              "callee": {
-                                "type": "Identifier",
-                                "name": "resolve",
-                                "range": [
-                                  475,
-                                  482
-                                ],
-                                "loc": {
-                                  "start": {
-                                    "line": 22,
-                                    "column": 34
-                                  },
-                                  "end": {
-                                    "line": 22,
-                                    "column": 41
-                                  }
-                                }
-                              },
-                              "arguments": [],
-                              "range": [
-                                475,
-                                484
-                              ],
-                              "loc": {
-                                "start": {
-                                  "line": 22,
-                                  "column": 34
-                                },
-                                "end": {
-                                  "line": 22,
-                                  "column": 43
-                                }
-                              }
-                            },
-                            "generator": false,
-                            "expression": true,
-                            "range": [
-                              462,
-                              484
-                            ],
-                            "loc": {
-                              "start": {
-                                "line": 22,
-                                "column": 21
-                              },
-                              "end": {
-                                "line": 22,
-                                "column": 43
-                              }
-                            }
-                          }
-                        ],
-                        "range": [
-                          450,
-                          485
-                        ],
-                        "loc": {
-                          "start": {
-                            "line": 22,
-                            "column": 9
-                          },
-                          "end": {
-                            "line": 22,
-                            "column": 44
-                          }
-                        }
-                      },
-                      "range": [
-                        443,
-                        486
-                      ],
-                      "loc": {
-                        "start": {
-                          "line": 22,
-                          "column": 2
-                        },
-                        "end": {
-                          "line": 22,
-                          "column": 45
-                        }
-                      }
-                    }
-                  ],
-                  "range": [
-                    439,
-                    489
-                  ],
-                  "loc": {
-                    "start": {
-                      "line": 21,
-                      "column": 23
-                    },
-                    "end": {
-                      "line": 23,
-                      "column": 2
-                    }
-                  }
-                },
-                "generator": false,
-                "expression": false,
-                "range": [
-                  436,
-                  489
-                ],
-                "loc": {
-                  "start": {
-                    "line": 21,
-                    "column": 20
-                  },
-                  "end": {
-                    "line": 23,
-                    "column": 2
-                  }
-                }
-              },
-              "kind": "method",
-              "computed": false,
-              "range": [
-                417,
-                489
-              ],
-              "loc": {
-                "start": {
-                  "line": 21,
-                  "column": 1
-                },
-                "end": {
-                  "line": 23,
-                  "column": 2
-                }
-              },
-              "leadingComments": [
-                {
-                  "type": "Block",
-                  "value": "*\n\t * Makes the Box excusing itself for not having\n\t * understood the user and ask to repeat.\n\t * NOT IMPLEMENTED YET\n\t * @public\n\t * @return {Promise}\n\t ",
-                  "range": [
-                    257,
-                    415
-                  ],
-                  "loc": {
-                    "start": {
-                      "line": 14,
-                      "column": 1
-                    },
-                    "end": {
-                      "line": 20,
-                      "column": 4
-                    }
-                  }
-                }
-              ],
-              "trailingComments": [
-                {
-                  "type": "Block",
-                  "value": "*\n\t * Makes the Box explain the rules of the game.\n\t * NOT IMPLEMENTED YET\n\t * @public\n\t * @return {Promise}\n\t ",
-                  "range": [
-                    491,
-                    606
-                  ],
-                  "loc": {
-                    "start": {
-                      "line": 24,
-                      "column": 1
-                    },
-                    "end": {
-                      "line": 29,
-                      "column": 4
-                    }
-                  }
-                }
-              ],
-              "static": false
-            },
-            {
-              "type": "MethodDefinition",
-              "key": {
-                "type": "Identifier",
-                "name": "explainRules",
-                "range": [
-                  608,
-                  620
-                ],
-                "loc": {
-                  "start": {
-                    "line": 30,
-                    "column": 1
-                  },
-                  "end": {
-                    "line": 30,
-                    "column": 13
-                  }
-                }
-              },
-              "value": {
-                "type": "FunctionExpression",
-                "id": null,
-                "params": [],
-                "body": {
-                  "type": "BlockStatement",
-                  "body": [
-                    {
-                      "type": "ReturnStatement",
-                      "argument": {
-                        "type": "NewExpression",
-                        "callee": {
-                          "type": "Identifier",
-                          "name": "Promise",
-                          "range": [
-                            638,
-                            645
-                          ],
-                          "loc": {
-                            "start": {
-                              "line": 31,
-                              "column": 13
-                            },
-                            "end": {
-                              "line": 31,
-                              "column": 20
-                            }
-                          }
-                        },
-                        "arguments": [
-                          {
-                            "type": "ArrowFunctionExpression",
-                            "id": null,
-                            "params": [
-                              {
-                                "type": "Identifier",
-                                "name": "resolve",
-                                "range": [
-                                  647,
-                                  654
-                                ],
-                                "loc": {
-                                  "start": {
-                                    "line": 31,
-                                    "column": 22
-                                  },
-                                  "end": {
-                                    "line": 31,
-                                    "column": 29
-                                  }
-                                }
-                              }
-                            ],
-                            "body": {
-                              "type": "CallExpression",
-                              "callee": {
-                                "type": "Identifier",
-                                "name": "resolve",
-                                "range": [
-                                  659,
-                                  666
-                                ],
-                                "loc": {
-                                  "start": {
-                                    "line": 31,
-                                    "column": 34
-                                  },
-                                  "end": {
-                                    "line": 31,
-                                    "column": 41
-                                  }
-                                }
-                              },
-                              "arguments": [],
-                              "range": [
-                                659,
-                                668
-                              ],
-                              "loc": {
-                                "start": {
-                                  "line": 31,
-                                  "column": 34
-                                },
-                                "end": {
-                                  "line": 31,
-                                  "column": 43
-                                }
-                              }
-                            },
-                            "generator": false,
-                            "expression": true,
-                            "range": [
-                              646,
-                              668
-                            ],
-                            "loc": {
-                              "start": {
-                                "line": 31,
-                                "column": 21
-                              },
-                              "end": {
-                                "line": 31,
-                                "column": 43
-                              }
-                            }
-                          }
-                        ],
-                        "range": [
-                          634,
-                          669
-                        ],
-                        "loc": {
-                          "start": {
-                            "line": 31,
-                            "column": 9
-                          },
-                          "end": {
-                            "line": 31,
-                            "column": 44
-                          }
-                        }
-                      },
-                      "range": [
-                        627,
-                        670
-                      ],
-                      "loc": {
-                        "start": {
-                          "line": 31,
-                          "column": 2
-                        },
-                        "end": {
-                          "line": 31,
-                          "column": 45
-                        }
-                      }
-                    }
-                  ],
-                  "range": [
-                    623,
-                    673
-                  ],
-                  "loc": {
-                    "start": {
-                      "line": 30,
-                      "column": 16
-                    },
-                    "end": {
-                      "line": 32,
-                      "column": 2
-                    }
-                  }
-                },
-                "generator": false,
-                "expression": false,
-                "range": [
-                  620,
-                  673
-                ],
-                "loc": {
-                  "start": {
-                    "line": 30,
-                    "column": 13
-                  },
-                  "end": {
-                    "line": 32,
-                    "column": 2
-                  }
-                }
-              },
-              "kind": "method",
-              "computed": false,
-              "range": [
-                608,
-                673
-              ],
-              "loc": {
-                "start": {
-                  "line": 30,
-                  "column": 1
-                },
-                "end": {
-                  "line": 32,
-                  "column": 2
-                }
-              },
-              "leadingComments": [
-                {
-                  "type": "Block",
-                  "value": "*\n\t * Makes the Box explain the rules of the game.\n\t * NOT IMPLEMENTED YET\n\t * @public\n\t * @return {Promise}\n\t ",
-                  "range": [
-                    491,
-                    606
-                  ],
-                  "loc": {
-                    "start": {
-                      "line": 24,
-                      "column": 1
-                    },
-                    "end": {
-                      "line": 29,
-                      "column": 4
-                    }
-                  }
-                }
-              ],
-              "static": false
-            }
-          ],
-          "range": [
-            78,
-            675
-          ],
-          "loc": {
-            "start": {
-              "line": 4,
-              "column": 29
-            },
-            "end": {
-              "line": 33,
-              "column": 1
-            }
-          }
-        },
-        "range": [
-          64,
-          675
-        ],
-        "loc": {
-          "start": {
-            "line": 4,
-            "column": 15
-          },
-          "end": {
-            "line": 33,
-            "column": 1
-          }
-        },
-        "leadingComments": [
-          {
-            "type": "Block",
-            "value": "*\n * @class Manages the Speaker components\n ",
+      "type": "ImportDeclaration",
+      "specifiers": [
+        {
+          "type": "ImportDefaultSpecifier",
+          "local": {
+            "type": "Identifier",
+            "name": "SoundOutput",
             "range": [
-              0,
-              48
+              7,
+              18
             ],
             "loc": {
               "start": {
                 "line": 1,
-                "column": 0
+                "column": 7
               },
               "end": {
-                "line": 3,
-                "column": 3
+                "line": 1,
+                "column": 18
               }
             }
-          }
-        ],
-        "trailingComments": []
-      },
-      "range": [
-        49,
-        675
-      ],
-      "loc": {
-        "start": {
-          "line": 4,
-          "column": 0
-        },
-        "end": {
-          "line": 33,
-          "column": 1
-        }
-      },
-      "leadingComments": [
-        {
-          "type": "Block",
-          "value": "*\n * @class Manages the Speaker components\n ",
+          },
           "range": [
-            0,
-            48
+            7,
+            18
           ],
           "loc": {
             "start": {
               "line": 1,
-              "column": 0
+              "column": 7
             },
             "end": {
-              "line": 3,
-              "column": 3
+              "line": 1,
+              "column": 18
             }
           }
         }
-      ]
-    }
-  ],
-  "sourceType": "module",
-  "range": [
-    49,
-    675
-  ],
-  "loc": {
-    "start": {
-      "line": 4,
-      "column": 0
-    },
-    "end": {
-      "line": 33,
-      "column": 1
-    }
-  },
-  "comments": [
-    {
-      "type": "Block",
-      "value": "*\n * @class Manages the Speaker components\n ",
+      ],
+      "source": {
+        "type": "Literal",
+        "value": "../microphone/utils/output",
+        "raw": "'../microphone/utils/output'",
+        "range": [
+          24,
+          52
+        ],
+        "loc": {
+          "start": {
+            "line": 1,
+            "column": 24
+          },
+          "end": {
+            "line": 1,
+            "column": 52
+          }
+        }
+      },
       "range": [
         0,
-        48
+        53
       ],
       "loc": {
         "start": {
@@ -868,64 +69,63 @@
           "column": 0
         },
         "end": {
+          "line": 1,
+          "column": 53
+        }
+      }
+    },
+    {
+      "type": "ExportDefaultDeclaration",
+      "declaration": {
+        "type": "Identifier",
+        "name": "SoundOutput",
+        "range": [
+          70,
+          81
+        ],
+        "loc": {
+          "start": {
+            "line": 3,
+            "column": 15
+          },
+          "end": {
+            "line": 3,
+            "column": 26
+          }
+        },
+        "leadingComments": [],
+        "trailingComments": []
+      },
+      "range": [
+        55,
+        82
+      ],
+      "loc": {
+        "start": {
           "line": 3,
-          "column": 3
-        }
-      }
-    },
-    {
-      "type": "Block",
-      "value": "*\n\t * Makes the Box speech its text out loud.\n\t * NOT IMPLEMENTED YET\n\t * @public\n\t * @return {Promise}\n\t ",
-      "range": [
-        81,
-        191
-      ],
-      "loc": {
-        "start": {
-          "line": 5,
-          "column": 1
+          "column": 0
         },
         "end": {
-          "line": 10,
-          "column": 4
-        }
-      }
-    },
-    {
-      "type": "Block",
-      "value": "*\n\t * Makes the Box excusing itself for not having\n\t * understood the user and ask to repeat.\n\t * NOT IMPLEMENTED YET\n\t * @public\n\t * @return {Promise}\n\t ",
-      "range": [
-        257,
-        415
-      ],
-      "loc": {
-        "start": {
-          "line": 14,
-          "column": 1
-        },
-        "end": {
-          "line": 20,
-          "column": 4
-        }
-      }
-    },
-    {
-      "type": "Block",
-      "value": "*\n\t * Makes the Box explain the rules of the game.\n\t * NOT IMPLEMENTED YET\n\t * @public\n\t * @return {Promise}\n\t ",
-      "range": [
-        491,
-        606
-      ],
-      "loc": {
-        "start": {
-          "line": 24,
-          "column": 1
-        },
-        "end": {
-          "line": 29,
-          "column": 4
+          "line": 3,
+          "column": 27
         }
       }
     }
-  ]
+  ],
+  "sourceType": "module",
+  "range": [
+    0,
+    82
+  ],
+  "loc": {
+    "start": {
+      "line": 1,
+      "column": 0
+    },
+    "end": {
+      "line": 3,
+      "column": 27
+    }
+  },
+  "comments": []
 }

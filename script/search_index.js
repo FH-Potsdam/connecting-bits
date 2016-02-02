@@ -36,9 +36,9 @@ window.esdocSearchIndex = [
     "variable"
   ],
   [
-    "connecting-bits/js/components/infrared/index.js~intrared",
-    "class/js/components/infrared/index.js~Intrared.html",
-    "<span>Intrared</span> <span class=\"search-result-import-path\">connecting-bits/js/components/infrared/index.js</span>",
+    "connecting-bits/js/components/infrared/index.js~infrared",
+    "class/js/components/infrared/index.js~Infrared.html",
+    "<span>Infrared</span> <span class=\"search-result-import-path\">connecting-bits/js/components/infrared/index.js</span>",
     "class"
   ],
   [
@@ -84,15 +84,21 @@ window.esdocSearchIndex = [
     "class"
   ],
   [
-    "connecting-bits/js/components/speaker/index.js~speaker",
-    "class/js/components/speaker/index.js~Speaker.html",
-    "<span>Speaker</span> <span class=\"search-result-import-path\">connecting-bits/js/components/speaker/index.js</span>",
+    "connecting-bits/js/components/microphone/utils/output/index.js~soundoutput",
+    "class/js/components/microphone/utils/output/index.js~SoundOutput.html",
+    "<span>SoundOutput</span> <span class=\"search-result-import-path\">connecting-bits/js/components/microphone/utils/output/index.js</span>",
     "class"
   ],
   [
-    "connecting-bits/js/components/translator/index.js~translator",
-    "class/js/components/translator/index.js~Translator.html",
-    "<span>Translator</span> <span class=\"search-result-import-path\">connecting-bits/js/components/translator/index.js</span>",
+    "connecting-bits/js/components/microphone/utils/speechtotext/index.js~speechtotext",
+    "class/js/components/microphone/utils/speechtotext/index.js~SpeechToText.html",
+    "<span>SpeechToText</span> <span class=\"search-result-import-path\">connecting-bits/js/components/microphone/utils/speechtotext/index.js</span>",
+    "class"
+  ],
+  [
+    "connecting-bits/js/components/translator/index.js~translate",
+    "class/js/components/translator/index.js~Translate.html",
+    "<span>Translate</span> <span class=\"search-result-import-path\">connecting-bits/js/components/translator/index.js</span>",
     "class"
   ],
   [
@@ -618,45 +624,51 @@ window.esdocSearchIndex = [
     "file"
   ],
   [
-    "js/components/infrared/index.js~intrared#board",
-    "class/js/components/infrared/index.js~Intrared.html#instance-member-board",
-    "js/components/infrared/index.js~Intrared#board",
+    "js/components/infrared/index.js~infrared#board",
+    "class/js/components/infrared/index.js~Infrared.html#instance-member-board",
+    "js/components/infrared/index.js~Infrared#board",
     "member"
   ],
   [
-    "js/components/infrared/index.js~intrared#detectpresence",
-    "class/js/components/infrared/index.js~Intrared.html#instance-method-detectPresence",
-    "js/components/infrared/index.js~Intrared#detectPresence",
+    "js/components/infrared/index.js~infrared#detectpresence",
+    "class/js/components/infrared/index.js~Infrared.html#instance-method-detectPresence",
+    "js/components/infrared/index.js~Infrared#detectPresence",
     "method"
   ],
   [
-    "js/components/infrared/index.js~intrared#distance",
-    "class/js/components/infrared/index.js~Intrared.html#instance-member-distance",
-    "js/components/infrared/index.js~Intrared#distance",
+    "js/components/infrared/index.js~infrared#distance",
+    "class/js/components/infrared/index.js~Infrared.html#instance-member-distance",
+    "js/components/infrared/index.js~Infrared#distance",
     "member"
   ],
   [
-    "js/components/infrared/index.js~intrared#presencedetected",
-    "class/js/components/infrared/index.js~Intrared.html#instance-member-presenceDetected",
-    "js/components/infrared/index.js~Intrared#presenceDetected",
+    "js/components/infrared/index.js~infrared#presencedetected",
+    "class/js/components/infrared/index.js~Infrared.html#instance-member-presenceDetected",
+    "js/components/infrared/index.js~Infrared#presenceDetected",
     "member"
   ],
   [
-    "js/components/infrared/index.js~intrared#proximity",
-    "class/js/components/infrared/index.js~Intrared.html#instance-member-proximity",
-    "js/components/infrared/index.js~Intrared#proximity",
+    "js/components/infrared/index.js~infrared#proximity",
+    "class/js/components/infrared/index.js~Infrared.html#instance-member-proximity",
+    "js/components/infrared/index.js~Infrared#proximity",
     "member"
   ],
   [
-    "js/components/infrared/index.js~intrared#resolve",
-    "class/js/components/infrared/index.js~Intrared.html#instance-member-resolve",
-    "js/components/infrared/index.js~Intrared#resolve",
+    "js/components/infrared/index.js~infrared#resolve",
+    "class/js/components/infrared/index.js~Infrared.html#instance-member-resolve",
+    "js/components/infrared/index.js~Infrared#resolve",
     "member"
   ],
   [
-    "js/components/infrared/index.js~intrared#throttledcheck",
-    "class/js/components/infrared/index.js~Intrared.html#instance-member-throttledCheck",
-    "js/components/infrared/index.js~Intrared#throttledCheck",
+    "js/components/infrared/index.js~infrared#throttledcheck",
+    "class/js/components/infrared/index.js~Infrared.html#instance-member-throttledCheck",
+    "js/components/infrared/index.js~Infrared#throttledCheck",
+    "member"
+  ],
+  [
+    "js/components/infrared/index.js~infrared#timeout",
+    "class/js/components/infrared/index.js~Infrared.html#instance-member-timeout",
+    "js/components/infrared/index.js~Infrared#timeout",
     "member"
   ],
   [
@@ -690,9 +702,93 @@ window.esdocSearchIndex = [
     "file"
   ],
   [
+    "js/components/microphone/index.js~microphone#constructor",
+    "class/js/components/microphone/index.js~Microphone.html#instance-constructor-constructor",
+    "js/components/microphone/index.js~Microphone#constructor",
+    "method"
+  ],
+  [
+    "js/components/microphone/index.js~microphone#convertspeech",
+    "class/js/components/microphone/index.js~Microphone.html#instance-method-convertSpeech",
+    "js/components/microphone/index.js~Microphone#convertSpeech",
+    "method"
+  ],
+  [
+    "js/components/microphone/index.js~microphone#getaudiodata",
+    "class/js/components/microphone/index.js~Microphone.html#instance-method-getAudioData",
+    "js/components/microphone/index.js~Microphone#getAudioData",
+    "method"
+  ],
+  [
+    "js/components/microphone/index.js~microphone#language",
+    "class/js/components/microphone/index.js~Microphone.html#instance-member-language",
+    "js/components/microphone/index.js~Microphone#language",
+    "member"
+  ],
+  [
+    "js/components/microphone/index.js~microphone#name",
+    "class/js/components/microphone/index.js~Microphone.html#instance-member-name",
+    "js/components/microphone/index.js~Microphone#name",
+    "member"
+  ],
+  [
+    "js/components/microphone/index.js~microphone#reportaudio",
+    "class/js/components/microphone/index.js~Microphone.html#instance-method-reportAudio",
+    "js/components/microphone/index.js~Microphone#reportAudio",
+    "method"
+  ],
+  [
     "js/components/microphone/index.js~microphone#startrecording",
     "class/js/components/microphone/index.js~Microphone.html#instance-method-startRecording",
     "js/components/microphone/index.js~Microphone#startRecording",
+    "method"
+  ],
+  [
+    "js/components/microphone/utils/output/index.js",
+    "file/js/components/microphone/utils/output/index.js.html",
+    "js/components/microphone/utils/output/index.js",
+    "file"
+  ],
+  [
+    "js/components/microphone/utils/output/index.js~soundoutput#constructor",
+    "class/js/components/microphone/utils/output/index.js~SoundOutput.html#instance-constructor-constructor",
+    "js/components/microphone/utils/output/index.js~SoundOutput#constructor",
+    "method"
+  ],
+  [
+    "js/components/microphone/utils/output/index.js~soundoutput#getvoicebylanguage",
+    "class/js/components/microphone/utils/output/index.js~SoundOutput.html#instance-method-getVoiceByLanguage",
+    "js/components/microphone/utils/output/index.js~SoundOutput#getVoiceByLanguage",
+    "method"
+  ],
+  [
+    "js/components/microphone/utils/output/index.js~soundoutput#language",
+    "class/js/components/microphone/utils/output/index.js~SoundOutput.html#instance-member-language",
+    "js/components/microphone/utils/output/index.js~SoundOutput#language",
+    "member"
+  ],
+  [
+    "js/components/microphone/utils/output/index.js~soundoutput#name",
+    "class/js/components/microphone/utils/output/index.js~SoundOutput.html#instance-member-name",
+    "js/components/microphone/utils/output/index.js~SoundOutput#name",
+    "member"
+  ],
+  [
+    "js/components/microphone/utils/output/index.js~soundoutput#say",
+    "class/js/components/microphone/utils/output/index.js~SoundOutput.html#instance-method-say",
+    "js/components/microphone/utils/output/index.js~SoundOutput#say",
+    "method"
+  ],
+  [
+    "js/components/microphone/utils/output/index.js~soundoutput#speaktext",
+    "class/js/components/microphone/utils/output/index.js~SoundOutput.html#instance-method-speakText",
+    "js/components/microphone/utils/output/index.js~SoundOutput#speakText",
+    "method"
+  ],
+  [
+    "js/components/microphone/utils/output/index.js~soundoutput#tellrules",
+    "class/js/components/microphone/utils/output/index.js~SoundOutput.html#instance-method-tellRules",
+    "js/components/microphone/utils/output/index.js~SoundOutput#tellRules",
     "method"
   ],
   [
@@ -702,9 +798,15 @@ window.esdocSearchIndex = [
     "file"
   ],
   [
-    "js/components/microphone/utils/records/index.js~record#constructor",
-    "class/js/components/microphone/utils/records/index.js~Record.html#instance-constructor-constructor",
-    "js/components/microphone/utils/records/index.js~Record#constructor",
+    "js/components/microphone/utils/records/index.js~record#recordinput",
+    "class/js/components/microphone/utils/records/index.js~Record.html#instance-method-recordInput",
+    "js/components/microphone/utils/records/index.js~Record#recordInput",
+    "method"
+  ],
+  [
+    "js/components/microphone/utils/records/index.js~record#recordmaster",
+    "class/js/components/microphone/utils/records/index.js~Record.html#instance-method-recordMaster",
+    "js/components/microphone/utils/records/index.js~Record#recordMaster",
     "method"
   ],
   [
@@ -732,12 +834,6 @@ window.esdocSearchIndex = [
     "method"
   ],
   [
-    "js/components/microphone/utils/reports/index.js~createreport#filepath",
-    "class/js/components/microphone/utils/reports/index.js~CreateReport.html#instance-member-filePath",
-    "js/components/microphone/utils/reports/index.js~CreateReport#filePath",
-    "member"
-  ],
-  [
     "js/components/microphone/utils/reports/index.js~createreport#newobject",
     "class/js/components/microphone/utils/reports/index.js~CreateReport.html#instance-member-newObject",
     "js/components/microphone/utils/reports/index.js~CreateReport#newObject",
@@ -748,6 +844,36 @@ window.esdocSearchIndex = [
     "class/js/components/microphone/utils/reports/index.js~CreateReport.html#instance-method-writeJSON",
     "js/components/microphone/utils/reports/index.js~CreateReport#writeJSON",
     "method"
+  ],
+  [
+    "js/components/microphone/utils/speechtotext/index.js",
+    "file/js/components/microphone/utils/speechtotext/index.js.html",
+    "js/components/microphone/utils/speechtotext/index.js",
+    "file"
+  ],
+  [
+    "js/components/microphone/utils/speechtotext/index.js~speechtotext#constructor",
+    "class/js/components/microphone/utils/speechtotext/index.js~SpeechToText.html#instance-constructor-constructor",
+    "js/components/microphone/utils/speechtotext/index.js~SpeechToText#constructor",
+    "method"
+  ],
+  [
+    "js/components/microphone/utils/speechtotext/index.js~speechtotext#convert",
+    "class/js/components/microphone/utils/speechtotext/index.js~SpeechToText.html#instance-method-convert",
+    "js/components/microphone/utils/speechtotext/index.js~SpeechToText#convert",
+    "method"
+  ],
+  [
+    "js/components/microphone/utils/speechtotext/index.js~speechtotext#getaccesstoken",
+    "class/js/components/microphone/utils/speechtotext/index.js~SpeechToText.html#instance-method-getAccessToken",
+    "js/components/microphone/utils/speechtotext/index.js~SpeechToText#getAccessToken",
+    "method"
+  ],
+  [
+    "js/components/microphone/utils/speechtotext/index.js~speechtotext#language",
+    "class/js/components/microphone/utils/speechtotext/index.js~SpeechToText.html#instance-member-language",
+    "js/components/microphone/utils/speechtotext/index.js~SpeechToText#language",
+    "member"
   ],
   [
     "js/components/motor/index.js",
@@ -810,33 +936,51 @@ window.esdocSearchIndex = [
     "file"
   ],
   [
-    "js/components/speaker/index.js~speaker#explainrules",
-    "class/js/components/speaker/index.js~Speaker.html#instance-method-explainRules",
-    "js/components/speaker/index.js~Speaker#explainRules",
-    "method"
-  ],
-  [
-    "js/components/speaker/index.js~speaker#saynorecordingerror",
-    "class/js/components/speaker/index.js~Speaker.html#instance-method-sayNoRecordingError",
-    "js/components/speaker/index.js~Speaker#sayNoRecordingError",
-    "method"
-  ],
-  [
-    "js/components/speaker/index.js~speaker#speaktext",
-    "class/js/components/speaker/index.js~Speaker.html#instance-method-speakText",
-    "js/components/speaker/index.js~Speaker#speakText",
-    "method"
-  ],
-  [
     "js/components/translator/index.js",
     "file/js/components/translator/index.js.html",
     "js/components/translator/index.js",
     "file"
   ],
   [
-    "js/components/translator/index.js~translator#translatetext",
-    "class/js/components/translator/index.js~Translator.html#instance-method-translateText",
-    "js/components/translator/index.js~Translator#translateText",
+    "js/components/translator/index.js~translate#addtranslation",
+    "class/js/components/translator/index.js~Translate.html#instance-method-addTranslation",
+    "js/components/translator/index.js~Translate#addTranslation",
+    "method"
+  ],
+  [
+    "js/components/translator/index.js~translate#constructor",
+    "class/js/components/translator/index.js~Translate.html#instance-constructor-constructor",
+    "js/components/translator/index.js~Translate#constructor",
+    "method"
+  ],
+  [
+    "js/components/translator/index.js~translate#gettexts",
+    "class/js/components/translator/index.js~Translate.html#instance-method-getTexts",
+    "js/components/translator/index.js~Translate#getTexts",
+    "method"
+  ],
+  [
+    "js/components/translator/index.js~translate#language",
+    "class/js/components/translator/index.js~Translate.html#instance-member-language",
+    "js/components/translator/index.js~Translate#language",
+    "member"
+  ],
+  [
+    "js/components/translator/index.js~translate#name",
+    "class/js/components/translator/index.js~Translate.html#instance-member-name",
+    "js/components/translator/index.js~Translate#name",
+    "member"
+  ],
+  [
+    "js/components/translator/index.js~translate#translate",
+    "class/js/components/translator/index.js~Translate.html#instance-method-translate",
+    "js/components/translator/index.js~Translate#translate",
+    "method"
+  ],
+  [
+    "js/components/translator/index.js~translate#translatenext",
+    "class/js/components/translator/index.js~Translate.html#instance-method-translateNext",
+    "js/components/translator/index.js~Translate#translateNext",
     "method"
   ],
   [

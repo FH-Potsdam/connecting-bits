@@ -34,14 +34,15 @@
     
   <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/js/index.js~BoardsChain.html">BoardsChain</a></span></span></li>
 <li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">components/box</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/js/components/box/index.js~Box.html">Box</a></span></span></li>
-<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">components/infrared</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/js/components/infrared/index.js~Intrared.html">Intrared</a></span></span></li>
+<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">components/infrared</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/js/components/infrared/index.js~Infrared.html">Infrared</a></span></span></li>
 <li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">components/light</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/js/components/light/index.js~Light.html">Light</a></span></span></li>
 <li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">components/microphone</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/js/components/microphone/index.js~Microphone.html">Microphone</a></span></span></li>
+<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">components/microphone/utils/output</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/js/components/microphone/utils/output/index.js~SoundOutput.html">SoundOutput</a></span></span></li>
 <li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">components/microphone/utils/records</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/js/components/microphone/utils/records/index.js~Record.html">Record</a></span></span></li>
 <li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">components/microphone/utils/reports</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/js/components/microphone/utils/reports/index.js~CreateReport.html">CreateReport</a></span></span></li>
+<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">components/microphone/utils/speechtotext</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/js/components/microphone/utils/speechtotext/index.js~SpeechToText.html">SpeechToText</a></span></span></li>
 <li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">components/motor</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/js/components/motor/index.js~Motor.html">Motor</a></span></span></li>
-<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">components/speaker</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/js/components/speaker/index.js~Speaker.html">Speaker</a></span></span></li>
-<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">components/translator</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/js/components/translator/index.js~Translator.html">Translator</a></span></span></li>
+<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">components/translator</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/js/components/translator/index.js~Translate.html">Translate</a></span></span></li>
 <li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">constants</div><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-INFRARED_CONSTANTS">INFRARED_CONSTANTS</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-LIGHT_CONSTANTS">LIGHT_CONSTANTS</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-MOTOR_CONSTANTS">MOTOR_CONSTANTS</a></span></span></li>
@@ -217,9 +218,9 @@ export default class Box {
 	}
 	/** Is called when the Photon board is ready */
 	onBoardReady() {
-		this.translator = new Translator();
-		this.speaker = new Speaker();
-		this.microphone = new Microphone();
+		this.translator = new Translator(this.name, this.options.language);
+		this.speaker = new Speaker(this.name, this.options.language);
+		this.microphone = new Microphone(this.name, this.options.language);
 		this.motor = new Motor(this.board);
 		this.light = new Light(this.board);
 		this.infrared = new Infrared(this.board);
@@ -346,7 +347,7 @@ export default class Box {
 		});
 		if (this.options.isMaster) {
 			if (this.round === 1) {
-				this.translator.translateText()
+				this.translator.translateNext(this.options.next)
 					.then(this.finish.bind(this));
 			} else {
 				logUtil.log({

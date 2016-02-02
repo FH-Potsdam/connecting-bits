@@ -34,14 +34,15 @@
     
   <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/js/index.js~BoardsChain.html">BoardsChain</a></span></span></li>
 <li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">components/box</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/js/components/box/index.js~Box.html">Box</a></span></span></li>
-<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">components/infrared</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/js/components/infrared/index.js~Intrared.html">Intrared</a></span></span></li>
+<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">components/infrared</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/js/components/infrared/index.js~Infrared.html">Infrared</a></span></span></li>
 <li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">components/light</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/js/components/light/index.js~Light.html">Light</a></span></span></li>
 <li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">components/microphone</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/js/components/microphone/index.js~Microphone.html">Microphone</a></span></span></li>
+<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">components/microphone/utils/output</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/js/components/microphone/utils/output/index.js~SoundOutput.html">SoundOutput</a></span></span></li>
 <li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">components/microphone/utils/records</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/js/components/microphone/utils/records/index.js~Record.html">Record</a></span></span></li>
 <li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">components/microphone/utils/reports</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/js/components/microphone/utils/reports/index.js~CreateReport.html">CreateReport</a></span></span></li>
+<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">components/microphone/utils/speechtotext</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/js/components/microphone/utils/speechtotext/index.js~SpeechToText.html">SpeechToText</a></span></span></li>
 <li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">components/motor</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/js/components/motor/index.js~Motor.html">Motor</a></span></span></li>
-<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">components/speaker</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/js/components/speaker/index.js~Speaker.html">Speaker</a></span></span></li>
-<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">components/translator</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/js/components/translator/index.js~Translator.html">Translator</a></span></span></li>
+<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">components/translator</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/js/components/translator/index.js~Translate.html">Translate</a></span></span></li>
 <li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">constants</div><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-INFRARED_CONSTANTS">INFRARED_CONSTANTS</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-LIGHT_CONSTANTS">LIGHT_CONSTANTS</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-MOTOR_CONSTANTS">MOTOR_CONSTANTS</a></span></span></li>
@@ -53,18 +54,100 @@
 </nav>
 
 <div class="content" data-ice="content"><h1 data-ice="title">js/components/translator/index.js</h1>
-<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">/**
- * @class Translator class for managing different Box languages
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import config from &apos;config&apos;;
+import fs from &apos;fs&apos;;
+const fetch = require(&apos;node-fetch&apos;);
+
+/**
+ * @class Class to translate audio texts into other languages
  */
-export default class Translator {
+export default class Translate {
 	/**
-	 * Translated the initial input in four languages
-	 * NOT IMPLEMENTED YET
-	 * @public
-	 * @return {Promise}
+	 * Class&apos;s constructor. Is called when initialized with the new keyword.
+	 * @param  {String} name     - The Box&apos;s name to give the translation a name
+	 * @param  {String} language - The Box&apos;s language to know from what language to translate
 	 */
-	translateText() {
-		return new Promise((resolve) =&gt; resolve());
+	constructor(name, language) {
+		/**
+		 * The Box&apos;s name to give the translation a name
+		 * @type {String}
+		 */
+		this.name = name;
+		/**
+		 * The Box&apos;s language to know from what language to translate
+		 * @type {String}
+		 */
+		this.language = language;
+	}
+	/**
+	 * To be called to translate the audio text from on Box&apos;s language
+	 * to the next neighbour&apos;s language
+	 * @param  {Object} next - The next neighbour&apos;s config
+	 * @return {Promise}     - Is done when the translation is successful
+	 */
+	translateNext(next) {
+		return new Promise((resolve, reject) =&gt; {
+			const texts = this.getTexts.bind(this)().texts;
+
+			this.translate.bind(this)(this.language, next.language, texts[this.name].output)
+				.then((response) =&gt; {
+					this.addTranslation.bind(this)(response)
+						.then(resolve);
+				})
+				.catch(reject);
+		});
+	}
+	/**
+	 * Generic translate function
+	 * @param  {Stirng} sourceLanguage - The language to translate from
+	 * @param  {Stirng} targetLanguage - The language to translate to
+	 * @param  {Stirng} output         - The message to translate
+	 * @return {Promise}               - Is called when the translation is over
+	 */
+	translate(sourceLanguage, targetLanguage, output) {
+		return new Promise((resolve, reject) =&gt; {
+			const api_key = config.get(&apos;APIKeys.google&apos;);
+			const url = &apos;https://www.googleapis.com/language/translate&apos; +
+				`/v2?key=${api_key}&amp;q=${output}` +
+				`&amp;source=${sourceLanguage}&amp;target=${targetLanguage}`;
+
+			fetch(url)
+				.then(res =&gt; res.json())
+				.then(jsonContent =&gt; {
+					resolve({ language: targetLanguage, output: jsonContent });
+				})
+				.catch((translationError) =&gt; {
+					reject(translationError);
+				});
+		});
+	}
+	/**
+	 * Retrives the texts save in the file
+	 * @return {Object} - With the file path and the texts
+	 */
+	getTexts() {
+		const { location, filename } = config.get(&apos;Convert&apos;);
+		const filePath = location + filename;
+		const contents = fs.readFileSync(filePath);
+		const texts = JSON.parse(contents).texts;
+		return { filePath, texts };
+	}
+	/**
+	 * Adds a new translation to the texts file
+	 * @param {Promise} response - Is done when the new translation is insterd in the file
+	 */
+	addTranslation(response) {
+		return new Promise((resolve, reject) =&gt; {
+			const { texts, filePath } = this.getTexts.bind(this)();
+			texts[this.next.name] = response;
+			const jsonToSave = { texts: jsonToSave };
+			fs.writeFile(filePath, JSON.stringify(jsonToSave), (writeError) =&gt; {
+				if (writeError) {
+					reject(writeError);
+				}
+				resolve();
+			});
+		});
 	}
 }
 </code></pre>

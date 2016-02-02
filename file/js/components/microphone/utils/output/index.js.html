@@ -2,8 +2,8 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <base data-ice="baseUrl">
-  <title data-ice="title">API Document</title>
+  <base data-ice="baseUrl" href="../../../../../../">
+  <title data-ice="title">js/components/microphone/utils/output/index.js | API Document</title>
   <link type="text/css" rel="stylesheet" href="css/style.css">
   <link type="text/css" rel="stylesheet" href="css/prettify-tomorrow.css">
   <script src="script/prettify/prettify.js"></script>
@@ -53,37 +53,98 @@
 </div>
 </nav>
 
-<div class="content" data-ice="content"><div data-ice="index" class="github-markdown"><p><a href="https://gitter.im/FH-Potsdam/connecting-bits?utm_source=badge&amp;utm_medium=badge&amp;utm_campaign=pr-badge&amp;utm_content=badge"><img src="https://badges.gitter.im/FH-Potsdam/connecting-bits.svg" alt="Join the chat at https://gitter.im/FH-Potsdam/connecting-bits"></a> [![ZenHub] (<a href="https://raw.githubusercontent.com/ZenHubIO/support/master/zenhub-badge.png">https://raw.githubusercontent.com/ZenHubIO/support/master/zenhub-badge.png</a>)] (<a href="https://zenhub.io">https://zenhub.io</a>) <a href="https://app.asana.com/-/share?s=80136391129690-GUJvZiI4OufoWMTDhjjkZauXYEhwvhpqUgnTvw22tMr-74348281972886"><img src="https://raw.githubusercontent.com/FH-Potsdam/connecting-bits/master/documentation/asanabadge.jpg" alt="Managed with asana"></a></p>
-<h1 id="connecting-bits-play-the-_chinese-whispers_-game-with-machines">Connecting bits - Play the <em>Chinese whispers</em> game with machines</h1>
-<h2 id="the-project-">The project.</h2>
-<p>Connecting bits is a chain of multilingual machines to play the <em>Chinese whispers</em> game with. It consists of four boxes situated in a room. Any box can record one person&apos;s voice, turn it into text and transfer it to its next sibling box. Every time a new box receives the message, it translates it to a different language and says it out loud. Finally, when the message has been transfered through all four boxes, the message goes back to the first original box. As in the <em>Chinese whispers</em> game so far, one expects the message to be the same unless something distorted or altered it during the process.</p>
-<h2 id="the-boxes-">The boxes.</h2>
-<p>These boxes are home made cubic machines composed of various mechanical elements and electronics.</p>
-<h3 id="the-design-">The design.</h3>
-<p>blabla</p>
-<h3 id="the-hardware-">The hardware.</h3>
-<p>The boxes consist of:</p>
-<ul>
-<li><strong>A led:</strong> To indicate that the box is speaking</li>
-<li><strong>Two servo motors:</strong> To move the box as it listens and speaks and to give it a living character</li>
-<li><strong>An infrared sensor:</strong> To detect the presence of someone standing in front of it and start the audio recording</li>
-<li><strong>A microphone:</strong> To record the person&apos;s voice</li>
-<li><strong>A speaker:</strong> To&#x2026; you know&#x2026; speak&#x2026;</li>
-<li><strong>A particle photon board:</strong> To control all this and be controlled over wifi</li>
-</ul>
-<h2 id="the-makers-">The makers.</h2>
-<p>We are student from the <a href="http://fh-potsdam.de">University of Applied Sciences of Potsdam</a> [aka] @fh-potsdam. Our team is composed of interface, product, and graphic designers that took part in the course <a href="https://fhp.incom.org/workspace/6176">&#x201C;Input Output - Introduction to process-oriented design&#x201D;</a> supervised by <a href="https://github.com/fabiantheblind">Fabian Mor&#xF3;n Zirfas</a>. This project was developed during the last third of the course. To see other projects we have made, visit <a href="https://interface.fh-potsdam.de/eingabe-ausgabe/2015-2016/">this repository</a>.</p>
-<h2 id="the-process-">The process.</h2>
-<p>Coming soon</p>
-<h3 id="the-base-reference">The base reference</h3>
-<p>Coming soon</p>
-<h4 id="initial-ideas">Initial ideas</h4>
-<p>Coming soon</p>
-<h4 id="our-final-choice">Our final choice</h4>
-<p>Coming soon</p>
-<h3 id="organization">Organization</h3>
-<p>Coming soon</p>
-</div>
+<div class="content" data-ice="content"><h1 data-ice="title">js/components/microphone/utils/output/index.js</h1>
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import terminal from &apos;oh-my-terminal&apos;;
+import fs from &apos;fs&apos;;
+import config from &apos;config&apos;;
+
+/**
+ * @class Transforms text into speech
+ */
+export default class SoundOutput {
+	/**
+	 * Has to be initialize with board information such as
+	 * @param  {String} name     - Box&apos;s name for fiding the relevant text
+	 * @param  {String} language - Box&apos;s language to find the right voice
+	 */
+	constructor(name, language) {
+		/**
+		 * Box&apos;s name
+		 * @type {String}
+		 */
+		this.name = name;
+		/**
+		 * Box&apos;s laguage
+		 * @type {String}
+		 */
+		this.language = language;
+	}
+	/**
+	 * Finds the relevant text in the file saved by the microphone component
+	 * and speaks it out loud
+	 * @return {Promise} - Is done when the whole text has been spoken out loup
+	 */
+	speakText() {
+		return new Promise((resolve) =&gt; {
+			const voice = this.getVoiceByLanguage.bind(this)(this.language);
+			const { location, filename } = config.get(&apos;Convert&apos;);
+			const filePath = `${location}${filename}`;
+			const contents = fs.readFileSync(filePath);
+			const jsonContent = JSON.parse(contents);
+			const text = jsonContent.texts[this.name].output;
+			this.say.bind(this)(voice, text)
+				.then(resolve);
+		});
+	}
+	/**
+	 * Generic function speaking any text out loud with a given voice
+	 * @param  {String} voice   - Any OSX preconfigured voice
+	 * @param  {String} message - Text to be spoken out loud
+	 * @return {Promise}        - Is done when the text is completly recited
+	 */
+	say(voice, message) {
+		return new Promise((resolve, reject) =&gt; {
+			// change var to trans text
+			let output = `say -v &quot;${voice}&quot; ${message}`;
+			terminal.exec(output, (err) =&gt; {
+				if (err) {
+					reject(err);
+					return;
+				}
+				resolve();
+			});
+		});
+	}
+	/**
+	 * Explains the rules of the game
+	 * @return {Promise} - Is done when all rules are told
+	 */
+	tellRules() {
+		return new Promise((resolve, reject) =&gt; {
+			this.say.bind(this)(&apos;Anna&apos;, &apos;Drei. Zwei. Eins. Los gehts baby!&apos;)
+				.then(resolve);
+		});
+	}
+	/**
+	 * Find the relevant OSX voice by language
+	 * @param  {String} language - The wished language&apos;s voice (alpha2 code)
+	 * @return {String}          - The relevant voice for the given language
+	 */
+	getVoiceByLanguage(language) {
+		switch (language) {
+			case &apos;de&apos;:
+				return &apos;Anna&apos;;
+			case &apos;en&apos;:
+				return &apos;Lee&apos;;
+			case &apos;fr&apos;:
+				return &apos;Aurelie&apos;;
+			default:
+				return &apos;Lee&apos;;
+		}
+	}
+}
+</code></pre>
+
 </div>
 
 <footer class="footer">

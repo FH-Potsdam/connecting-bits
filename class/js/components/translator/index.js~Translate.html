@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <base data-ice="baseUrl" href="../../../../">
-  <title data-ice="title">Microphone | API Document</title>
+  <title data-ice="title">Translate | API Document</title>
   <link type="text/css" rel="stylesheet" href="css/style.css">
   <link type="text/css" rel="stylesheet" href="css/prettify-tomorrow.css">
   <script src="script/prettify/prettify.js"></script>
@@ -54,17 +54,17 @@
 </nav>
 
 <div class="content" data-ice="content"><div class="header-notice">
-  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import Microphone from &apos;<span><a href="file/js/components/microphone/index.js.html#lineNumber13">connecting-bits/js/components/microphone/index.js</a></span>&apos;</code></pre></div>
+  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import Translate from &apos;<span><a href="file/js/components/translator/index.js.html#lineNumber8">connecting-bits/js/components/translator/index.js</a></span>&apos;</code></pre></div>
   <span data-ice="access">public</span>
   <span data-ice="kind">class</span>
   
   
   
-  <span data-ice="source">| <span><a href="file/js/components/microphone/index.js.html#lineNumber13">source</a></span></span>
+  <span data-ice="source">| <span><a href="file/js/components/translator/index.js.html#lineNumber8">source</a></span></span>
 </div>
 
 <div class="self-detail detail">
-  <h1 data-ice="name">Microphone</h1>
+  <h1 data-ice="name">Translate</h1>
 
   
 
@@ -80,8 +80,7 @@
 
   
   
-  <div class="description" data-ice="description"><p>A class managing the audio recording and turning soud into text</p>
-</div>
+  
 
   
 
@@ -109,13 +108,13 @@
     <td>
       <div>
         <p>
-           <span data-ice="name"><span><a href="class/js/components/microphone/index.js~Microphone.html#instance-constructor-constructor">constructor</a></span></span><span data-ice="signature">(name: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">String</a></span>, language: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">String</a></span>): <span>[type]</span></span>
+           <span data-ice="name"><span><a href="class/js/components/translator/index.js~Translate.html#instance-constructor-constructor">constructor</a></span></span><span data-ice="signature">(name: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">String</a></span>, language: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">String</a></span>)</span>
         </p>
       </div>
       <div>
         
         
-        <div data-ice="description"><p>Class&apos;s constructor. Is called when initialized with the &quot;new&quot; keyword.</p>
+        <div data-ice="description"><p>Class&apos;s constructor. Is called when initialized with the new keyword.</p>
 </div>
       </div>
     </td>
@@ -142,13 +141,13 @@
     <td>
       <div>
         <p>
-           <span data-ice="name"><span><a href="class/js/components/microphone/index.js~Microphone.html#instance-member-language">language</a></span></span><span data-ice="signature">: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">String</a></span></span>
+           <span data-ice="name"><span><a href="class/js/components/translator/index.js~Translate.html#instance-member-language">language</a></span></span><span data-ice="signature">: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">String</a></span></span>
         </p>
       </div>
       <div>
         
         
-        <div data-ice="description"><p>Language of the box.</p>
+        <div data-ice="description"><p>The Box&apos;s language to know from what language to translate</p>
 </div>
       </div>
     </td>
@@ -168,13 +167,13 @@
     <td>
       <div>
         <p>
-           <span data-ice="name"><span><a href="class/js/components/microphone/index.js~Microphone.html#instance-member-name">name</a></span></span><span data-ice="signature">: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">String</a></span></span>
+           <span data-ice="name"><span><a href="class/js/components/translator/index.js~Translate.html#instance-member-name">name</a></span></span><span data-ice="signature">: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">String</a></span></span>
         </p>
       </div>
       <div>
         
         
-        <div data-ice="description"><p>Name of the box.</p>
+        <div data-ice="description"><p>The Box&apos;s name to give the translation a name</p>
 </div>
       </div>
     </td>
@@ -201,13 +200,13 @@
     <td>
       <div>
         <p>
-           <span data-ice="name"><span><a href="class/js/components/microphone/index.js~Microphone.html#instance-method-convertSpeech">convertSpeech</a></span></span><span data-ice="signature">(audioData: <span>[type]</span>): <span>[type]</span></span>
+           <span data-ice="name"><span><a href="class/js/components/translator/index.js~Translate.html#instance-method-addTranslation">addTranslation</a></span></span><span data-ice="signature">(response: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise">Promise</a></span>): <span>*</span></span>
         </p>
       </div>
       <div>
         
         
-        <div data-ice="description"><p>Converts the audio input into text</p>
+        <div data-ice="description"><p>Adds a new translation to the texts file</p>
 </div>
       </div>
     </td>
@@ -227,13 +226,13 @@
     <td>
       <div>
         <p>
-           <span data-ice="name"><span><a href="class/js/components/microphone/index.js~Microphone.html#instance-method-getAudioData">getAudioData</a></span></span><span data-ice="signature">(index: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">Number</a></span>): <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a></span></span>
+           <span data-ice="name"><span><a href="class/js/components/translator/index.js~Translate.html#instance-method-getTexts">getTexts</a></span></span><span data-ice="signature">(): <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a></span></span>
         </p>
       </div>
       <div>
         
         
-        <div data-ice="description"><p>Retrieves all needed configs for the recording</p>
+        <div data-ice="description"><p>Retrives the texts save in the file</p>
 </div>
       </div>
     </td>
@@ -253,13 +252,13 @@
     <td>
       <div>
         <p>
-           <span data-ice="name"><span><a href="class/js/components/microphone/index.js~Microphone.html#instance-method-reportAudio">reportAudio</a></span></span><span data-ice="signature">(index: <span>[Number</span>): <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise">Promise</a></span></span>
+           <span data-ice="name"><span><a href="class/js/components/translator/index.js~Translate.html#instance-method-translate">translate</a></span></span><span data-ice="signature">(sourceLanguage: <span>Stirng</span>, targetLanguage: <span>Stirng</span>, output: <span>Stirng</span>): <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise">Promise</a></span></span>
         </p>
       </div>
       <div>
         
         
-        <div data-ice="description"><p>Creates an audio report</p>
+        <div data-ice="description"><p>Generic translate function</p>
 </div>
       </div>
     </td>
@@ -279,13 +278,14 @@
     <td>
       <div>
         <p>
-           <span data-ice="name"><span><a href="class/js/components/microphone/index.js~Microphone.html#instance-method-startRecording">startRecording</a></span></span><span data-ice="signature">(): <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise">Promise</a></span></span>
+           <span data-ice="name"><span><a href="class/js/components/translator/index.js~Translate.html#instance-method-translateNext">translateNext</a></span></span><span data-ice="signature">(next: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a></span>): <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise">Promise</a></span></span>
         </p>
       </div>
       <div>
         
         
-        <div data-ice="description"><p>Records a voice, transforms the input into text and saves it</p>
+        <div data-ice="description"><p>To be called to translate the audio text from on Box&apos;s language
+to the next neighbour&apos;s language</p>
 </div>
       </div>
     </td>
@@ -311,18 +311,18 @@
     
     
     
-    <span data-ice="name">constructor</span><span data-ice="signature">(name: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">String</a></span>, language: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">String</a></span>): <span>[type]</span></span>
+    <span data-ice="name">constructor</span><span data-ice="signature">(name: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">String</a></span>, language: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">String</a></span>)</span>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/js/components/microphone/index.js.html#lineNumber21">source</a></span></span>
+      <span data-ice="source"><span><a href="file/js/components/translator/index.js.html#lineNumber14">source</a></span></span>
     </span>
   </h3>
 
   
   
   
-  <div data-ice="description"><p>Class&apos;s constructor. Is called when initialized with the &quot;new&quot; keyword.</p>
+  <div data-ice="description"><p>Class&apos;s constructor. Is called when initialized with the new keyword.</p>
 </div>
 
   
@@ -339,15 +339,14 @@
       <td data-ice="name" data-depth="0">name</td>
       <td data-ice="type"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">String</a></span></td>
       <td data-ice="appendix"></td>
-      <td data-ice="description"><p>Name of the box. Used to save the audio by Box name</p>
+      <td data-ice="description"><p>The Box&apos;s name to give the translation a name</p>
 </td>
     </tr>
 <tr data-ice="property" data-depth="0">
       <td data-ice="name" data-depth="0">language</td>
       <td data-ice="type"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">String</a></span></td>
       <td data-ice="appendix"></td>
-      <td data-ice="description"><p>Language of the box. Used for speeching
-                            and translating it later on</p>
+      <td data-ice="description"><p>The Box&apos;s language to know from what language to translate</p>
 </td>
     </tr>
 </tbody>
@@ -355,18 +354,7 @@
 </div>
 </div>
 
-  <div class="return-params" data-ice="returnParams">
-    <h4>Return:</h4>
-    <table>
-      <tr>
-        <td class="return-type" data-ice="returnType"><span>[type]</span></td>
-        <td class="return-desc" data-ice="returnDescription"><p>[description]</p>
-</td>
-      </tr>
-    </table>
-    <div data-ice="returnProperties">
-</div>
-  </div>
+  
 
   
 
@@ -395,15 +383,14 @@
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/js/components/microphone/index.js.html#lineNumber34">source</a></span></span>
+      <span data-ice="source"><span><a href="file/js/components/translator/index.js.html#lineNumber24">source</a></span></span>
     </span>
   </h3>
 
   
   
   
-  <div data-ice="description"><p>Language of the box. Used for speeching
-and translating it later on</p>
+  <div data-ice="description"><p>The Box&apos;s language to know from what language to translate</p>
 </div>
 
   
@@ -419,14 +406,7 @@ and translating it later on</p>
 
   
 
-  <div data-ice="example">
-    <h4>Example:</h4>
-    
-  <div class="example-doc" data-ice="exampleDoc">
-      
-      <pre class="prettyprint source-code"><code data-ice="exampleCode">de, fr, en, ar...</code></pre>
-    </div>
-</div>
+  
 
   
 
@@ -444,14 +424,14 @@ and translating it later on</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/js/components/microphone/index.js.html#lineNumber26">source</a></span></span>
+      <span data-ice="source"><span><a href="file/js/components/translator/index.js.html#lineNumber19">source</a></span></span>
     </span>
   </h3>
 
   
   
   
-  <div data-ice="description"><p>Name of the box. Used to save the audio by Box name</p>
+  <div data-ice="description"><p>The Box&apos;s name to give the translation a name</p>
 </div>
 
   
@@ -478,24 +458,24 @@ and translating it later on</p>
 <div data-ice="methodDetails"><h2 data-ice="title">Public Methods</h2>
 
 <div class="detail" data-ice="detail">
-  <h3 data-ice="anchor" id="instance-method-convertSpeech">
+  <h3 data-ice="anchor" id="instance-method-addTranslation">
     <span class="access" data-ice="access">public</span>
     
     
     
     
-    <span data-ice="name">convertSpeech</span><span data-ice="signature">(audioData: <span>[type]</span>): <span>[type]</span></span>
+    <span data-ice="name">addTranslation</span><span data-ice="signature">(response: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise">Promise</a></span>): <span>*</span></span>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/js/components/microphone/index.js.html#lineNumber125">source</a></span></span>
+      <span data-ice="source"><span><a href="file/js/components/translator/index.js.html#lineNumber83">source</a></span></span>
     </span>
   </h3>
 
   
   
   
-  <div data-ice="description"><p>Converts the audio input into text</p>
+  <div data-ice="description"><p>Adds a new translation to the texts file</p>
 </div>
 
   
@@ -509,10 +489,10 @@ and translating it later on</p>
     <tbody>
     
     <tr data-ice="property" data-depth="0">
-      <td data-ice="name" data-depth="0">audioData</td>
-      <td data-ice="type"><span>[type]</span></td>
+      <td data-ice="name" data-depth="0">response</td>
+      <td data-ice="type"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise">Promise</a></span></td>
       <td data-ice="appendix"></td>
-      <td data-ice="description"><p>[description]</p>
+      <td data-ice="description"><p>Is done when the new translation is insterd in the file</p>
 </td>
     </tr>
 </tbody>
@@ -524,9 +504,8 @@ and translating it later on</p>
     <h4>Return:</h4>
     <table>
       <tr>
-        <td class="return-type" data-ice="returnType"><span>[type]</span></td>
-        <td class="return-desc" data-ice="returnDescription"><p>[description]</p>
-</td>
+        <td class="return-type" data-ice="returnType"><span>*</span></td>
+        
       </tr>
     </table>
     <div data-ice="returnProperties">
@@ -547,162 +526,24 @@ and translating it later on</p>
   
 </div>
 <div class="detail" data-ice="detail">
-  <h3 data-ice="anchor" id="instance-method-getAudioData">
+  <h3 data-ice="anchor" id="instance-method-getTexts">
     <span class="access" data-ice="access">public</span>
     
     
     
     
-    <span data-ice="name">getAudioData</span><span data-ice="signature">(index: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">Number</a></span>): <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a></span></span>
+    <span data-ice="name">getTexts</span><span data-ice="signature">(): <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a></span></span>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/js/components/microphone/index.js.html#lineNumber72">source</a></span></span>
+      <span data-ice="source"><span><a href="file/js/components/translator/index.js.html#lineNumber72">source</a></span></span>
     </span>
   </h3>
 
   
   
   
-  <div data-ice="description"><p>Retrieves all needed configs for the recording</p>
-</div>
-
-  
-
-  <div data-ice="properties"><div data-ice="properties">
-  <h4 data-ice="title">Params:</h4>
-  <table class="params">
-    <thead>
-    <tr><td>Name</td><td>Type</td><td>Attribute</td><td>Description</td></tr>
-    </thead>
-    <tbody>
-    
-    <tr data-ice="property" data-depth="0">
-      <td data-ice="name" data-depth="0">index</td>
-      <td data-ice="type"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">Number</a></span></td>
-      <td data-ice="appendix"></td>
-      <td data-ice="description"><p>Unique id for the record</p>
-</td>
-    </tr>
-</tbody>
-  </table>
-</div>
-</div>
-
-  <div class="return-params" data-ice="returnParams">
-    <h4>Return:</h4>
-    <table>
-      <tr>
-        <td class="return-type" data-ice="returnType"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a></span></td>
-        <td class="return-desc" data-ice="returnDescription"><p>Each key is an indication</p>
-</td>
-      </tr>
-    </table>
-    <div data-ice="returnProperties">
-</div>
-  </div>
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-  
-</div>
-<div class="detail" data-ice="detail">
-  <h3 data-ice="anchor" id="instance-method-reportAudio">
-    <span class="access" data-ice="access">public</span>
-    
-    
-    
-    
-    <span data-ice="name">reportAudio</span><span data-ice="signature">(index: <span>[Number</span>): <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise">Promise</a></span></span>
-    <span class="right-info">
-      
-      
-      <span data-ice="source"><span><a href="file/js/components/microphone/index.js.html#lineNumber96">source</a></span></span>
-    </span>
-  </h3>
-
-  
-  
-  
-  <div data-ice="description"><p>Creates an audio report</p>
-</div>
-
-  
-
-  <div data-ice="properties"><div data-ice="properties">
-  <h4 data-ice="title">Params:</h4>
-  <table class="params">
-    <thead>
-    <tr><td>Name</td><td>Type</td><td>Attribute</td><td>Description</td></tr>
-    </thead>
-    <tbody>
-    
-    <tr data-ice="property" data-depth="0">
-      <td data-ice="name" data-depth="0">index</td>
-      <td data-ice="type"><span>[Number</span></td>
-      <td data-ice="appendix"></td>
-      <td data-ice="description"><p>Id of the report</p>
-</td>
-    </tr>
-</tbody>
-  </table>
-</div>
-</div>
-
-  <div class="return-params" data-ice="returnParams">
-    <h4>Return:</h4>
-    <table>
-      <tr>
-        <td class="return-type" data-ice="returnType"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise">Promise</a></span></td>
-        <td class="return-desc" data-ice="returnDescription"><p>Is done when the report is written</p>
-</td>
-      </tr>
-    </table>
-    <div data-ice="returnProperties">
-</div>
-  </div>
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-  
-</div>
-<div class="detail" data-ice="detail">
-  <h3 data-ice="anchor" id="instance-method-startRecording">
-    <span class="access" data-ice="access">public</span>
-    
-    
-    
-    
-    <span data-ice="name">startRecording</span><span data-ice="signature">(): <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise">Promise</a></span></span>
-    <span class="right-info">
-      
-      
-      <span data-ice="source"><span><a href="file/js/components/microphone/index.js.html#lineNumber40">source</a></span></span>
-    </span>
-  </h3>
-
-  
-  
-  
-  <div data-ice="description"><p>Records a voice, transforms the input into text and saves it</p>
+  <div data-ice="description"><p>Retrives the texts save in the file</p>
 </div>
 
   
@@ -714,8 +555,161 @@ and translating it later on</p>
     <h4>Return:</h4>
     <table>
       <tr>
+        <td class="return-type" data-ice="returnType"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a></span></td>
+        <td class="return-desc" data-ice="returnDescription"><p>With the file path and the texts</p>
+</td>
+      </tr>
+    </table>
+    <div data-ice="returnProperties">
+</div>
+  </div>
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+</div>
+<div class="detail" data-ice="detail">
+  <h3 data-ice="anchor" id="instance-method-translate">
+    <span class="access" data-ice="access">public</span>
+    
+    
+    
+    
+    <span data-ice="name">translate</span><span data-ice="signature">(sourceLanguage: <span>Stirng</span>, targetLanguage: <span>Stirng</span>, output: <span>Stirng</span>): <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise">Promise</a></span></span>
+    <span class="right-info">
+      
+      
+      <span data-ice="source"><span><a href="file/js/components/translator/index.js.html#lineNumber51">source</a></span></span>
+    </span>
+  </h3>
+
+  
+  
+  
+  <div data-ice="description"><p>Generic translate function</p>
+</div>
+
+  
+
+  <div data-ice="properties"><div data-ice="properties">
+  <h4 data-ice="title">Params:</h4>
+  <table class="params">
+    <thead>
+    <tr><td>Name</td><td>Type</td><td>Attribute</td><td>Description</td></tr>
+    </thead>
+    <tbody>
+    
+    <tr data-ice="property" data-depth="0">
+      <td data-ice="name" data-depth="0">sourceLanguage</td>
+      <td data-ice="type"><span>Stirng</span></td>
+      <td data-ice="appendix"></td>
+      <td data-ice="description"><p>The language to translate from</p>
+</td>
+    </tr>
+<tr data-ice="property" data-depth="0">
+      <td data-ice="name" data-depth="0">targetLanguage</td>
+      <td data-ice="type"><span>Stirng</span></td>
+      <td data-ice="appendix"></td>
+      <td data-ice="description"><p>The language to translate to</p>
+</td>
+    </tr>
+<tr data-ice="property" data-depth="0">
+      <td data-ice="name" data-depth="0">output</td>
+      <td data-ice="type"><span>Stirng</span></td>
+      <td data-ice="appendix"></td>
+      <td data-ice="description"><p>The message to translate</p>
+</td>
+    </tr>
+</tbody>
+  </table>
+</div>
+</div>
+
+  <div class="return-params" data-ice="returnParams">
+    <h4>Return:</h4>
+    <table>
+      <tr>
         <td class="return-type" data-ice="returnType"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise">Promise</a></span></td>
-        <td class="return-desc" data-ice="returnDescription"><p>Is done when all operations are done</p>
+        <td class="return-desc" data-ice="returnDescription"><p>Is called when the translation is over</p>
+</td>
+      </tr>
+    </table>
+    <div data-ice="returnProperties">
+</div>
+  </div>
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+</div>
+<div class="detail" data-ice="detail">
+  <h3 data-ice="anchor" id="instance-method-translateNext">
+    <span class="access" data-ice="access">public</span>
+    
+    
+    
+    
+    <span data-ice="name">translateNext</span><span data-ice="signature">(next: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a></span>): <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise">Promise</a></span></span>
+    <span class="right-info">
+      
+      
+      <span data-ice="source"><span><a href="file/js/components/translator/index.js.html#lineNumber32">source</a></span></span>
+    </span>
+  </h3>
+
+  
+  
+  
+  <div data-ice="description"><p>To be called to translate the audio text from on Box&apos;s language
+to the next neighbour&apos;s language</p>
+</div>
+
+  
+
+  <div data-ice="properties"><div data-ice="properties">
+  <h4 data-ice="title">Params:</h4>
+  <table class="params">
+    <thead>
+    <tr><td>Name</td><td>Type</td><td>Attribute</td><td>Description</td></tr>
+    </thead>
+    <tbody>
+    
+    <tr data-ice="property" data-depth="0">
+      <td data-ice="name" data-depth="0">next</td>
+      <td data-ice="type"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a></span></td>
+      <td data-ice="appendix"></td>
+      <td data-ice="description"><p>The next neighbour&apos;s config</p>
+</td>
+    </tr>
+</tbody>
+  </table>
+</div>
+</div>
+
+  <div class="return-params" data-ice="returnParams">
+    <h4>Return:</h4>
+    <table>
+      <tr>
+        <td class="return-type" data-ice="returnType"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise">Promise</a></span></td>
+        <td class="return-desc" data-ice="returnDescription"><p>Is done when the translation is successful</p>
 </td>
       </tr>
     </table>

@@ -34,14 +34,15 @@
     
   <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/js/index.js~BoardsChain.html">BoardsChain</a></span></span></li>
 <li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">components/box</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/js/components/box/index.js~Box.html">Box</a></span></span></li>
-<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">components/infrared</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/js/components/infrared/index.js~Intrared.html">Intrared</a></span></span></li>
+<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">components/infrared</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/js/components/infrared/index.js~Infrared.html">Infrared</a></span></span></li>
 <li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">components/light</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/js/components/light/index.js~Light.html">Light</a></span></span></li>
 <li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">components/microphone</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/js/components/microphone/index.js~Microphone.html">Microphone</a></span></span></li>
+<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">components/microphone/utils/output</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/js/components/microphone/utils/output/index.js~SoundOutput.html">SoundOutput</a></span></span></li>
 <li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">components/microphone/utils/records</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/js/components/microphone/utils/records/index.js~Record.html">Record</a></span></span></li>
 <li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">components/microphone/utils/reports</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/js/components/microphone/utils/reports/index.js~CreateReport.html">CreateReport</a></span></span></li>
+<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">components/microphone/utils/speechtotext</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/js/components/microphone/utils/speechtotext/index.js~SpeechToText.html">SpeechToText</a></span></span></li>
 <li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">components/motor</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/js/components/motor/index.js~Motor.html">Motor</a></span></span></li>
-<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">components/speaker</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/js/components/speaker/index.js~Speaker.html">Speaker</a></span></span></li>
-<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">components/translator</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/js/components/translator/index.js~Translator.html">Translator</a></span></span></li>
+<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">components/translator</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/js/components/translator/index.js~Translate.html">Translate</a></span></span></li>
 <li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">constants</div><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-INFRARED_CONSTANTS">INFRARED_CONSTANTS</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-LIGHT_CONSTANTS">LIGHT_CONSTANTS</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-MOTOR_CONSTANTS">MOTOR_CONSTANTS</a></span></span></li>
@@ -56,8 +57,8 @@
 <pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import config from &apos;config&apos;;
 import { Boards } from &apos;johnny-five&apos;;
 import Box from &apos;./components/box&apos;;
-import { createBoard } from &apos;./utils/boardsUtil&apos;;
-import { createClient } from &apos;./utils/clientsUtil&apos;;
+import BoardUtil from &apos;./utils/boardsUtil&apos;;
+import ClientUtil from &apos;./utils/clientsUtil&apos;;
 import logUtil from &apos;./utils/logUtil&apos;;
 
 /**
@@ -71,7 +72,7 @@ export default class BoardsChain {
 	constructor() {
 		const boardsConfigs = config.get(&apos;boards&apos;);
 		const boards = new Boards(boardsConfigs.map((board) =&gt;
-			createBoard(board.name, board.id)));
+			BoardUtil.createBoard(board.name, board.id)));
 
 		/**
 		 * Collection of Boxes taking part to the show
@@ -82,6 +83,7 @@ export default class BoardsChain {
 			let next;
 			let prev;
 			let isMaster = false;
+			const language = boardsConfigs[index].language;
 
 			if (index === 0) {
 				isMaster = true;
@@ -109,8 +111,8 @@ export default class BoardsChain {
 					{ isMaster }
 				]
 			});
-			const client = createClient(board.id);
-			this.boxes.push(new Box(board, client, { next, isMaster, prev }));
+			const client = ClientUtil.createClient(board.id);
+			this.boxes.push(new Box(board, client, { next, isMaster, prev, language }));
 		});
 
 		/**

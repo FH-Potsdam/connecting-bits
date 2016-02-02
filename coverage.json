@@ -1,7 +1,7 @@
 {
   "coverage": "100%",
-  "expectCount": 83,
-  "actualCount": 83,
+  "expectCount": 105,
+  "actualCount": 105,
   "files": {
     "js/index.js": {
       "expectCount": 5,
@@ -24,8 +24,8 @@
       "undocumentLines": []
     },
     "js/components/microphone/utils/reports/index.js": {
-      "expectCount": 7,
-      "actualCount": 7,
+      "expectCount": 6,
+      "actualCount": 6,
       "undocumentLines": []
     },
     "js/constants/index.js": {
@@ -34,8 +34,8 @@
       "undocumentLines": []
     },
     "js/components/infrared/index.js": {
-      "expectCount": 8,
-      "actualCount": 8,
+      "expectCount": 9,
+      "actualCount": 9,
       "undocumentLines": []
     },
     "js/components/light/index.js": {
@@ -49,8 +49,8 @@
       "undocumentLines": []
     },
     "js/components/microphone/index.js": {
-      "expectCount": 2,
-      "actualCount": 2,
+      "expectCount": 8,
+      "actualCount": 8,
       "undocumentLines": []
     },
     "js/components/motor/index.js": {
@@ -59,18 +59,23 @@
       "undocumentLines": []
     },
     "js/components/microphone/utils/records/index.js": {
-      "expectCount": 2,
-      "actualCount": 2,
+      "expectCount": 3,
+      "actualCount": 3,
       "undocumentLines": []
     },
-    "js/components/speaker/index.js": {
-      "expectCount": 4,
-      "actualCount": 4,
+    "js/components/microphone/utils/output/index.js": {
+      "expectCount": 8,
+      "actualCount": 8,
+      "undocumentLines": []
+    },
+    "js/components/microphone/utils/speechtotext/index.js": {
+      "expectCount": 5,
+      "actualCount": 5,
       "undocumentLines": []
     },
     "js/components/translator/index.js": {
-      "expectCount": 2,
-      "actualCount": 2,
+      "expectCount": 8,
+      "actualCount": 8,
       "undocumentLines": []
     }
   }

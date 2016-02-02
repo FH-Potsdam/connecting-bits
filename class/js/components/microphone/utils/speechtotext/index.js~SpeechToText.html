@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <base data-ice="baseUrl" href="../../../../../../">
-  <title data-ice="title">CreateReport | API Document</title>
+  <title data-ice="title">SpeechToText | API Document</title>
   <link type="text/css" rel="stylesheet" href="css/style.css">
   <link type="text/css" rel="stylesheet" href="css/prettify-tomorrow.css">
   <script src="script/prettify/prettify.js"></script>
@@ -54,17 +54,17 @@
 </nav>
 
 <div class="content" data-ice="content"><div class="header-notice">
-  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import CreateReport from &apos;<span><a href="file/js/components/microphone/utils/reports/index.js.html#lineNumber7">connecting-bits/js/components/microphone/utils/reports/index.js</a></span>&apos;</code></pre></div>
+  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import SpeechToText from &apos;<span><a href="file/js/components/microphone/utils/speechtotext/index.js.html#lineNumber7">connecting-bits/js/components/microphone/utils/speechtotext/index.js</a></span>&apos;</code></pre></div>
   <span data-ice="access">public</span>
   <span data-ice="kind">class</span>
   
   
   
-  <span data-ice="source">| <span><a href="file/js/components/microphone/utils/reports/index.js.html#lineNumber7">source</a></span></span>
+  <span data-ice="source">| <span><a href="file/js/components/microphone/utils/speechtotext/index.js.html#lineNumber7">source</a></span></span>
 </div>
 
 <div class="self-detail detail">
-  <h1 data-ice="name">CreateReport</h1>
+  <h1 data-ice="name">SpeechToText</h1>
 
   
 
@@ -108,13 +108,13 @@
     <td>
       <div>
         <p>
-           <span data-ice="name"><span><a href="class/js/components/microphone/utils/reports/index.js~CreateReport.html#instance-constructor-constructor">constructor</a></span></span><span data-ice="signature">(data: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">String</a></span>)</span>
+           <span data-ice="name"><span><a href="class/js/components/microphone/utils/speechtotext/index.js~SpeechToText.html#instance-constructor-constructor">constructor</a></span></span><span data-ice="signature">(language: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">String</a></span>)</span>
         </p>
       </div>
       <div>
         
         
-        <div data-ice="description"><p>The class&apos;s constructor. Is called when initialized.</p>
+        <div data-ice="description"><p>The class&apos;s constructor. Is called whe initialized with the new keyword.</p>
 </div>
       </div>
     </td>
@@ -141,39 +141,13 @@
     <td>
       <div>
         <p>
-           <span data-ice="name"><span><a href="class/js/components/microphone/utils/reports/index.js~CreateReport.html#instance-member-data">data</a></span></span><span data-ice="signature">: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">String</a></span></span>
+           <span data-ice="name"><span><a href="class/js/components/microphone/utils/speechtotext/index.js~SpeechToText.html#instance-member-language">language</a></span></span><span data-ice="signature">: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">String</a></span></span>
         </p>
       </div>
       <div>
         
         
-        <div data-ice="description"><p>The dataa of the audio record</p>
-</div>
-      </div>
-    </td>
-    <td>
-      
-      
-    </td>
-  </tr>
-<tr data-ice="target">
-    <td>
-      <span class="access" data-ice="access">public</span>
-      
-      
-      
-      <span class="override" data-ice="override"></span>
-    </td>
-    <td>
-      <div>
-        <p>
-           <span data-ice="name"><span><a href="class/js/components/microphone/utils/reports/index.js~CreateReport.html#instance-member-newObject">newObject</a></span></span><span data-ice="signature">: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a></span></span>
-        </p>
-      </div>
-      <div>
-        
-        
-        <div data-ice="description"><p>The new audio report</p>
+        <div data-ice="description"><p>The language of the original speech (audio file)</p>
 </div>
       </div>
     </td>
@@ -200,13 +174,13 @@
     <td>
       <div>
         <p>
-           <span data-ice="name"><span><a href="class/js/components/microphone/utils/reports/index.js~CreateReport.html#instance-method-extendJSON">extendJSON</a></span></span><span data-ice="signature">(): <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise">Promise</a></span></span>
+           <span data-ice="name"><span><a href="class/js/components/microphone/utils/speechtotext/index.js~SpeechToText.html#instance-method-convert">convert</a></span></span><span data-ice="signature">(filename: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">String</a></span>, accessToken: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">String</a></span>, language: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">String</a></span>, callback: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function">Function</a></span>)</span>
         </p>
       </div>
       <div>
         
         
-        <div data-ice="description"><p>Extends an existing audio report</p>
+        <div data-ice="description"><p>Converts the speech into text</p>
 </div>
       </div>
     </td>
@@ -226,13 +200,13 @@
     <td>
       <div>
         <p>
-           <span data-ice="name"><span><a href="class/js/components/microphone/utils/reports/index.js~CreateReport.html#instance-method-writeJSON">writeJSON</a></span></span><span data-ice="signature">(): <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise">Promise</a></span></span>
+           <span data-ice="name"><span><a href="class/js/components/microphone/utils/speechtotext/index.js~SpeechToText.html#instance-method-getAccessToken">getAccessToken</a></span></span><span data-ice="signature">(clientId: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">String</a></span>, clientSecret: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">String</a></span>, callback: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function">Function</a></span>)</span>
         </p>
       </div>
       <div>
         
         
-        <div data-ice="description"><p>Overrides a json report in a relevant file</p>
+        <div data-ice="description"><p>Returns the access token of the Api used to convert the speech into text</p>
 </div>
       </div>
     </td>
@@ -258,18 +232,18 @@
     
     
     
-    <span data-ice="name">constructor</span><span data-ice="signature">(data: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">String</a></span>)</span>
+    <span data-ice="name">constructor</span><span data-ice="signature">(language: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">String</a></span>)</span>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/js/components/microphone/utils/reports/index.js.html#lineNumber12">source</a></span></span>
+      <span data-ice="source"><span><a href="file/js/components/microphone/utils/speechtotext/index.js.html#lineNumber12">source</a></span></span>
     </span>
   </h3>
 
   
   
   
-  <div data-ice="description"><p>The class&apos;s constructor. Is called when initialized.</p>
+  <div data-ice="description"><p>The class&apos;s constructor. Is called whe initialized with the new keyword.</p>
 </div>
 
   
@@ -283,10 +257,10 @@
     <tbody>
     
     <tr data-ice="property" data-depth="0">
-      <td data-ice="name" data-depth="0">data</td>
+      <td data-ice="name" data-depth="0">language</td>
       <td data-ice="type"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">String</a></span></td>
       <td data-ice="appendix"></td>
-      <td data-ice="description"><p>The audio file&apos;s data (wav)</p>
+      <td data-ice="description"><p>Language of the audio file to be converted</p>
 </td>
     </tr>
 </tbody>
@@ -313,65 +287,24 @@
 <div data-ice="memberDetails"><h2 data-ice="title">Public Members</h2>
 
 <div class="detail" data-ice="detail">
-  <h3 data-ice="anchor" id="instance-member-data">
+  <h3 data-ice="anchor" id="instance-member-language">
     <span class="access" data-ice="access">public</span>
     
     
     
     
-    <span data-ice="name">data</span><span data-ice="signature">: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">String</a></span></span>
+    <span data-ice="name">language</span><span data-ice="signature">: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">String</a></span></span>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/js/components/microphone/utils/reports/index.js.html#lineNumber17">source</a></span></span>
+      <span data-ice="source"><span><a href="file/js/components/microphone/utils/speechtotext/index.js.html#lineNumber17">source</a></span></span>
     </span>
   </h3>
 
   
   
   
-  <div data-ice="description"><p>The dataa of the audio record</p>
-</div>
-
-  
-
-  <div data-ice="properties">
-</div>
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-  
-</div>
-<div class="detail" data-ice="detail">
-  <h3 data-ice="anchor" id="instance-member-newObject">
-    <span class="access" data-ice="access">public</span>
-    
-    
-    
-    
-    <span data-ice="name">newObject</span><span data-ice="signature">: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a></span></span>
-    <span class="right-info">
-      
-      
-      <span data-ice="source"><span><a href="file/js/components/microphone/utils/reports/index.js.html#lineNumber23">source</a></span></span>
-    </span>
-  </h3>
-
-  
-  
-  
-  <div data-ice="description"><p>The new audio report</p>
+  <div data-ice="description"><p>The language of the original speech (audio file)</p>
 </div>
 
   
@@ -398,43 +331,70 @@
 <div data-ice="methodDetails"><h2 data-ice="title">Public Methods</h2>
 
 <div class="detail" data-ice="detail">
-  <h3 data-ice="anchor" id="instance-method-extendJSON">
+  <h3 data-ice="anchor" id="instance-method-convert">
     <span class="access" data-ice="access">public</span>
     
     
     
     
-    <span data-ice="name">extendJSON</span><span data-ice="signature">(): <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise">Promise</a></span></span>
+    <span data-ice="name">convert</span><span data-ice="signature">(filename: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">String</a></span>, accessToken: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">String</a></span>, language: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">String</a></span>, callback: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function">Function</a></span>)</span>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/js/components/microphone/utils/reports/index.js.html#lineNumber47">source</a></span></span>
+      <span data-ice="source"><span><a href="file/js/components/microphone/utils/speechtotext/index.js.html#lineNumber57">source</a></span></span>
     </span>
   </h3>
 
   
   
   
-  <div data-ice="description"><p>Extends an existing audio report</p>
+  <div data-ice="description"><p>Converts the speech into text</p>
 </div>
 
   
 
-  <div data-ice="properties">
+  <div data-ice="properties"><div data-ice="properties">
+  <h4 data-ice="title">Params:</h4>
+  <table class="params">
+    <thead>
+    <tr><td>Name</td><td>Type</td><td>Attribute</td><td>Description</td></tr>
+    </thead>
+    <tbody>
+    
+    <tr data-ice="property" data-depth="0">
+      <td data-ice="name" data-depth="0">filename</td>
+      <td data-ice="type"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">String</a></span></td>
+      <td data-ice="appendix"></td>
+      <td data-ice="description"><p>The file to take the text from</p>
+</td>
+    </tr>
+<tr data-ice="property" data-depth="0">
+      <td data-ice="name" data-depth="0">accessToken</td>
+      <td data-ice="type"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">String</a></span></td>
+      <td data-ice="appendix"></td>
+      <td data-ice="description"><p>The access token for the API</p>
+</td>
+    </tr>
+<tr data-ice="property" data-depth="0">
+      <td data-ice="name" data-depth="0">language</td>
+      <td data-ice="type"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">String</a></span></td>
+      <td data-ice="appendix"></td>
+      <td data-ice="description"><p>The language of the audio file</p>
+</td>
+    </tr>
+<tr data-ice="property" data-depth="0">
+      <td data-ice="name" data-depth="0">callback</td>
+      <td data-ice="type"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function">Function</a></span></td>
+      <td data-ice="appendix"></td>
+      <td data-ice="description"><p>The function to be called when done</p>
+</td>
+    </tr>
+</tbody>
+  </table>
+</div>
 </div>
 
-  <div class="return-params" data-ice="returnParams">
-    <h4>Return:</h4>
-    <table>
-      <tr>
-        <td class="return-type" data-ice="returnType"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise">Promise</a></span></td>
-        <td class="return-desc" data-ice="returnDescription"><p>Is done when the report is extended</p>
-</td>
-      </tr>
-    </table>
-    <div data-ice="returnProperties">
-</div>
-  </div>
+  
 
   
 
@@ -450,43 +410,63 @@
   
 </div>
 <div class="detail" data-ice="detail">
-  <h3 data-ice="anchor" id="instance-method-writeJSON">
+  <h3 data-ice="anchor" id="instance-method-getAccessToken">
     <span class="access" data-ice="access">public</span>
     
     
     
     
-    <span data-ice="name">writeJSON</span><span data-ice="signature">(): <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise">Promise</a></span></span>
+    <span data-ice="name">getAccessToken</span><span data-ice="signature">(clientId: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">String</a></span>, clientSecret: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">String</a></span>, callback: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function">Function</a></span>)</span>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/js/components/microphone/utils/reports/index.js.html#lineNumber30">source</a></span></span>
+      <span data-ice="source"><span><a href="file/js/components/microphone/utils/speechtotext/index.js.html#lineNumber25">source</a></span></span>
     </span>
   </h3>
 
   
   
   
-  <div data-ice="description"><p>Overrides a json report in a relevant file</p>
+  <div data-ice="description"><p>Returns the access token of the Api used to convert the speech into text</p>
 </div>
 
   
 
-  <div data-ice="properties">
+  <div data-ice="properties"><div data-ice="properties">
+  <h4 data-ice="title">Params:</h4>
+  <table class="params">
+    <thead>
+    <tr><td>Name</td><td>Type</td><td>Attribute</td><td>Description</td></tr>
+    </thead>
+    <tbody>
+    
+    <tr data-ice="property" data-depth="0">
+      <td data-ice="name" data-depth="0">clientId</td>
+      <td data-ice="type"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">String</a></span></td>
+      <td data-ice="appendix"></td>
+      <td data-ice="description"><p>The Api&apos;s client id</p>
+</td>
+    </tr>
+<tr data-ice="property" data-depth="0">
+      <td data-ice="name" data-depth="0">clientSecret</td>
+      <td data-ice="type"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">String</a></span></td>
+      <td data-ice="appendix"></td>
+      <td data-ice="description"><p>The Api&apos;s client secret token</p>
+</td>
+    </tr>
+<tr data-ice="property" data-depth="0">
+      <td data-ice="name" data-depth="0">callback</td>
+      <td data-ice="type"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function">Function</a></span></td>
+      <td data-ice="appendix"></td>
+      <td data-ice="description"><p>The function to be executed afterwards</p>
+</td>
+    </tr>
+</tbody>
+  </table>
+</div>
 </div>
 
-  <div class="return-params" data-ice="returnParams">
-    <h4>Return:</h4>
-    <table>
-      <tr>
-        <td class="return-type" data-ice="returnType"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise">Promise</a></span></td>
-        <td class="return-desc" data-ice="returnDescription"><p>Is done when the report is overriden</p>
-</td>
-      </tr>
-    </table>
-    <div data-ice="returnProperties">
-</div>
-  </div>
+  
 
   
 

@@ -34,14 +34,15 @@
     
   <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/js/index.js~BoardsChain.html">BoardsChain</a></span></span></li>
 <li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">components/box</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/js/components/box/index.js~Box.html">Box</a></span></span></li>
-<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">components/infrared</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/js/components/infrared/index.js~Intrared.html">Intrared</a></span></span></li>
+<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">components/infrared</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/js/components/infrared/index.js~Infrared.html">Infrared</a></span></span></li>
 <li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">components/light</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/js/components/light/index.js~Light.html">Light</a></span></span></li>
 <li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">components/microphone</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/js/components/microphone/index.js~Microphone.html">Microphone</a></span></span></li>
+<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">components/microphone/utils/output</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/js/components/microphone/utils/output/index.js~SoundOutput.html">SoundOutput</a></span></span></li>
 <li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">components/microphone/utils/records</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/js/components/microphone/utils/records/index.js~Record.html">Record</a></span></span></li>
 <li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">components/microphone/utils/reports</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/js/components/microphone/utils/reports/index.js~CreateReport.html">CreateReport</a></span></span></li>
+<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">components/microphone/utils/speechtotext</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/js/components/microphone/utils/speechtotext/index.js~SpeechToText.html">SpeechToText</a></span></span></li>
 <li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">components/motor</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/js/components/motor/index.js~Motor.html">Motor</a></span></span></li>
-<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">components/speaker</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/js/components/speaker/index.js~Speaker.html">Speaker</a></span></span></li>
-<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">components/translator</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/js/components/translator/index.js~Translator.html">Translator</a></span></span></li>
+<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">components/translator</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/js/components/translator/index.js~Translate.html">Translate</a></span></span></li>
 <li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">constants</div><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-INFRARED_CONSTANTS">INFRARED_CONSTANTS</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-LIGHT_CONSTANTS">LIGHT_CONSTANTS</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-MOTOR_CONSTANTS">MOTOR_CONSTANTS</a></span></span></li>
@@ -54,68 +55,66 @@
 
 <div class="content" data-ice="content"><h1 data-ice="title">js/components/microphone/utils/reports/index.js</h1>
 <pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import fs from &apos;fs&apos;;
-import logUtil from &apos;../../../../utils/logUtil&apos;;
+import config from &apos;config&apos;;
 
 /**
- * @class Manages the audio reports
+ * @class Hangling the audio reports
  */
 export default class CreateReport {
 	/**
-	 * @param  {String} location
-	 * @param  {String} filename
-	 * @param  {Object} data
+	 * The class&apos;s constructor. Is called when initialized.
+	 * @param  {String} data - The audio file&apos;s data (wav)
 	 */
-	constructor(location, filename, data) {
-		this.writeJSON.bind(this);
-		this.extendJSON.bind(this);
-
+	constructor(data) {
 		/**
-		 * Audio data
-		 * @type {Object}
-		 */
-		this.data = data;
-		/**
-		 * Complete file path
+		 * The dataa of the audio record
 		 * @type {String}
 		 */
-		this.filePath = `${location}${filename}`;
+		this.data = data;
 
 		/**
-		 * New audio report config
+		 * The new audio report
 		 * @type {Object}
 		 */
 		this.newObject = { results: [] };
 		this.newObject.results.push(data);
-
-		logUtil.log({
-			type: &apos;info&apos;,
-			title: &apos;Audio report initialized&apos;
-		});
 	}
 	/**
-	 * Writes an audio report in a json file
-	 * @public
+	 * Overrides a json report in a relevant file
+	 * @return {Promise} - Is done when the report is overriden
 	 */
 	writeJSON() {
-		fs.writeFileSync(this.filePath, JSON.stringify(this.newObject));
-		logUtil.log({
-			type: &apos;info&apos;,
-			title: &apos;New audio JSON-file written&apos;
+		return new Promise((resolve, reject) =&gt; {
+			const { location, filename } = config.get(&apos;Report&apos;);
+			const filePath = `${location}${filename}`;
+			fs.writeFile(filePath, JSON.stringify(this.newObject), (writeError) =&gt; {
+				if (writeError) {
+					reject(writeError);
+					return;
+				}
+				resolve();
+			});
 		});
 	}
 	/**
-	 * Extends the audio report in an existing json file
-	 * @public
+	 * Extends an existing audio report
+	 * @return {Promise} - Is done when the report is extended
 	 */
 	extendJSON() {
-		let contents = fs.readFileSync(this.filePath);
-		let jsonContent = JSON.parse(contents);
+		return new Promise((resolve, reject) =&gt; {
+			const { location, filename } = config.get(&apos;Report&apos;);
+			const filePath = `${location}${filename}`;
+			let contents = fs.readFileSync(filePath);
+			let jsonContent = JSON.parse(contents);
 
-		jsonContent.results.push(this.data);
-		fs.writeFileSync(this.filePath, JSON.stringify(jsonContent));
-		logUtil.log({
-			type: &apos;info&apos;,
-			title: &apos;Audio JSON-file extended&apos;
+			jsonContent.results.push(this.data);
+			fs.writeFile(filePath, JSON.stringify(jsonContent), (writeError) =&gt; {
+				if (writeError) {
+					reject(writeError);
+					return;
+				}
+				resolve();
+			});
 		});
 	}
 }

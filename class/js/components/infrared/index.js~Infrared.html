@@ -2,8 +2,8 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <base data-ice="baseUrl" href="../../../../../../">
-  <title data-ice="title">CreateReport | API Document</title>
+  <base data-ice="baseUrl" href="../../../../">
+  <title data-ice="title">Infrared | API Document</title>
   <link type="text/css" rel="stylesheet" href="css/style.css">
   <link type="text/css" rel="stylesheet" href="css/prettify-tomorrow.css">
   <script src="script/prettify/prettify.js"></script>
@@ -54,17 +54,17 @@
 </nav>
 
 <div class="content" data-ice="content"><div class="header-notice">
-  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import CreateReport from &apos;<span><a href="file/js/components/microphone/utils/reports/index.js.html#lineNumber7">connecting-bits/js/components/microphone/utils/reports/index.js</a></span>&apos;</code></pre></div>
+  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import Infrared from &apos;<span><a href="file/js/components/infrared/index.js.html#lineNumber17">connecting-bits/js/components/infrared/index.js</a></span>&apos;</code></pre></div>
   <span data-ice="access">public</span>
   <span data-ice="kind">class</span>
   
   
   
-  <span data-ice="source">| <span><a href="file/js/components/microphone/utils/reports/index.js.html#lineNumber7">source</a></span></span>
+  <span data-ice="source">| <span><a href="file/js/components/infrared/index.js.html#lineNumber17">source</a></span></span>
 </div>
 
 <div class="self-detail detail">
-  <h1 data-ice="name">CreateReport</h1>
+  <h1 data-ice="name">Infrared</h1>
 
   
 
@@ -93,39 +93,7 @@
 
 
 
-<div data-ice="constructorSummary"><h2>Constructor Summary</h2><table class="summary" data-ice="summary">
-  <thead><tr><td data-ice="title" colspan="3">Public Constructor</td></tr></thead>
-  <tbody>
-  
-  <tr data-ice="target">
-    <td>
-      <span class="access" data-ice="access">public</span>
-      
-      
-      
-      <span class="override" data-ice="override"></span>
-    </td>
-    <td>
-      <div>
-        <p>
-           <span data-ice="name"><span><a href="class/js/components/microphone/utils/reports/index.js~CreateReport.html#instance-constructor-constructor">constructor</a></span></span><span data-ice="signature">(data: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">String</a></span>)</span>
-        </p>
-      </div>
-      <div>
-        
-        
-        <div data-ice="description"><p>The class&apos;s constructor. Is called when initialized.</p>
-</div>
-      </div>
-    </td>
-    <td>
-      
-      
-    </td>
-  </tr>
-</tbody>
-</table>
-</div>
+
 <div data-ice="memberSummary"><h2>Member Summary</h2><table class="summary" data-ice="summary">
   <thead><tr><td data-ice="title" colspan="3">Public Members</td></tr></thead>
   <tbody>
@@ -141,13 +109,13 @@
     <td>
       <div>
         <p>
-           <span data-ice="name"><span><a href="class/js/components/microphone/utils/reports/index.js~CreateReport.html#instance-member-data">data</a></span></span><span data-ice="signature">: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">String</a></span></span>
+           <span data-ice="name"><span><a href="class/js/components/infrared/index.js~Infrared.html#instance-member-board">board</a></span></span><span data-ice="signature">: <span>Board</span></span>
         </p>
       </div>
       <div>
         
         
-        <div data-ice="description"><p>The dataa of the audio record</p>
+        <div data-ice="description"><p>Johnny Five Board instance</p>
 </div>
       </div>
     </td>
@@ -167,13 +135,146 @@
     <td>
       <div>
         <p>
-           <span data-ice="name"><span><a href="class/js/components/microphone/utils/reports/index.js~CreateReport.html#instance-member-newObject">newObject</a></span></span><span data-ice="signature">: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a></span></span>
+           <span data-ice="name"><span><a href="class/js/components/infrared/index.js~Infrared.html#instance-member-distance">distance</a></span></span><span data-ice="signature">: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">Number</a></span></span>
         </p>
       </div>
       <div>
         
         
-        <div data-ice="description"><p>The new audio report</p>
+        <div data-ice="description"><p>Actual detected distance in cm</p>
+</div>
+      </div>
+    </td>
+    <td>
+      
+      
+    </td>
+  </tr>
+<tr data-ice="target">
+    <td>
+      <span class="access" data-ice="access">public</span>
+      
+      
+      
+      <span class="override" data-ice="override"></span>
+    </td>
+    <td>
+      <div>
+        <p>
+           <span data-ice="name"><span><a href="class/js/components/infrared/index.js~Infrared.html#instance-member-presenceDetected">presenceDetected</a></span></span><span data-ice="signature">: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean">Boolean</a></span></span>
+        </p>
+      </div>
+      <div>
+        
+        
+        <div data-ice="description"><p>Wether or not a human presence is detected</p>
+</div>
+      </div>
+    </td>
+    <td>
+      
+      
+    </td>
+  </tr>
+<tr data-ice="target">
+    <td>
+      <span class="access" data-ice="access">public</span>
+      
+      
+      
+      <span class="override" data-ice="override"></span>
+    </td>
+    <td>
+      <div>
+        <p>
+           <span data-ice="name"><span><a href="class/js/components/infrared/index.js~Infrared.html#instance-member-proximity">proximity</a></span></span><span data-ice="signature">: <span>[type]</span></span>
+        </p>
+      </div>
+      <div>
+        
+        
+        <div data-ice="description"><p>Johnny Five Proximity instance</p>
+</div>
+      </div>
+    </td>
+    <td>
+      
+      
+    </td>
+  </tr>
+<tr data-ice="target">
+    <td>
+      <span class="access" data-ice="access">public</span>
+      
+      
+      
+      <span class="override" data-ice="override"></span>
+    </td>
+    <td>
+      <div>
+        <p>
+           <span data-ice="name"><span><a href="class/js/components/infrared/index.js~Infrared.html#instance-member-resolve">resolve</a></span></span><span data-ice="signature">: <span>Promise.resolve</span></span>
+        </p>
+      </div>
+      <div>
+        
+        
+        <div data-ice="description"><p>Resolve function to be triggered when a remaining presence
+is detected</p>
+</div>
+      </div>
+    </td>
+    <td>
+      
+      
+    </td>
+  </tr>
+<tr data-ice="target">
+    <td>
+      <span class="access" data-ice="access">public</span>
+      
+      
+      
+      <span class="override" data-ice="override"></span>
+    </td>
+    <td>
+      <div>
+        <p>
+           <span data-ice="name"><span><a href="class/js/components/infrared/index.js~Infrared.html#instance-member-throttledCheck">throttledCheck</a></span></span><span data-ice="signature">: <span>Throttled Function</span></span>
+        </p>
+      </div>
+      <div>
+        
+        
+        <div data-ice="description"><p>A throttled function checking if a human presence
+is still detected after a certain time</p>
+</div>
+      </div>
+    </td>
+    <td>
+      
+      
+    </td>
+  </tr>
+<tr data-ice="target">
+    <td>
+      <span class="access" data-ice="access">public</span>
+      
+      
+      
+      <span class="override" data-ice="override"></span>
+    </td>
+    <td>
+      <div>
+        <p>
+           <span data-ice="name"><span><a href="class/js/components/infrared/index.js~Infrared.html#instance-member-timeout">timeout</a></span></span><span data-ice="signature">: <span>*</span></span>
+        </p>
+      </div>
+      <div>
+        
+        
+        <div data-ice="description"><p>Timeout for rechecking if the presence is remaining
+after a certain amount of time</p>
 </div>
       </div>
     </td>
@@ -200,39 +301,13 @@
     <td>
       <div>
         <p>
-           <span data-ice="name"><span><a href="class/js/components/microphone/utils/reports/index.js~CreateReport.html#instance-method-extendJSON">extendJSON</a></span></span><span data-ice="signature">(): <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise">Promise</a></span></span>
+           <span data-ice="name"><span><a href="class/js/components/infrared/index.js~Infrared.html#instance-method-detectPresence">detectPresence</a></span></span><span data-ice="signature">(): <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise">Promise</a></span></span>
         </p>
       </div>
       <div>
         
         
-        <div data-ice="description"><p>Extends an existing audio report</p>
-</div>
-      </div>
-    </td>
-    <td>
-      
-      
-    </td>
-  </tr>
-<tr data-ice="target">
-    <td>
-      <span class="access" data-ice="access">public</span>
-      
-      
-      
-      <span class="override" data-ice="override"></span>
-    </td>
-    <td>
-      <div>
-        <p>
-           <span data-ice="name"><span><a href="class/js/components/microphone/utils/reports/index.js~CreateReport.html#instance-method-writeJSON">writeJSON</a></span></span><span data-ice="signature">(): <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise">Promise</a></span></span>
-        </p>
-      </div>
-      <div>
-        
-        
-        <div data-ice="description"><p>Overrides a json report in a relevant file</p>
+        <div data-ice="description"><p>Is called to start the infrared detection.</p>
 </div>
       </div>
     </td>
@@ -249,88 +324,28 @@
 
 
 
-<div data-ice="constructorDetails"><h2 data-ice="title">Public Constructors</h2>
 
-<div class="detail" data-ice="detail">
-  <h3 data-ice="anchor" id="instance-constructor-constructor">
-    <span class="access" data-ice="access">public</span>
-    
-    
-    
-    
-    <span data-ice="name">constructor</span><span data-ice="signature">(data: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">String</a></span>)</span>
-    <span class="right-info">
-      
-      
-      <span data-ice="source"><span><a href="file/js/components/microphone/utils/reports/index.js.html#lineNumber12">source</a></span></span>
-    </span>
-  </h3>
-
-  
-  
-  
-  <div data-ice="description"><p>The class&apos;s constructor. Is called when initialized.</p>
-</div>
-
-  
-
-  <div data-ice="properties"><div data-ice="properties">
-  <h4 data-ice="title">Params:</h4>
-  <table class="params">
-    <thead>
-    <tr><td>Name</td><td>Type</td><td>Attribute</td><td>Description</td></tr>
-    </thead>
-    <tbody>
-    
-    <tr data-ice="property" data-depth="0">
-      <td data-ice="name" data-depth="0">data</td>
-      <td data-ice="type"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">String</a></span></td>
-      <td data-ice="appendix"></td>
-      <td data-ice="description"><p>The audio file&apos;s data (wav)</p>
-</td>
-    </tr>
-</tbody>
-  </table>
-</div>
-</div>
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-  
-</div>
-</div>
 <div data-ice="memberDetails"><h2 data-ice="title">Public Members</h2>
 
 <div class="detail" data-ice="detail">
-  <h3 data-ice="anchor" id="instance-member-data">
+  <h3 data-ice="anchor" id="instance-member-board">
     <span class="access" data-ice="access">public</span>
     
     
     
     
-    <span data-ice="name">data</span><span data-ice="signature">: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">String</a></span></span>
+    <span data-ice="name">board</span><span data-ice="signature">: <span>Board</span></span>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/js/components/microphone/utils/reports/index.js.html#lineNumber17">source</a></span></span>
+      <span data-ice="source"><span><a href="file/js/components/infrared/index.js.html#lineNumber29">source</a></span></span>
     </span>
   </h3>
 
   
   
   
-  <div data-ice="description"><p>The dataa of the audio record</p>
+  <div data-ice="description"><p>Johnny Five Board instance</p>
 </div>
 
   
@@ -354,24 +369,232 @@
   
 </div>
 <div class="detail" data-ice="detail">
-  <h3 data-ice="anchor" id="instance-member-newObject">
+  <h3 data-ice="anchor" id="instance-member-distance">
     <span class="access" data-ice="access">public</span>
     
     
     
     
-    <span data-ice="name">newObject</span><span data-ice="signature">: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a></span></span>
+    <span data-ice="name">distance</span><span data-ice="signature">: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">Number</a></span></span>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/js/components/microphone/utils/reports/index.js.html#lineNumber23">source</a></span></span>
+      <span data-ice="source"><span><a href="file/js/components/infrared/index.js.html#lineNumber39">source</a></span></span>
     </span>
   </h3>
 
   
   
   
-  <div data-ice="description"><p>The new audio report</p>
+  <div data-ice="description"><p>Actual detected distance in cm</p>
+</div>
+
+  
+
+  <div data-ice="properties">
+</div>
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+</div>
+<div class="detail" data-ice="detail">
+  <h3 data-ice="anchor" id="instance-member-presenceDetected">
+    <span class="access" data-ice="access">public</span>
+    
+    
+    
+    
+    <span data-ice="name">presenceDetected</span><span data-ice="signature">: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean">Boolean</a></span></span>
+    <span class="right-info">
+      
+      
+      <span data-ice="source"><span><a href="file/js/components/infrared/index.js.html#lineNumber44">source</a></span></span>
+    </span>
+  </h3>
+
+  
+  
+  
+  <div data-ice="description"><p>Wether or not a human presence is detected</p>
+</div>
+
+  
+
+  <div data-ice="properties">
+</div>
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+</div>
+<div class="detail" data-ice="detail">
+  <h3 data-ice="anchor" id="instance-member-proximity">
+    <span class="access" data-ice="access">public</span>
+    
+    
+    
+    
+    <span data-ice="name">proximity</span><span data-ice="signature">: <span>[type]</span></span>
+    <span class="right-info">
+      
+      
+      <span data-ice="source"><span><a href="file/js/components/infrared/index.js.html#lineNumber34">source</a></span></span>
+    </span>
+  </h3>
+
+  
+  
+  
+  <div data-ice="description"><p>Johnny Five Proximity instance</p>
+</div>
+
+  
+
+  <div data-ice="properties">
+</div>
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+</div>
+<div class="detail" data-ice="detail">
+  <h3 data-ice="anchor" id="instance-member-resolve">
+    <span class="access" data-ice="access">public</span>
+    
+    
+    
+    
+    <span data-ice="name">resolve</span><span data-ice="signature">: <span>Promise.resolve</span></span>
+    <span class="right-info">
+      
+      
+      <span data-ice="source"><span><a href="file/js/components/infrared/index.js.html#lineNumber109">source</a></span></span>
+    </span>
+  </h3>
+
+  
+  
+  
+  <div data-ice="description"><p>Resolve function to be triggered when a remaining presence
+is detected</p>
+</div>
+
+  
+
+  <div data-ice="properties">
+</div>
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+</div>
+<div class="detail" data-ice="detail">
+  <h3 data-ice="anchor" id="instance-member-throttledCheck">
+    <span class="access" data-ice="access">public</span>
+    
+    
+    
+    
+    <span data-ice="name">throttledCheck</span><span data-ice="signature">: <span>Throttled Function</span></span>
+    <span class="right-info">
+      
+      
+      <span data-ice="source"><span><a href="file/js/components/infrared/index.js.html#lineNumber50">source</a></span></span>
+    </span>
+  </h3>
+
+  
+  
+  
+  <div data-ice="description"><p>A throttled function checking if a human presence
+is still detected after a certain time</p>
+</div>
+
+  
+
+  <div data-ice="properties">
+</div>
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+</div>
+<div class="detail" data-ice="detail">
+  <h3 data-ice="anchor" id="instance-member-timeout">
+    <span class="access" data-ice="access">public</span>
+    
+    
+    
+    
+    <span data-ice="name">timeout</span><span data-ice="signature">: <span>*</span></span>
+    <span class="right-info">
+      
+      
+      <span data-ice="source"><span><a href="file/js/components/infrared/index.js.html#lineNumber123">source</a></span></span>
+    </span>
+  </h3>
+
+  
+  
+  
+  <div data-ice="description"><p>Timeout for rechecking if the presence is remaining
+after a certain amount of time</p>
 </div>
 
   
@@ -398,24 +621,25 @@
 <div data-ice="methodDetails"><h2 data-ice="title">Public Methods</h2>
 
 <div class="detail" data-ice="detail">
-  <h3 data-ice="anchor" id="instance-method-extendJSON">
+  <h3 data-ice="anchor" id="instance-method-detectPresence">
     <span class="access" data-ice="access">public</span>
     
     
     
     
-    <span data-ice="name">extendJSON</span><span data-ice="signature">(): <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise">Promise</a></span></span>
+    <span data-ice="name">detectPresence</span><span data-ice="signature">(): <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise">Promise</a></span></span>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/js/components/microphone/utils/reports/index.js.html#lineNumber47">source</a></span></span>
+      <span data-ice="source"><span><a href="file/js/components/infrared/index.js.html#lineNumber99">source</a></span></span>
     </span>
   </h3>
 
   
   
   
-  <div data-ice="description"><p>Extends an existing audio report</p>
+  <div data-ice="description"><p>Is called to start the infrared detection. Overrides the global
+resolve function with the Promise.resolve function.</p>
 </div>
 
   
@@ -428,60 +652,7 @@
     <table>
       <tr>
         <td class="return-type" data-ice="returnType"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise">Promise</a></span></td>
-        <td class="return-desc" data-ice="returnDescription"><p>Is done when the report is extended</p>
-</td>
-      </tr>
-    </table>
-    <div data-ice="returnProperties">
-</div>
-  </div>
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-  
-</div>
-<div class="detail" data-ice="detail">
-  <h3 data-ice="anchor" id="instance-method-writeJSON">
-    <span class="access" data-ice="access">public</span>
-    
-    
-    
-    
-    <span data-ice="name">writeJSON</span><span data-ice="signature">(): <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise">Promise</a></span></span>
-    <span class="right-info">
-      
-      
-      <span data-ice="source"><span><a href="file/js/components/microphone/utils/reports/index.js.html#lineNumber30">source</a></span></span>
-    </span>
-  </h3>
-
-  
-  
-  
-  <div data-ice="description"><p>Overrides a json report in a relevant file</p>
-</div>
-
-  
-
-  <div data-ice="properties">
-</div>
-
-  <div class="return-params" data-ice="returnParams">
-    <h4>Return:</h4>
-    <table>
-      <tr>
-        <td class="return-type" data-ice="returnType"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise">Promise</a></span></td>
-        <td class="return-desc" data-ice="returnDescription"><p>Is done when the report is overriden</p>
-</td>
+        
       </tr>
     </table>
     <div data-ice="returnProperties">

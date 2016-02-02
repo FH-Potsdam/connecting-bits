@@ -34,14 +34,15 @@
     
   <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/js/index.js~BoardsChain.html">BoardsChain</a></span></span></li>
 <li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">components/box</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/js/components/box/index.js~Box.html">Box</a></span></span></li>
-<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">components/infrared</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/js/components/infrared/index.js~Intrared.html">Intrared</a></span></span></li>
+<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">components/infrared</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/js/components/infrared/index.js~Infrared.html">Infrared</a></span></span></li>
 <li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">components/light</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/js/components/light/index.js~Light.html">Light</a></span></span></li>
 <li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">components/microphone</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/js/components/microphone/index.js~Microphone.html">Microphone</a></span></span></li>
+<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">components/microphone/utils/output</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/js/components/microphone/utils/output/index.js~SoundOutput.html">SoundOutput</a></span></span></li>
 <li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">components/microphone/utils/records</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/js/components/microphone/utils/records/index.js~Record.html">Record</a></span></span></li>
 <li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">components/microphone/utils/reports</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/js/components/microphone/utils/reports/index.js~CreateReport.html">CreateReport</a></span></span></li>
+<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">components/microphone/utils/speechtotext</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/js/components/microphone/utils/speechtotext/index.js~SpeechToText.html">SpeechToText</a></span></span></li>
 <li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">components/motor</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/js/components/motor/index.js~Motor.html">Motor</a></span></span></li>
-<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">components/speaker</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/js/components/speaker/index.js~Speaker.html">Speaker</a></span></span></li>
-<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">components/translator</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/js/components/translator/index.js~Translator.html">Translator</a></span></span></li>
+<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">components/translator</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/js/components/translator/index.js~Translate.html">Translate</a></span></span></li>
 <li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">constants</div><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-INFRARED_CONSTANTS">INFRARED_CONSTANTS</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-LIGHT_CONSTANTS">LIGHT_CONSTANTS</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-MOTOR_CONSTANTS">MOTOR_CONSTANTS</a></span></span></li>
@@ -69,7 +70,7 @@ const {
 /**
  * @class Manages the infrared sensor
  */
-export default class Intrared {
+export default class Infrared {
 	/**
 	 * Constructor for the Infrared class. Needs a j5 board instance
 	 * to work well. !CAUTION&#xA1; The j5 board must already be ready.
@@ -98,12 +99,6 @@ export default class Intrared {
 		 */
 		this.presenceDetected = false;
 		/**
-		 * The Function to resolve in case a long presence
-		 * has been detected
-		 * @type {Function}
-		 */
-		this.resolve = EMPTY_RESOLVE_FUNCTION;
-		/**
 		 * A throttled function checking if a human presence
 		 * is still detected after a certain time
 		 * @type {Throttled Function}
@@ -112,10 +107,6 @@ export default class Intrared {
 			this.checkLaterIfStillPresent.bind(this),
 			MIN_PRESENCE_DURATION
 		);
-
-		this.proximity.on(&apos;data&apos;, (data) =&gt; {
-			this.onData.bind(this)(data.cm);
-		});
 	}
 	/**
 	 * Is called when the infrared detects a distance. In other words,
@@ -163,6 +154,14 @@ export default class Intrared {
 	 */
 	detectPresence() {
 		return new Promise((resolve) =&gt; {
+			this.proximity.on(&apos;data&apos;, (data) =&gt; {
+				this.onData.bind(this)(data.cm);
+			});
+			/**
+			 * Resolve function to be triggered when a remaining presence
+			 * is detected
+			 * @type {Promise.resolve}
+			 */
 			this.resolve = resolve;
 		});
 	}
@@ -172,14 +171,21 @@ export default class Intrared {
 	 * @private
 	 */
 	checkLaterIfStillPresent() {
-		if (this.presenceDetected) {
-			logUtil.log({
-				type: &apos;hardware&apos;,
-				title: &apos;Long presence detected&apos;
-			});
-			this.resolve();
-			this.resolve = EMPTY_RESOLVE_FUNCTION;
-		}
+		clearTimeout(this.timeout);
+		/**
+		 * Timeout for rechecking if the presence is remaining
+		 * after a certain amount of time
+		 */
+		this.timeout = setTimeout(() =&gt; {
+			if (this.presenceDetected) {
+				logUtil.log({
+					type: &apos;hardware&apos;,
+					title: &apos;Long presence detected&apos;
+				});
+				this.resolve();
+				this.proximity.removeAllListeners(&apos;data&apos;);
+			}
+		}, MIN_PRESENCE_DURATION);
 	}
 }
 </code></pre>
