@@ -106,8 +106,8 @@ export default class SoundOutput {
 	 */
 	sayNoRecordingError() {
 		return new Promise((resolve, reject) => {
-			this.say.bind(this)('Anna', 'Ich konnte Sie nicht gut verstehen. ' +
-				'Bitte fangen Sie von vorne wieder an. Drei. Zwei. Eins. Los!')
+			const { introduction } = config.get('texts');
+			this.say.bind(this)('Anna', introduction)
 				.then(resolve)
 				.catch((err) => {
 					this.catchError(err);
