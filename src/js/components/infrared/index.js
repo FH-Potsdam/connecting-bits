@@ -14,7 +14,7 @@ const {
 /**
  * @class Manages the infrared sensor
  */
-export default class Intrared {
+export default class Infrared {
 	/**
 	 * Constructor for the Infrared class. Needs a j5 board instance
 	 * to work well. !CAUTION¡ The j5 board must already be ready.
@@ -101,6 +101,11 @@ export default class Intrared {
 			this.proximity.on('data', (data) => {
 				this.onData.bind(this)(data.cm);
 			});
+			/**
+			 * Resolve function to be triggered when a remaining presence
+			 * is detected
+			 * @type {Promise.resolve}
+			 */
 			this.resolve = resolve;
 		});
 	}
@@ -111,6 +116,10 @@ export default class Intrared {
 	 */
 	checkLaterIfStillPresent() {
 		clearTimeout(this.timeout);
+		/**
+		 * Timeout for rechecking if the presence is remaining
+		 * after a certain amount of time
+		 */
 		this.timeout = setTimeout(() => {
 			if (this.presenceDetected) {
 				logUtil.log({

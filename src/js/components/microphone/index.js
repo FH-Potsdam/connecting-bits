@@ -7,11 +7,36 @@ import SpeechToText from './utils/speechtotext';
 import Translate from './../translator';
 import logUtil from '../../utils/logUtil';
 
+/**
+ * A class managing the audio recording and turning soud into text
+ */
 export default class Microphone {
+	/**
+	 * Class's constructor. Is called when initialized with the "new" keyword.
+	 * @param  {String} name     - Name of the box. Used to save the audio by Box name
+	 * @param  {String} language - Language of the box. Used for speeching
+	 *                             and translating it later on
+	 * @return {[type]}          [description]
+	 */
 	constructor(name, language) {
+		/**
+		 * Name of the box. Used to save the audio by Box name
+		 * @type {String}
+		 */
 		this.name = name;
+		/**
+		 * Language of the box. Used for speeching
+		 * and translating it later on
+		 * @type {String} In form of an alpha code
+		 * @example
+		 * de, fr, en, ar...
+		 */
 		this.language = language;
 	}
+	/**
+	 * Records a voice, transforms the input into text and saves it
+	 * @return {Promise} Is done when all operations are done
+	 */
 	startRecording() {
 		return new Promise((resolve, reject) => {
 			const { location, filename } = config.get('Report');
@@ -39,6 +64,11 @@ export default class Microphone {
 				.catch(reject);
 		});
 	}
+	/**
+	 * Retrieves all needed configs for the recording
+	 * @param  {Number} index - Unique id for the record
+	 * @return {Object}       - Each key is an indication
+	 */
 	getAudioData(index) {
 		const {
 			location,
@@ -58,6 +88,11 @@ export default class Microphone {
 		};
 
 	}
+	/**
+	 * Creates an audio report
+	 * @param  {[Number} index - Id of the report
+	 * @return {Promise}       - Is done when the report is written
+	 */
 	reportAudio(index) {
 		return new Promise((resolve, reject) => {
 			const data = this.getAudioData.bind(this)(index);
@@ -82,6 +117,11 @@ export default class Microphone {
 			}
 		});
 	}
+	/**
+	 * Converts the audio input into text
+	 * @param  {[type]} audioData [description]
+	 * @return {[type]}           [description]
+	 */
 	convertSpeech(audioData) {
 		return new Promise((resolve, reject) => {
 			const { azure } = config.get('APIKeys');

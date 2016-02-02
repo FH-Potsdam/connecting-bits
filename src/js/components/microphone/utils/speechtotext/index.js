@@ -1,13 +1,27 @@
 const request = require('request');
 import fs from 'fs';
 
-
+/**
+ * @class A utility to tronsform audio files into text
+ */
 export default class SpeechToText {
+	/**
+	 * The class's constructor. Is called whe initialized with the new keyword.
+	 * @param  {String} language - Language of the audio file to be converted
+	 */
 	constructor(language) {
+		/**
+		 * The language of the original speech (audio file)
+		 * @type {String} - Alpha2 code
+		 */
 		this.language = language;
-		this.getAccessToken = this.getAccessToken.bind(this);
-		this.convert = this.convert.bind(this);
 	}
+	/**
+	 * Returns the access token of the Api used to convert the speech into text
+	 * @param  {String}   clientId     - The Api's client id
+	 * @param  {String}   clientSecret - The Api's client secret token
+	 * @param  {Function} callback     - The function to be executed afterwards
+	 */
 	getAccessToken(clientId, clientSecret, callback) {
 		request.post({
 			url: 'https://oxford-speech.cloudapp.net/token/issueToken',
@@ -32,8 +46,14 @@ export default class SpeechToText {
 				callback(e);
 			}
 		});
-
 	}
+	/**
+	 * Converts the speech into text
+	 * @param  {String}   filename    - The file to take the text from
+	 * @param  {String}   accessToken - The access token for the API
+	 * @param  {String}   language    - The language of the audio file
+	 * @param  {Function} callback    - The function to be called when done
+	 */
 	convert(filename, accessToken, language, callback) {
 		fs.readFile(filename, function(err, waveData) {
 			if (err) {
