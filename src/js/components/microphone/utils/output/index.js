@@ -50,7 +50,7 @@ export default class SoundOutput {
 	say(voice, message) {
 		return new Promise((resolve, reject) => {
 			// change var to trans text
-			let output = `say -v "${voice}" ${message}`;
+			let output = `say -v "${voice}" "${message}"`;
 			terminal.exec(output, (err) => {
 				if (err) {
 					reject(err);
@@ -83,6 +83,8 @@ export default class SoundOutput {
 				return 'Lee';
 			case 'fr':
 				return 'Aurelie';
+			case 'ar':
+				return 'Tarik';
 			default:
 				return 'Lee';
 		}

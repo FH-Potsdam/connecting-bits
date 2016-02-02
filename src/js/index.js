@@ -76,7 +76,10 @@ export default class BoardsChain {
 			type: 'hardware',
 			title: `All boards ready`
 		});
-		this.masterBox.startTheShow();
+		this.boxes.forEach((box) => {
+			box.reset();
+		});
+		// this.masterBox.startTheShow();
 	}
 }
 

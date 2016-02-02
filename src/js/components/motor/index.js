@@ -65,11 +65,11 @@ export default class Motor {
 	 * @return {Promise}
 	 * @private
 	 */
-	checkAndMove({
+	checkAndMove(
 		actualPositionState,
 		whishedPositionState,
 		positionToMoveTo,
-		servo }) {
+		servo) {
 		return new Promise((resolve) => {
 			if (actualPositionState === whishedPositionState) {
 				resolve();
@@ -78,6 +78,7 @@ export default class Motor {
 			servo
 				.removeAllListeners('move:complete')
 				.on('move:complete', () => {
+					servo.removeAllListeners('move:complete');
 					resolve();
 				});
 			servo.to(positionToMoveTo, SPEED);
@@ -89,12 +90,12 @@ export default class Motor {
 	 * @public
 	 */
 	lieDown() {
-		return this.checkAndMove({
-			actualPositionState: this.stands,
-			whishedPositionState: false,
-			positionToMoveTo: LYING,
-			servo: this.liftServo
-		});
+		return this.checkAndMove(
+			this.stands,
+			false,
+			LYING,
+			this.liftServo
+		);
 	}
 	/**
 	 * Lifts the Box up
@@ -102,12 +103,12 @@ export default class Motor {
 	 * @public
 	 */
 	standUp() {
-		return this.checkAndMove({
-			actualPositionState: this.stands,
-			whishedPositionState: true,
-			positionToMoveTo: STANDING,
-			servo: this.liftServo
-		});
+		return this.checkAndMove(
+			this.stands,
+			true,
+			STANDING,
+			this.liftServo
+		);
 	}
 	/**
 	 * Makes the Box look up
@@ -115,12 +116,12 @@ export default class Motor {
 	 * @public
 	 */
 	lookUp() {
-		return this.checkAndMove({
-			actualPositionState: this.titls,
-			whishedPositionState: true,
-			positionToMoveTo: TILTED,
-			servo: this.tiltServo
-		});
+		return this.checkAndMove(
+			this.titls,
+			true,
+			TILTED,
+			this.tiltServo
+		);
 	}
 	/**
 	 * Makes the Box look down
@@ -128,11 +129,11 @@ export default class Motor {
 	 * @public
 	 */
 	lookStraight() {
-		return this.checkAndMove({
-			actualPositionState: this.tilts,
-			whishedPositionState: false,
-			positionToMoveTo: STRAIGHT,
-			servo: this.tiltServo
-		});
+		return this.checkAndMove(
+			this.tilts,
+			false,
+			STRAIGHT,
+			this.tiltServo
+		);
 	}
 }
