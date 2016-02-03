@@ -71,7 +71,8 @@ export default class SoundOutput {
 	 */
 	explainRules() {
 		return new Promise((resolve, reject) => {
-			this.say.bind(this)('Anna', 'Drei. Zwei. Eins. Los gehts baby!')
+			const { introduction } = config.get('texts');
+			this.say.bind(this)('Anna', introduction)
 				.then(resolve)
 				.catch((err) => {
 					this.catchError(err);
