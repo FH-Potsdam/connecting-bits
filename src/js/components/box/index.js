@@ -228,14 +228,18 @@ export default class Box {
 		});
 		this.motor.standUp()
 			.then(() => {
-				this.speaker.explainRules()
-					.then(this.onRulesExplained.bind(this))
-					.catch(() => {
-						logUtil.log({
-							type: 'error',
-							title: `Rules not explained`
-						});
-						this.startTheShow.bind(this)();
+				this.motor.lookUp()
+					.then(() => {
+						this.speaker.explainRules()
+							.then(this.onRulesExplained.bind(this))
+							.catch(() => {
+								logUtil.log({
+									type: 'error',
+									title: `Rules not explained`
+								});
+								this.motor.lookStraight()
+									.then(this.startTheShow.bind(this));
+							});
 					});
 			});
 	}
@@ -288,8 +292,11 @@ export default class Box {
 							title: `Box "${ this.name }" failed to repeat the text`,
 							messages: [ { then: 'Retries on time again' } ]
 						});
-						this.speaker.sayNoRecordingError()
-							.then(this.startTheShow.bind(this));
+						this.motor.lookStraight()
+							.then(() => {
+								this.speaker.sayNoRecordingError()
+									.then(this.startTheShow.bind(this));
+							});
 					});
 			});
 	}
@@ -398,7 +405,7 @@ export default class Box {
 				.then(() => {
 					this.delayedCall.bind(this)(this.motor.lookUp)
 						.then(() => {
-							this.delayedCall.bind(this)(this.motor.lookUp)
+							this.delayedCall.bind(this)(this.motor.lookStraight)
 								.then(() => {
 									this.delayedCall.bind(this)(this.motor.lieDown)
 										.then(resolve);
