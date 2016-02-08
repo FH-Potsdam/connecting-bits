@@ -245,7 +245,7 @@ export default class Box {
 			type: 'info',
 			title: `Box "${ this.name }" explained the rules`
 		});
-		this.motor.lookUp()
+		this.motor.lookStraight()
 			.then(() => {
 				this.light.startBlinking();
 				this.microphone.startRecording()
@@ -278,7 +278,7 @@ export default class Box {
 	}
 	/** Speaks the text out loud */
 	speakText() {
-		this.motor.lookStraight()
+		this.motor.lookUp()
 			.then(() => {
 				this.speaker.speakText()
 					.then(this.onTextSpoken.bind(this))
@@ -305,7 +305,7 @@ export default class Box {
 					title: `Box "${ this.name }" failed to record the voice`,
 					messages: [ { then: 'Starts over again' } ]
 				});
-				this.motor.lookStraight()
+				this.motor.lookUp()
 					.then(() => {
 						this.speaker.sayNoRecordingError()
 							.then(this.startTheShow.bind(this));
@@ -373,7 +373,7 @@ export default class Box {
 		this.motor.standUp()
 			.then(() => {
 				this.light.startBlinking();
-				this.motor.lookUp()
+				this.motor.lookStraight()
 					.then(() => {
 						this.sendMessage.bind(this)('readyToListen', 'prev');
 					});
@@ -398,7 +398,7 @@ export default class Box {
 				.then(() => {
 					this.delayedCall.bind(this)(this.motor.lookUp)
 						.then(() => {
-							this.delayedCall.bind(this)(this.motor.lookStraight)
+							this.delayedCall.bind(this)(this.motor.lookUp)
 								.then(() => {
 									this.delayedCall.bind(this)(this.motor.lieDown)
 										.then(resolve);
