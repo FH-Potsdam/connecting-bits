@@ -1,4 +1,5 @@
 import fs from 'fs';
+import logUtil from '../../../../utils/logUtil';
 import rec from 'node-record-lpcm16';
 
 /**
@@ -27,7 +28,16 @@ export default class Record {
 			rec.start({ sampleRate, verbose: true });
 
 			const timeout = setTimeout(() => {
-				rec.stop().pipe(file);
+				rec.stop().pipe(file, (recordingErr) => {
+					logUtil.log({
+						type: 'error',
+						title: 'Recording failed',
+						messages: [
+							{ 'Original error': recordingErr }
+						]
+					});
+					reject();
+				});
 				clearTimeout(timeout);
 				resolve(id);
 			}, maxRecordingTime);

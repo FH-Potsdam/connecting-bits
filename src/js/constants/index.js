@@ -32,9 +32,13 @@ export const MOTOR_CONSTANTS = {
 	TILT_PIN: 'D2',
 	LIFT_TYPE: 'standard',
 	TILT_TYPE: 'standard',
-	SPEED: 200,
+	SPEED: 700,
 	LYING: 30,
 	STANDING: 105,
 	TILTED: 120,
 	STRAIGHT: 30
+};
+
+export const GENERAL_CONSTANTS = {
+	PAUSE_TIME_BETWEEN_INTERACTIONS: 500
 };

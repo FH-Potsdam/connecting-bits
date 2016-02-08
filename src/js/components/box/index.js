@@ -7,6 +7,10 @@ import Motor from '../motor';
 import Speaker from '../speaker';
 import Infrared from '../infrared';
 import logUtil from '../../utils/logUtil';
+import { GENERAL_CONSTANTS } from '../../constants';
+const {
+	PAUSE_TIME_BETWEEN_INTERACTIONS
+} = GENERAL_CONSTANTS;
 
 /**
  * @class Box is the class that contains the methods for all actions a Box
@@ -352,11 +356,13 @@ export default class Box {
 			title: `Box "${ this.name }" finished its round`,
 			messages: [ { round: this.round } ]
 		});
-		this.sendMessage.bind(this)('done');
-		logUtil.log({
-			type: 'info',
-			title: `Box "${ this.name }"s show is over`
-		});
+		this.doneTimeout = setTimeout(() => {
+			this.sendMessage.bind(this)('done');
+			logUtil.log({
+				type: 'info',
+				title: `Box "${ this.name }"s show is over`
+			});
+		}, PAUSE_TIME_BETWEEN_INTERACTIONS);
 	}
 	/** Is called when the previous box is speaking the text out loud */
 	onPreviousBoxSpeaking() {
@@ -376,6 +382,10 @@ export default class Box {
 	/** Is called to check is this is the last round */
 	isLastRound() {
 		return this.options.isMaster && this.round > 1;
+	}
+	allStandUp() {
+		this.motor.standUp();
+		this.motor.lookStraight();
 	}
 	reset() {
 		this.motor.lieDown();
