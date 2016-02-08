@@ -325,8 +325,11 @@ export default class Box {
 			type: 'info',
 			title: `Box "${ this.name }" repeated the text`
 		});
-		this.motor.lieDown()
-			.then(this.handleTranslation.bind(this));
+		this.motor.lookStraight()
+			.then(() => {
+				this.motor.lieDown()
+					.then(this.handleTranslation.bind(this));
+			});
 	}
 	/** Ends the show of the box */
 	handleTranslation() {
