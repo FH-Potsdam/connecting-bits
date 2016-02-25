@@ -12,7 +12,7 @@ It consists of four boxes. The first box listens to the visitor's message and th
 ## The boxes.
 The four boxes are custom-made cubic machines with various mechanical elements and electronics.
 
-### The hardware.
+### Tech specs
 Each box consists of:
 
 - **An LED:** To indicate that the box is speaking
@@ -25,7 +25,7 @@ Each box consists of:
 We also used:
 - **A Mac mini**: to record, translate and play the translations
 
-### The design.
+### Design
 The base is a made of concrete and looks like a thick frame. On top of it there is a structure of medium-density-fibreboard that holds everything together: the photon board, the microphone and the LED, as well as both servo motors with their respective lifting and tilting movements. As a cover, we bent a thin aluminium plate to create a five-sided cube.
 The four boxes were on top of a custom-made, black table, in which we hid the infrared sensor, the speakers, the Mac mini and all the cables.
 
