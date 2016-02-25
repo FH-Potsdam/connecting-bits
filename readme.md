@@ -30,7 +30,8 @@ The base is made of concrete and looks like a thick frame. On top of it there is
 The four boxes are on top of a custom-made, black table, in which we hid the infrared sensor, the speakers, the Mac mini and all the cables.
 
 ## How it works
-In reality, the boxes don't really "listen" to each other as with a microphone; everything is done at once by a computer and played simultaneously with the movement of the boxes.
+In reality, the boxes don't really "listen" to each other as with a microphone; everything is done at once by a computer and played simultaneously with the movement of the boxes. This is what really happens:
+1.  The IR sensor is placed under the first box. As soon as someone gets closer than 30cm to the table, it triggers the next step.
 
 ## The makers.
 We are students from the [University of Applied Sciences of Potsdam](http://fh-potsdam.de) \[aka] @fh-potsdam. Our team consists of interface, product, and graphic designers that took part in the course [“Input Output - Introduction to process-oriented design”]( https://fhp.incom.org/workspace/6176) by [Fabian Morón Zirfas]( https://github.com/fabiantheblind). This project was developed during the last third of the course. To see the other projects we made, visit [this repository](https://interface.fh-potsdam.de/eingabe-ausgabe/2015-2016/).
