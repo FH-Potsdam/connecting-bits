@@ -1,5 +1,4 @@
 
-
 [![Join the chat at https://gitter.im/FH-Potsdam/connecting-bits](https://badges.gitter.im/FH-Potsdam/connecting-bits.svg)](https://gitter.im/FH-Potsdam/connecting-bits?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge) [![ZenHub] (https://raw.githubusercontent.com/ZenHubIO/support/master/zenhub-badge.png)] (https://zenhub.io) [![Managed with asana](https://raw.githubusercontent.com/FH-Potsdam/connecting-bits/master/documentation/asanabadge.jpg)](https://app.asana.com/-/share?s=80136391129690-GUJvZiI4OufoWMTDhjjkZauXYEhwvhpqUgnTvw22tMr-74348281972886)
 [![Javascript documentation](http://fh-potsdam.github.io/connecting-bits/badge.svg?build=123)](http://fh-potsdam.github.io/connecting-bits/source.html)
 
@@ -31,7 +30,18 @@ The four boxes are on top of a custom-made, black table, in which we hid the inf
 
 ## How it works
 In reality, the boxes don't really "listen" to each other as with a microphone; everything is done at once by a computer and played simultaneously with the movement of the boxes. This is what really happens:
-1.  The IR sensor is placed under the first box. As soon as someone gets closer than 30cm to the table, it triggers the next step.
+
+0. The IR sensor is placed under the first box. As soon as someone gets closer than 30cm to the table, the next step is triggered.
+1. The servo motors lift and tilt the first box.
+2. A welcoming messaged is played back by the speaker, asking the visitor to say something.
+3. The microphone records the visitor's message.
+4. The first box tilts back, as it is about to say something. At the same time, the second box lifts and tilts, as if it were about to "listen" to its sibling.
+5. The speaker plays back the visitor's message back (German). Under the hood, the computer is translating it into the three remaining languages and back.
+6. The second box tilts back and the speaker plays back the translation (Spanish). The first box moves back to its original position, while the third box is already in "listening" mode.
+7. Now the third box tilts back and the speaker plays back the translation (English). The second box moves back to its original position, while the fourth box is in "listening" mode.
+8. The fourth box tilts back and the speaker plays back the translation (Arabic). The third box moves back to its original position, while the first box is in "listening" mode.
+9. Finally, the first box tilts back and the speaker plays back the last translation (German). The fourth box moves back to its original position.
+10. The first box moves back, too, and the next visitor can come.
 
 ## The makers.
 We are students from the [University of Applied Sciences of Potsdam](http://fh-potsdam.de) \[aka] @fh-potsdam. Our team consists of interface, product, and graphic designers that took part in the course [“Input Output - Introduction to process-oriented design”]( https://fhp.incom.org/workspace/6176) by [Fabian Morón Zirfas]( https://github.com/fabiantheblind). This project was developed during the last third of the course. To see the other projects we made, visit [this repository](https://interface.fh-potsdam.de/eingabe-ausgabe/2015-2016/).
@@ -41,10 +51,10 @@ We are students from the [University of Applied Sciences of Potsdam](http://fh-p
 ### The base reference
 Coming soon
 
-#### Initial ideas
+### Initial ideas
 Coming soon
 
-#### Our final choice
+### Our final choice
 Coming soon
 
 ### Organisation
