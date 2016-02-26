@@ -49,13 +49,22 @@ We are students from the [University of Applied Sciences of Potsdam](http://fh-p
 ## The process.
 
 ### The base reference
-Coming soon
+This was our third and last project of the semester. Our assignment was to develop and build a modular system consisting of four different modules. Each module should have a Particle photon board with an Internet connection as well as sensors that would trigger something, like a temperature sensor that would make an LED blink once a certain temperature was reached, for instance. Such an activated module would then send a signal to the next one, which would do something as well, and send a signal to the next one until all four had successfully done 'something'.
+Four groups were formed, each tasked with the creation of one unique module. And that was it. We had to figure out the rest for ourselves.
 
-### Initial ideas
-Coming soon
+#### Initial ideas
+After hours of brainstorming, we came up with several ideas. Here are some of the more funny and original ones:
+- **The four temperaments:** "A proto-psychological theory that suggests that there are four fundamental personality types, sanguine (optimistic and social), choleric (short-tempered or irritable), melancholic (analytical and quiet), and phlegmatic (relaxed and peaceful)." (Wikipedia) Using these personality types, we wanted to question whether it is possible to create machines with a certain temperament.
+- **Black boxes:** The idea was to create a kind of treasure hunt with the help of at least twenty black boxes that looked the same. The visitors would have to find the 'real' four boxes, which would give leads as where to find the treasure.
+- **Moralizer:** A judging robot that would scream whenever someone did something immoral, like lighting a cigarette.
+- **TRANSL8R:** Four boxes that play the Chinese Whispers game (sound familiar?!) translating a message into several languages and back.
 
-### Our final choice
-Coming soon
+#### Our final choice
+We ended up choosing the latter. This led us to restructure the groups, as we needed a consistent design and the same programming for all boxes.
+Two new groups were formed: _Product design & Mechanics_ and _Hardware & Software_.
 
-### Organisation
-Coming soon
+### Product design & Mechanics
+Coming soon!
+
+### Hardware & Software
+Check out the detailed documentation of the software team.
