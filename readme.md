@@ -28,7 +28,7 @@ We also used:
 The base is made of concrete and looks like a thick frame. On top of it there is a structure of medium-density-fibreboard that holds everything together: the photon board, the microphone and the LED, as well as both servo motors with their respective lifting and tilting movements. As a cover, we bent a thin aluminium plate to create a five-sided cube.
 The four boxes are on top of a custom-made, black table, in which we hid the infrared sensor, the speakers, the Mac mini and all the cables.
 
-## How it works
+### How it works
 In reality, the boxes don't really "listen" to each other as with a microphone; everything is done at once by a computer and played simultaneously with the movement of the boxes. This is what really happens:
 
 0. The IR sensor is placed under the first box. As soon as someone gets closer than 30cm to the table, the next step is triggered.
