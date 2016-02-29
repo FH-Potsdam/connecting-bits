@@ -28,9 +28,10 @@ We also used:
 - **A Mac mini**: to record, translate and play the translations
 
 ### Design
-![arduino and sensors](images/hardware-.1.jpg)
+![final design](images/hardware-.4.jpg)
 The base is made of concrete and looks like a thick frame. On top of it there is a structure of medium-density-fibreboard that holds everything together: the photon board, the microphone and the LED, as well as both servo motors with their respective lifting and tilting movements. As a cover, we bent a thin aluminium plate to create a five-sided cube.
 The four boxes are on top of a custom-made, black table, in which we hid the infrared sensor, the speakers, the Mac mini and all the cables.
+![arduino and sensors](images/hardware-.1.jpg)
 
 ### How it works
 In reality, the boxes don't really "listen" to each other as with a microphone; everything is done at once by a computer and played simultaneously with the movement of the boxes. This is what really happens:
