@@ -64,7 +64,9 @@ We ended up choosing the latter. This led us to restructure the groups, as we ne
 Two new groups were formed: _Product design & Mechanics_ and _Hardware & Software_.
 
 ### Product design & Mechanics
-Coming soon!
+Early on, the team developed a simple lifting and tilting system.
+Copper and concrete were chosen as the external materials as both share an interesting texture and have colours that complement each other well.
+Unfortunately, we realised that copper was heavier than expected, which meant we would need more powerful and considerably costlier servo motors to lift the copper cover. That was not an option, so the lighter (and cheaper!) aluminium it was.
 
 ### Hardware & Software
 Check out the detailed documentation of the software team.
