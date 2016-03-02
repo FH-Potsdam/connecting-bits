@@ -12,7 +12,7 @@ TRANSL8R is a chain of multilingual machines to play the _Chinese whispers_ game
 It consists of four boxes. The first box listens to the visitor's message and then repeats it out loud. The second box listens to the first one and translates that message into a different language. The third and fourth one each do the same (every box speaks a different language). Finally, the first box translates the message back into the original language. In an ideal case, that message would be the same as the original one, but the little mistakes of the translation engine make for a funny ending, just as in the _Chinese whispers_ game.
 
 
-## The makers.
+## The makers
 ![group work](images/group-work-.3.jpg)
 We are students from the [University of Applied Sciences of Potsdam](http://fh-potsdam.de) \[aka] @fh-potsdam. Our team consists of interface, product, and graphic designers that took part in the course “Input Output – Introduction to process-oriented design” by [Fabian Morón Zirfas]( https://github.com/fabiantheblind). This project was developed during the last third of the course. To see the other projects we made, visit [this repository](https://interface.fh-potsdam.de/eingabe-ausgabe/2015-2016/).
 
@@ -60,7 +60,7 @@ In reality, the boxes don't really "listen" to each other as with a microphone; 
 10. The first box moves back, too, and the next visitor can come.
 
 
-## The process.
+## The process
 
 ### The base reference
 This was our third and last project of the semester. Our assignment was to develop and build a modular system consisting of four different modules. Each module should have a Particle photon board with an Internet connection as well as sensors that would trigger something, like a temperature sensor that would make an LED blink once a certain temperature was reached, for instance. Such an activated module would then send a signal to the next one, which would do something as well, and send a signal to the next one until all four had successfully done 'something'.
