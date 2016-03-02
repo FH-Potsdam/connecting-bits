@@ -116,4 +116,4 @@ Check out the detailed documentation of the software team.
 ## About Us
 ![group work](images/group-work-.3.jpg)
 
-We are students from the [University of Applied Sciences of Potsdam](http://fh-potsdam.de) \[aka] @fh-potsdam. Our team consists of interface, product, and graphic designers that took part in the course “Input Output – Introduction to process-oriented design” by [Fabian Morón Zirfas]( https://github.com/fabiantheblind). This project was developed during the last third of the course. To see the other projects we made, visit [this repository](https://interface.fh-potsdam.de/eingabe-ausgabe/2015-2016/).
+We are students from the [University of Applied Sciences of Potsdam](http://fh-potsdam.de) \[aka] @fh-potsdam. Our team consists of interface, product, and graphic designers that took part in the course _“Input Output – Introduction to process-oriented design”_ by [Fabian Morón Zirfas]( https://github.com/fabiantheblind). This project was developed during the last third of the course. To see the other projects we made, visit [this repository](https://interface.fh-potsdam.de/eingabe-ausgabe/2015-2016/).
