@@ -98,9 +98,9 @@ _Glueing the aluminium together_
 _The concrete in the custom-built molds_
 
 ![Building the first prototype](images/product-design-.2.jpg)
+![Building the first prototype](images/product-design-.3.jpg)
 _Building the first prototype_
 
-![Building the first prototype](images/product-design-.3.jpg)
 ![Laser-cutting the structure parts](images/product-design-.4.jpg)
 _Laser-cutting the structure parts (medium-density-fibreboard)_
 
