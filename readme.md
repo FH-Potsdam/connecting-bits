@@ -89,6 +89,7 @@ Two new groups were formed: _Product design & Mechanics_ and _Hardware & Softwar
 Early on, the team developed a simple lifting and tilting system.
 ![mechanics](images/mechanics-.1.jpg)
 ![mechanics](images/mechanics-.2.jpg)
+
 Copper and concrete were chosen as the external materials as both share an interesting texture and have colours that complement each other well.
 
 ![copper and concrete](images/product-design-.8.jpg)
@@ -99,7 +100,7 @@ Unfortunately, we realised that copper was heavier than expected, which meant we
 _Cutting the aluminium_
 
 ![glueing the aluminium together](images/product-design-.7.jpg)
-_Glueing the aluminium together._
+_Glueing the aluminium together_
 
 ![concrete](images/product-design-.6.jpg)
 _The concrete in the custom-built molds_
@@ -113,6 +114,7 @@ _Laser-cutting the structure parts (medium-density-fibreboard)_
 
 ![finishing the table](images/product-design-.10.jpg)
 _Finishing the table_
+
 
 
 
