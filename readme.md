@@ -15,6 +15,7 @@ The four boxes are custom-made cubic machines with various mechanical elements a
 
 ### Tech specs
 ![arduino and sensors](images/hardware-.3.jpg)
+
 Each box consists of:
 
 - **An LED:** To indicate that the box is speaking
@@ -26,6 +27,7 @@ Each box consists of:
 
 We also used:
 - **A Mac mini**: to record, translate and play the translations
+
 
 ### Design
 ![final design](images/hardware-.4.jpg)
@@ -52,9 +54,11 @@ In reality, the boxes don't really "listen" to each other as with a microphone; 
 9. Finally, the first box tilts back and the speaker plays back the last translation (German). The fourth box moves back to its original position.
 10. The first box moves back, too, and the next visitor can come.
 
+
 ## The makers.
 ![group work](images/group-work-.3.jpg)
 We are students from the [University of Applied Sciences of Potsdam](http://fh-potsdam.de) \[aka] @fh-potsdam. Our team consists of interface, product, and graphic designers that took part in the course [“Input Output - Introduction to process-oriented design”]( https://fhp.incom.org/workspace/6176) by [Fabian Morón Zirfas]( https://github.com/fabiantheblind). This project was developed during the last third of the course. To see the other projects we made, visit [this repository](https://interface.fh-potsdam.de/eingabe-ausgabe/2015-2016/).
+
 
 ## The process.
 
@@ -64,6 +68,7 @@ Four groups were formed, each tasked with the creation of one unique module. And
 
 #### Initial ideas
 ![brainstorming](images/group-work-.1.jpg)
+
 After hours of brainstorming, we came up with several ideas. Here are some of the more funny and original ones:
 - **The four temperaments:** "A proto-psychological theory that suggests that there are four fundamental personality types, sanguine (optimistic and social), choleric (short-tempered or irritable), melancholic (analytical and quiet), and phlegmatic (relaxed and peaceful)." (Wikipedia) Using these personality types, we wanted to question whether it is possible to create machines with a certain temperament.
 - **Black boxes:** The idea was to create a kind of treasure hunt with the help of at least twenty black boxes that looked the same. The visitors would have to find the 'real' four boxes, which would give leads as where to find the treasure.
@@ -74,26 +79,35 @@ After hours of brainstorming, we came up with several ideas. Here are some of th
 We ended up choosing the latter. This led us to restructure the groups, as we needed a consistent design and the same programming for all boxes.
 Two new groups were formed: _Product design & Mechanics_ and _Hardware & Software_.
 
+
 ### Product design & Mechanics
 Early on, the team developed a simple lifting and tilting system.
 ![mechanics](images/mechanics-.1.jpg)
 ![mechanics](images/mechanics-.2.jpg)
 Copper and concrete were chosen as the external materials as both share an interesting texture and have colours that complement each other well.
+
 ![copper and concrete](images/product-design-.8.jpg)
 Unfortunately, we realised that copper was heavier than expected, which meant we would need more powerful and considerably costlier servo motors to lift the copper cover. That was not an option, so the lighter (and cheaper!) aluminium it was.
+
 ![cutting the aluminium](images/product-design-.5.jpg)
 _Cutting the aluminium_
+
 ![glueing the aluminium together](images/product-design-.7.jpg)
 _Glueing the aluminium together._
+
 ![concrete](images/product-design-.6.jpg)
 _The concrete in the custom-built molds_
-![Building the first prototyp](images/product-design-.2.jpg)
+
+![Building the first prototype](images/product-design-.2.jpg)
 _Building the first prototype_
-![Building the first prototyp](images/product-design-.3.jpg)
+
+![Building the first prototype](images/product-design-.3.jpg)
 ![Laser-cutting the structure parts](images/product-design-.4.jpg)
 _Laser-cutting the structure parts (medium-density-fibreboard)_
+
 ![finishing the table](images/product-design-.10.jpg)
 _Finishing the table_
+
 
 ### Hardware & Software
 ![the coding team](images/software.jpg)
