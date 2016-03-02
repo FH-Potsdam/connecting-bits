@@ -12,11 +12,6 @@ TRANSL8R is a chain of multilingual machines to play the _Chinese whispers_ game
 It consists of four boxes. The first box listens to the visitor's message and then repeats it out loud. The second box listens to the first one and translates that message into a different language. The third and fourth one each do the same (every box speaks a different language). Finally, the first box translates the message back into the original language. In an ideal case, that message would be the same as the original one, but the little mistakes of the translation engine make for a funny ending, just as in the _Chinese whispers_ game.
 
 
-## The makers
-![group work](images/group-work-.3.jpg)
-We are students from the [University of Applied Sciences of Potsdam](http://fh-potsdam.de) \[aka] @fh-potsdam. Our team consists of interface, product, and graphic designers that took part in the course “Input Output – Introduction to process-oriented design” by [Fabian Morón Zirfas]( https://github.com/fabiantheblind). This project was developed during the last third of the course. To see the other projects we made, visit [this repository](https://interface.fh-potsdam.de/eingabe-ausgabe/2015-2016/).
-
-
 ## Tech specs
 ![arduino and sensors](images/hardware-.3.jpg)
 
@@ -115,3 +110,8 @@ _Finishing the table_
 ### Hardware & Software
 ![the coding team](images/software.jpg)
 Check out the detailed documentation of the software team.
+
+
+## The makers
+![group work](images/group-work-.3.jpg)
+We are students from the [University of Applied Sciences of Potsdam](http://fh-potsdam.de) \[aka] @fh-potsdam. Our team consists of interface, product, and graphic designers that took part in the course “Input Output – Introduction to process-oriented design” by [Fabian Morón Zirfas]( https://github.com/fabiantheblind). This project was developed during the last third of the course. To see the other projects we made, visit [this repository](https://interface.fh-potsdam.de/eingabe-ausgabe/2015-2016/).
