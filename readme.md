@@ -21,11 +21,11 @@ The four boxes are custom-made cubic machines with various mechanical elements a
 - **Two servo motors:** To move the box as it listens and speaks and to give it a living character
 - **An infrared sensor:** To detect the presence of someone standing in front of it and start the audio recording
 - **A microphone:** To record the person's voice
-- **A speaker:** To… you know… speak…
+- **A speaker:** To play back the messages
 - **A particle photon board:** To control all this and be controlled over Wi-Fi
 
 We also used:
-- **A Mac mini**: to record, translate and play the translations
+- **A Mac mini**: To record, translate and play the messages
 
 
 ## Design
