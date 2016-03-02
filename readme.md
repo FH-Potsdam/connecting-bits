@@ -78,6 +78,7 @@ Two new groups were formed: _Product design & Mechanics_ and _Hardware & Softwar
 
 ### Product design & Mechanics
 Early on, the team developed a simple lifting and tilting system.
+
 ![mechanics](images/mechanics-.1.jpg)
 ![mechanics](images/mechanics-.2.jpg)
 
@@ -112,6 +113,6 @@ _Finishing the table_
 Check out the detailed documentation of the software team.
 
 
-## The makers
+## About us
 ![group work](images/group-work-.3.jpg)
 We are students from the [University of Applied Sciences of Potsdam](http://fh-potsdam.de) \[aka] @fh-potsdam. Our team consists of interface, product, and graphic designers that took part in the course “Input Output – Introduction to process-oriented design” by [Fabian Morón Zirfas]( https://github.com/fabiantheblind). This project was developed during the last third of the course. To see the other projects we made, visit [this repository](https://interface.fh-potsdam.de/eingabe-ausgabe/2015-2016/).
