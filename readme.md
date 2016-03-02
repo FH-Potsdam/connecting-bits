@@ -7,17 +7,15 @@
 (Video)
 
 
-## The project.
+## Introduction
 TRANSL8R is a chain of multilingual machines to play the _Chinese whispers_ game with, made for exhibitions.
 It consists of four boxes. The first box listens to the visitor's message and then repeats it out loud. The second box listens to the first one and translates that message into a different language. The third and fourth one each do the same (every box speaks a different language). Finally, the first box translates the message back into the original language. In an ideal case, that message would be the same as the original one, but the little mistakes of the translation engine make for a funny ending, just as in the _Chinese whispers_ game.
 
-## The boxes.
-The four boxes are custom-made cubic machines with various mechanical elements and electronics.
 
-### Tech specs
+## Tech specs
 ![arduino and sensors](images/hardware-.3.jpg)
 
-Each box consists of:
+The four boxes are custom-made cubic machines with various mechanical elements and electronics. Each box consists of:
 
 - **An LED:** To indicate that the box is speaking
 - **Two servo motors:** To move the box as it listens and speaks and to give it a living character
@@ -30,8 +28,7 @@ We also used:
 - **A Mac mini**: to record, translate and play the translations
 
 
-
-### Design
+## Design
 ![final design](images/hardware-.4.jpg)
 
 
@@ -41,7 +38,8 @@ The four boxes are on top of a custom-made, black table, in which we hid the inf
 
 ![arduino and sensors](images/hardware-.1.jpg)
 
-### How it works
+
+## How it works
 In reality, the boxes don't really "listen" to each other as with a microphone; everything is done at once by a computer and played simultaneously with the movement of the boxes. This is what really happens:
 
 0. The IR sensor is placed under the first box. As soon as someone gets closer than 30cm to the table, the next step is triggered.
@@ -57,11 +55,9 @@ In reality, the boxes don't really "listen" to each other as with a microphone; 
 10. The first box moves back, too, and the next visitor can come.
 
 
-
 ## The makers.
 ![group work](images/group-work-.3.jpg)
-We are students from the [University of Applied Sciences of Potsdam](http://fh-potsdam.de) \[aka] @fh-potsdam. Our team consists of interface, product, and graphic designers that took part in the course [“Input Output - Introduction to process-oriented design”]( https://fhp.incom.org/workspace/6176) by [Fabian Morón Zirfas]( https://github.com/fabiantheblind). This project was developed during the last third of the course. To see the other projects we made, visit [this repository](https://interface.fh-potsdam.de/eingabe-ausgabe/2015-2016/).
-
+We are students from the [University of Applied Sciences of Potsdam](http://fh-potsdam.de) \[aka] @fh-potsdam. Our team consists of interface, product, and graphic designers that took part in the course “Input Output – Introduction to process-oriented design” by [Fabian Morón Zirfas]( https://github.com/fabiantheblind). This project was developed during the last third of the course. To see the other projects we made, visit [this repository](https://interface.fh-potsdam.de/eingabe-ausgabe/2015-2016/).
 
 
 ## The process.
