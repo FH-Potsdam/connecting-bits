@@ -32,6 +32,20 @@ dest
 # Ignore the config folder
 config
 
+# Ignore the audio reports
+audio/report/audio.report.json
+
+# Ignore the audio files
+audio/recordings/*.wav
+
+# Ognore the converted texts
+convert/*.json
+
+documentation/esdoc
+
 # Sublime
 *.sublime-project
 *.sublime-workspace
+
+.DS_Store
+

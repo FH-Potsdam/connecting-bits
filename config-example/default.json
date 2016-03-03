@@ -1,25 +1,47 @@
 {
-	"token": "particleIoToken",
+	"token": "particleIoTocken",
 	"boards": [
 		{
-			"name": "nameOfBoard",
-			"id": "deviceIdOfBoard"
+			"name": "MyBoard1",
+			"language": "de",
+			"id": "MyBoard1DeviceId"
 		},
 		{
-			"name": "nameOfBoard",
-			"id": "deviceIdOfBoard"
-		},
-		{
-			"name": "nameOfBoard",
-			"id": "deviceIdOfBoard"
-		},
-		{
-			"name": "nameOfBoard",
-			"id": "deviceIdOfBoard"
+			"name": "MyBoard2",
+			"language": "fr",
+			"id": "MyBoard2DeviceId"
 		}
 	],
 	"shiftr": {
-		"usr": "shiftrUser",
-		"psw": "shiftrPsw"
+		"usr": "shiftr-usr-name",
+		"psw": "shiftr-psw"
+	},
+	"APIKeys": {
+		"google": "google-api-key",
+		"azure": "azure-api-key"
+	},
+	"Audio": {
+		"location": "audio/recordings/",
+		"filename": "record_",
+		"sampleRate": 44100,
+		"maxRecordingTime": 10000,
+		"temp": "temp.master"
+	},
+	"Report": {
+		"location": "audio/report/",
+		"filename": "audio.report.json"
+	},
+	"Master": {
+		"location": "audio/temp/",
+		"filename": "temp.master.wav",
+		"sampleRate": 44100,
+		"maxRecordingTime": 5000
+	},
+	"Convert": {
+		"location": "convert/",
+		"filename": "temp.text.json"
+	},
+	"Dev": {
+		"sensor": 1
 	}
 }

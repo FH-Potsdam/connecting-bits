@@ -4,7 +4,8 @@
   "description": "A chinese whisper game played by multilingual robots",
   "main": "index.js",
   "scripts": {
-    "watch": "gulp watch"
+    "watch": "gulp watch",
+    "lint": "eslint src"
   },
   "repository": {
     "type": "git",
@@ -33,18 +34,33 @@
   "homepage": "https://github.com/FH-Potsdam/connecting-bits#readme",
   "devDependencies": {
     "babel-core": "^6.4.0",
+    "babel-eslint": "^5.0.0-beta6",
     "babel-preset-es2015": "^6.3.13",
+    "babel-runtime": "^6.3.19",
+    "esdoc-es7-plugin": "0.0.3",
+    "eslint": "^1.10.3",
+    "gulp": "^3.9.0",
     "gulp-babel": "^6.1.1",
+    "gulp-esdoc": "^0.2.0",
+    "gulp-eslint": "^1.1.1",
+    "gulp-gh-pages": "^0.5.4",
     "gulp-nodemon": "^2.0.6",
     "gulp-plumber": "^1.0.1",
     "gulp-rimraf": "^0.2.0",
     "gulp-sourcemaps": "^1.6.0",
     "gulp-util": "^3.0.7",
-    "mqtt": "^1.6.3"
+    "mqtt": "^1.6.3",
+    "node-fetch": "^1.3.3",
+    "open": "0.0.5"
   },
   "dependencies": {
+    "chalk": "^1.1.1",
     "config": "^1.19.0",
     "johnny-five": "^0.9.18",
-    "particle-io": "^0.12.0"
+    "lodash": "^4.2.0",
+    "node-record-lpcm16": "^0.1.4",
+    "oh-my-terminal": "^1.1.2",
+    "particle-io": "^0.12.0",
+    "request": "^2.67.0"
   }
 }
