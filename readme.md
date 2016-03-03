@@ -82,7 +82,7 @@ Early on, the team developed a simple lifting and tilting system.
 ![mechanics](images/mechanics-.1.jpg)
 ![mechanics](images/mechanics-.2.jpg)
 
-Copper and concrete were chosen as the external materials as both share an interesting texture and have colours that complement each other well.
+Copper and concrete were chosen as external materials as both share an interesting texture and have colours that complement each other well.
 
 ![copper and concrete](images/product-design-.8.jpg)
 
@@ -110,6 +110,7 @@ _Finishing the table_
 
 ### Hardware & Software
 ![the coding team](images/software.jpg)
+
 Check out the detailed documentation of the software team.
 
 
