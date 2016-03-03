@@ -4,7 +4,7 @@ import config from 'config';
 /**
  * @class Hangling the audio reports
  */
-export default class CreateReport {
+export default class Report {
 	/**
 	 * The class's constructor. Is called when initialized.
 	 * @param  {String} data - The audio file's data (wav)

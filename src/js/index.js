@@ -84,6 +84,10 @@ export default class BoardsChain {
 		// this.testMotor.bind(this)(this.boxes[0]);
 		this.masterBox.startTheShow();
 	}
+	/**
+	 * A utility method to test that all boxes are working
+	 * as expected. Uncomment the above comments to test
+	 */
 	testMotor(box) {
 		box.reset();
 		logUtil.log({

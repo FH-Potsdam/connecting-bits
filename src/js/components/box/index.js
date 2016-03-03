@@ -360,13 +360,15 @@ export default class Box {
 				.then(this.finish.bind(this));
 		}
 	}
+	/** Is called when the box finished its round */
 	finish() {
 		logUtil.log({
 			type: 'info',
 			title: `Box "${ this.name }" finished its round`,
 			messages: [ { round: this.round } ]
 		});
-		this.doneTimeout = setTimeout(() => {
+		/** The component's timeout. Saved to be cleared at any time */
+		this.timeout = setTimeout(() => {
 			this.sendMessage.bind(this)('done');
 			logUtil.log({
 				type: 'info',
@@ -393,15 +395,18 @@ export default class Box {
 	isLastRound() {
 		return this.options.isMaster && this.round > 1;
 	}
+	/** A method to reinitialize the box to a standing state */
 	allStandUp() {
 		this.motor.standUp();
 		this.motor.lookStraight();
 	}
+	/** A method to reinitialize the box to the initial state */
 	reset() {
 		this.motor.lieDown();
 		this.motor.lookStraight();
 		this.light.stopBlinking();
 	}
+	/** A method to test that all components are connected and working correctly */
 	testMotor() {
 		return new Promise((resolve, reject) => {
 			this.delayedCall.bind(this)(this.motor.standUp)
@@ -417,8 +422,10 @@ export default class Box {
 				});
 		});
 	}
+	/** A utility to delay an action returning a Promise */
 	delayedCall(callback) {
 		return new Promise((resolve) => {
+			/** The component's timeout. Saved to be cleared at any time */
 			this.timeout = setTimeout(() => {
 				callback();
 				clearTimeout(this.timeout);

@@ -39,6 +39,11 @@ export const MOTOR_CONSTANTS = {
 	STRAIGHT: 30
 };
 
+/**
+ * General constant that could be used
+ * anywhere in the source code
+ * @type {Object}
+ */
 export const GENERAL_CONSTANTS = {
 	PAUSE_TIME_BETWEEN_INTERACTIONS: 1000
 };

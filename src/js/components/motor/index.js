@@ -56,7 +56,6 @@ export default class Motor {
 		 */
 		this.titls = false;
 
-		this.checkAndMove = this.checkAndMove;
 		this.lieDown = this.lieDown.bind(this);
 		this.standUp = this.standUp.bind(this);
 		this.lookUp = this.lookUp.bind(this);

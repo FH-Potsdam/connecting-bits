@@ -34,6 +34,7 @@ export default class Translate {
 		return new Promise((resolve, reject) => {
 			const texts = this.getTexts.bind(this)();
 
+			/** @type {Object} Configuration of the next sibling box */
 			this.next = next;
 			this.translate.bind(this)(this.language, this.next.language, texts[this.name].output)
 				.then((response) => {

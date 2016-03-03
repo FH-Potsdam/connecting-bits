@@ -1,10 +1,8 @@
 import config from 'config';
 import fs from 'fs';
-import Record from './utils/records';
-import SoundOutput from './utils/output';
-import Report from './utils/reports';
-import SpeechToText from './utils/speechtotext';
-import Translate from './../translator';
+import Record from './records';
+import Report from './reports';
+import SpeechToText from './speechtotext';
 import logUtil from '../../utils/logUtil';
 
 /**
