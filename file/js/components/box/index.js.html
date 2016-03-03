@@ -37,13 +37,14 @@
 <li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">components/infrared</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/js/components/infrared/index.js~Infrared.html">Infrared</a></span></span></li>
 <li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">components/light</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/js/components/light/index.js~Light.html">Light</a></span></span></li>
 <li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">components/microphone</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/js/components/microphone/index.js~Microphone.html">Microphone</a></span></span></li>
-<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">components/microphone/utils/output</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/js/components/microphone/utils/output/index.js~SoundOutput.html">SoundOutput</a></span></span></li>
-<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">components/microphone/utils/records</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/js/components/microphone/utils/records/index.js~Record.html">Record</a></span></span></li>
-<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">components/microphone/utils/reports</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/js/components/microphone/utils/reports/index.js~CreateReport.html">CreateReport</a></span></span></li>
-<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">components/microphone/utils/speechtotext</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/js/components/microphone/utils/speechtotext/index.js~SpeechToText.html">SpeechToText</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/js/components/microphone/records.js~Record.html">Record</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/js/components/microphone/reports.js~Report.html">Report</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/js/components/microphone/speechtotext.js~SpeechToText.html">SpeechToText</a></span></span></li>
 <li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">components/motor</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/js/components/motor/index.js~Motor.html">Motor</a></span></span></li>
+<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">components/speaker</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/js/components/speaker/index.js~Speaker.html">Speaker</a></span></span></li>
 <li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">components/translator</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/js/components/translator/index.js~Translate.html">Translate</a></span></span></li>
-<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">constants</div><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-INFRARED_CONSTANTS">INFRARED_CONSTANTS</a></span></span></li>
+<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">constants</div><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-GENERAL_CONSTANTS">GENERAL_CONSTANTS</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-INFRARED_CONSTANTS">INFRARED_CONSTANTS</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-LIGHT_CONSTANTS">LIGHT_CONSTANTS</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-MOTOR_CONSTANTS">MOTOR_CONSTANTS</a></span></span></li>
 <li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">utils</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/js/utils/boardsUtil.js~BoardsUtil.html">BoardsUtil</a></span></span></li>
@@ -63,6 +64,10 @@ import Motor from &apos;../motor&apos;;
 import Speaker from &apos;../speaker&apos;;
 import Infrared from &apos;../infrared&apos;;
 import logUtil from &apos;../../utils/logUtil&apos;;
+import { GENERAL_CONSTANTS } from &apos;../../constants&apos;;
+const {
+	PAUSE_TIME_BETWEEN_INTERACTIONS
+} = GENERAL_CONSTANTS;
 
 /**
  * @class Box is the class that contains the methods for all actions a Box
@@ -142,6 +147,8 @@ export default class Box {
 		 * @type {Micro}
 		 */
 		this.microphone = null;
+
+		this.testMotor = this.testMotor.bind(this);
 
 		client.on(&apos;connect&apos;, this.onConnect.bind(this));
 		client.on(&apos;message&apos;, this.onMessage.bind(this));
@@ -278,9 +285,19 @@ export default class Box {
 		});
 		this.motor.standUp()
 			.then(() =&gt; {
-				this.light.startBlinking();
-				this.speaker.explainRules()
-					.then(this.onRulesExplained.bind(this));
+				this.motor.lookUp()
+					.then(() =&gt; {
+						this.speaker.explainRules()
+							.then(this.onRulesExplained.bind(this))
+							.catch(() =&gt; {
+								logUtil.log({
+									type: &apos;error&apos;,
+									title: `Rules not explained`
+								});
+								this.motor.lookStraight()
+									.then(this.startTheShow.bind(this));
+							});
+					});
 			});
 	}
 	/** Is called when the Box has spoken the rules out loud */
@@ -289,8 +306,9 @@ export default class Box {
 			type: &apos;info&apos;,
 			title: `Box &quot;${ this.name }&quot; explained the rules`
 		});
-		this.motor.lookUp()
+		this.motor.lookStraight()
 			.then(() =&gt; {
+				this.light.startBlinking();
 				this.microphone.startRecording()
 					.then(() =&gt; {
 						logUtil.log({
@@ -304,39 +322,58 @@ export default class Box {
 	}
 	/** Is called when the Box is meant to speak */
 	prepareToSpeak() {
-		const isLastRound = this.isLastRound.bind(this)();
-		if (isLastRound) {
-			this.speakText.bind(this)();
-		} else {
-			this.sendMessage.bind(this)(&apos;readyToSpeak&apos;);
-		}
-		logUtil.log({
-			type: &apos;info&apos;,
-			title: `Box &quot;${ this.name }&quot; is prepared to speak`,
-			messages: [ { round: this.round } ]
-		});
+		this.light.stopBlinking()
+			.then(() =&gt; {
+				const isLastRound = this.isLastRound.bind(this)();
+				if (isLastRound) {
+					this.speakText.bind(this)();
+				} else {
+					this.sendMessage.bind(this)(&apos;readyToSpeak&apos;);
+				}
+				logUtil.log({
+					type: &apos;info&apos;,
+					title: `Box &quot;${ this.name }&quot; is prepared to speak`,
+					messages: [ { round: this.round } ]
+				});
+			});
 	}
 	/** Speaks the text out loud */
 	speakText() {
-		this.light.stopBlinking();
-		this.motor.lookStraight();
-		this.speaker.speakText()
-			.then(this.onTextSpoken.bind(this));
+		this.motor.lookUp()
+			.then(() =&gt; {
+				this.speaker.speakText()
+					.then(this.onTextSpoken.bind(this))
+					.catch((err) =&gt; {
+						logUtil.log({
+							type: &apos;warning&apos;,
+							title: `Box &quot;${ this.name }&quot; failed to repeat the text`,
+							messages: [ { then: &apos;Retries on time again&apos; } ]
+						});
+						this.motor.lookStraight()
+							.then(() =&gt; {
+								this.speaker.sayNoRecordingError()
+									.then(this.startTheShow.bind(this));
+							});
+					});
+			});
 	}
 	/**
 	 * Is called when the voice was badly recorded, when no sound was identified
 	 * or when the speech could not be transformed into text
 	 */
 	onRecordingFailed() {
-		logUtil.log({
-			type: &apos;warning&apos;,
-			title: `Box &quot;${ this.name }&quot; failed to record the voice`,
-			messages: [ { then: &apos;Starts over again&apos; } ]
-		});
-		this.motor.lookStraight()
+		this.light.stopBlinking()
 			.then(() =&gt; {
-				this.speaker.sayNoRecordingError()
-					.then(this.startTheShow.bind(this));
+				logUtil.log({
+					type: &apos;warning&apos;,
+					title: `Box &quot;${ this.name }&quot; failed to record the voice`,
+					messages: [ { then: &apos;Starts over again&apos; } ]
+				});
+				this.motor.lookUp()
+					.then(() =&gt; {
+						this.speaker.sayNoRecordingError()
+							.then(this.startTheShow.bind(this));
+					});
 			});
 	}
 	/** Is called whe the box has successfully spoken the text out loud */
@@ -345,8 +382,25 @@ export default class Box {
 			type: &apos;info&apos;,
 			title: `Box &quot;${ this.name }&quot; repeated the text`
 		});
+		this.motor.lookStraight()
+			.then(() =&gt; {
+				this.motor.lieDown()
+					.then(this.handleTranslation.bind(this));
+			});
+	}
+	/** Ends the show of the box */
+	handleTranslation() {
 		if (this.options.isMaster) {
 			if (this.round === 1) {
+				logUtil.log({
+					type: &apos;info&apos;,
+					title: `Box &quot;${ this.name }&quot;s is now translating`,
+					messages: [
+						{ next: this.options.next.name },
+						{ &apos;from language&apos;: this.options.language },
+						{ &apos;to language&apos;: this.options.next.language }
+					]
+				});
 				this.translator.translateNext(this.options.next)
 					.then(this.finish.bind(this));
 			} else {
@@ -359,22 +413,25 @@ export default class Box {
 				this.startTheShow.bind(this)();
 			}
 		} else {
-			this.finish.bind(this)();
+			this.translator.translateNext(this.options.next)
+				.then(this.finish.bind(this));
 		}
 	}
-	/** Ends the show of the box */
+	/** Is called when the box finished its round */
 	finish() {
 		logUtil.log({
 			type: &apos;info&apos;,
 			title: `Box &quot;${ this.name }&quot; finished its round`,
 			messages: [ { round: this.round } ]
 		});
-		this.sendMessage.bind(this)(&apos;done&apos;);
-		this.motor.lieDown();
-		logUtil.log({
-			type: &apos;info&apos;,
-			title: `Box &quot;${ this.name }&quot;s show is over`
-		});
+		/** The component&apos;s timeout. Saved to be cleared at any time */
+		this.timeout = setTimeout(() =&gt; {
+			this.sendMessage.bind(this)(&apos;done&apos;);
+			logUtil.log({
+				type: &apos;info&apos;,
+				title: `Box &quot;${ this.name }&quot;s show is over`
+			});
+		}, PAUSE_TIME_BETWEEN_INTERACTIONS);
 	}
 	/** Is called when the previous box is speaking the text out loud */
 	onPreviousBoxSpeaking() {
@@ -385,7 +442,7 @@ export default class Box {
 		this.motor.standUp()
 			.then(() =&gt; {
 				this.light.startBlinking();
-				this.motor.lookUp()
+				this.motor.lookStraight()
 					.then(() =&gt; {
 						this.sendMessage.bind(this)(&apos;readyToListen&apos;, &apos;prev&apos;);
 					});
@@ -394,6 +451,44 @@ export default class Box {
 	/** Is called to check is this is the last round */
 	isLastRound() {
 		return this.options.isMaster &amp;&amp; this.round &gt; 1;
+	}
+	/** A method to reinitialize the box to a standing state */
+	allStandUp() {
+		this.motor.standUp();
+		this.motor.lookStraight();
+	}
+	/** A method to reinitialize the box to the initial state */
+	reset() {
+		this.motor.lieDown();
+		this.motor.lookStraight();
+		this.light.stopBlinking();
+	}
+	/** A method to test that all components are connected and working correctly */
+	testMotor() {
+		return new Promise((resolve, reject) =&gt; {
+			this.delayedCall.bind(this)(this.motor.standUp)
+				.then(() =&gt; {
+					this.delayedCall.bind(this)(this.motor.lookUp)
+						.then(() =&gt; {
+							this.delayedCall.bind(this)(this.motor.lookStraight)
+								.then(() =&gt; {
+									this.delayedCall.bind(this)(this.motor.lieDown)
+										.then(resolve);
+								});
+						});
+				});
+		});
+	}
+	/** A utility to delay an action returning a Promise */
+	delayedCall(callback) {
+		return new Promise((resolve) =&gt; {
+			/** The component&apos;s timeout. Saved to be cleared at any time */
+			this.timeout = setTimeout(() =&gt; {
+				callback();
+				clearTimeout(this.timeout);
+				resolve();
+			}, 1000);
+		});
 	}
 }
 </code></pre>

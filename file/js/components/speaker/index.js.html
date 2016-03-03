@@ -37,13 +37,14 @@
 <li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">components/infrared</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/js/components/infrared/index.js~Infrared.html">Infrared</a></span></span></li>
 <li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">components/light</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/js/components/light/index.js~Light.html">Light</a></span></span></li>
 <li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">components/microphone</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/js/components/microphone/index.js~Microphone.html">Microphone</a></span></span></li>
-<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">components/microphone/utils/output</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/js/components/microphone/utils/output/index.js~SoundOutput.html">SoundOutput</a></span></span></li>
-<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">components/microphone/utils/records</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/js/components/microphone/utils/records/index.js~Record.html">Record</a></span></span></li>
-<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">components/microphone/utils/reports</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/js/components/microphone/utils/reports/index.js~CreateReport.html">CreateReport</a></span></span></li>
-<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">components/microphone/utils/speechtotext</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/js/components/microphone/utils/speechtotext/index.js~SpeechToText.html">SpeechToText</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/js/components/microphone/records.js~Record.html">Record</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/js/components/microphone/reports.js~Report.html">Report</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/js/components/microphone/speechtotext.js~SpeechToText.html">SpeechToText</a></span></span></li>
 <li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">components/motor</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/js/components/motor/index.js~Motor.html">Motor</a></span></span></li>
+<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">components/speaker</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/js/components/speaker/index.js~Speaker.html">Speaker</a></span></span></li>
 <li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">components/translator</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/js/components/translator/index.js~Translate.html">Translate</a></span></span></li>
-<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">constants</div><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-INFRARED_CONSTANTS">INFRARED_CONSTANTS</a></span></span></li>
+<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">constants</div><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-GENERAL_CONSTANTS">GENERAL_CONSTANTS</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-INFRARED_CONSTANTS">INFRARED_CONSTANTS</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-LIGHT_CONSTANTS">LIGHT_CONSTANTS</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-MOTOR_CONSTANTS">MOTOR_CONSTANTS</a></span></span></li>
 <li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">utils</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/js/utils/boardsUtil.js~BoardsUtil.html">BoardsUtil</a></span></span></li>
@@ -54,9 +55,136 @@
 </nav>
 
 <div class="content" data-ice="content"><h1 data-ice="title">js/components/speaker/index.js</h1>
-<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import SoundOutput from &apos;../microphone/utils/output&apos;;
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import terminal from &apos;oh-my-terminal&apos;;
+import fs from &apos;fs&apos;;
+import config from &apos;config&apos;;
+import logUtil from &apos;../../../../utils/logUtil&apos;;
 
-export default SoundOutput;
+/**
+ * @class Transforms text into speech
+ */
+export default class Speaker {
+	/**
+	 * Has to be initialize with board information such as
+	 * @param  {String} name     - Box&apos;s name for fiding the relevant text
+	 * @param  {String} language - Box&apos;s language to find the right voice
+	 */
+	constructor(name, language) {
+		/**
+		 * Box&apos;s name
+		 * @type {String}
+		 */
+		this.name = name;
+		/**
+		 * Box&apos;s laguage
+		 * @type {String}
+		 */
+		this.language = language;
+	}
+	/**
+	 * Finds the relevant text in the file saved by the microphone component
+	 * and speaks it out loud
+	 * @return {Promise} - Is done when the whole text has been spoken out loup
+	 */
+	speakText() {
+		return new Promise((resolve, reject) =&gt; {
+			const voice = this.getVoiceByLanguage.bind(this)(this.language);
+			const { location, filename } = config.get(&apos;Convert&apos;);
+			const filePath = `${location}${filename}`;
+			const contents = fs.readFileSync(filePath);
+			const jsonContent = JSON.parse(contents);
+			const text = jsonContent.texts[this.name].output;
+			this.say.bind(this)(voice, text)
+				.then(resolve)
+				.catch((err) =&gt; {
+					this.catchError(err);
+					reject(err);
+				});
+		});
+	}
+	/**
+	 * Generic function speaking any text out loud with a given voice
+	 * @param  {String} voice   - Any OSX preconfigured voice
+	 * @param  {String} message - Text to be spoken out loud
+	 * @return {Promise}        - Is done when the text is completly recited
+	 */
+	say(voice, message) {
+		return new Promise((resolve, reject) =&gt; {
+			// change var to trans text
+			let output = `say -v &quot;${voice}&quot; &quot;${message}&quot;`;
+			terminal.exec(output, (err) =&gt; {
+				if (err) {
+					this.catchError(err);
+					reject(err);
+					return;
+				}
+				resolve();
+			});
+		});
+	}
+	/**
+	 * Explains the rules of the game
+	 * @return {Promise} - Is done when all rules are told
+	 */
+	explainRules() {
+		return new Promise((resolve, reject) =&gt; {
+			const { introduction } = config.get(&apos;texts&apos;);
+			this.say.bind(this)(&apos;Anna&apos;, introduction)
+				.then(resolve)
+				.catch((err) =&gt; {
+					this.catchError(err);
+					reject(err);
+				});
+		});
+	}
+	/**
+	 * Find the relevant OSX voice by language
+	 * @param  {String} language - The wished language&apos;s voice (alpha2 code)
+	 * @return {String}          - The relevant voice for the given language
+	 */
+	getVoiceByLanguage(language) {
+		switch (language) {
+			case &apos;de&apos;:
+				return &apos;Anna&apos;;
+			case &apos;en&apos;:
+				return &apos;Lee&apos;;
+			case &apos;fr&apos;:
+				return &apos;Aurelie&apos;;
+			case &apos;ar&apos;:
+				return &apos;Tarik&apos;;
+			case &apos;es&apos;:
+				return &apos;Angelica&apos;;
+			default:
+				return &apos;Lee&apos;;
+		}
+	}
+	/**
+	 * To be called when the recording was unsuccessful
+	 * @return {Promise} - Is done when the error message has been told
+	 */
+	sayNoRecordingError() {
+		return new Promise((resolve, reject) =&gt; {
+			const { introduction } = config.get(&apos;texts&apos;);
+			this.say.bind(this)(&apos;Anna&apos;, introduction)
+				.then(resolve)
+				.catch((err) =&gt; {
+					this.catchError(err);
+					reject(err);
+				});
+		});
+	}
+	/**
+	 * Logs an error
+	 * @param  {Error} err  - The original Error
+	 */
+	catchError(err) {
+		logUtil.log({
+			type: &apos;error&apos;,
+			title: &apos;Failed to speak text&apos;,
+			messages: [ { &apos;Original error&apos;: err } ]
+		});
+	}
+}
 </code></pre>
 
 </div>

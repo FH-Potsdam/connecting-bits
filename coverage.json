@@ -1,11 +1,11 @@
 {
   "coverage": "100%",
-  "expectCount": 105,
-  "actualCount": 105,
+  "expectCount": 115,
+  "actualCount": 115,
   "files": {
     "js/index.js": {
-      "expectCount": 5,
-      "actualCount": 5,
+      "expectCount": 6,
+      "actualCount": 6,
       "undocumentLines": []
     },
     "js/utils/boardsUtil.js": {
@@ -14,8 +14,8 @@
       "undocumentLines": []
     },
     "js/components/box/index.js": {
-      "expectCount": 31,
-      "actualCount": 31,
+      "expectCount": 37,
+      "actualCount": 37,
       "undocumentLines": []
     },
     "js/utils/clientsUtil.js": {
@@ -23,14 +23,9 @@
       "actualCount": 2,
       "undocumentLines": []
     },
-    "js/components/microphone/utils/reports/index.js": {
-      "expectCount": 6,
-      "actualCount": 6,
-      "undocumentLines": []
-    },
     "js/constants/index.js": {
-      "expectCount": 3,
-      "actualCount": 3,
+      "expectCount": 4,
+      "actualCount": 4,
       "undocumentLines": []
     },
     "js/components/infrared/index.js": {
@@ -58,24 +53,29 @@
       "actualCount": 9,
       "undocumentLines": []
     },
-    "js/components/microphone/utils/records/index.js": {
-      "expectCount": 3,
-      "actualCount": 3,
+    "js/components/microphone/records.js": {
+      "expectCount": 2,
+      "actualCount": 2,
       "undocumentLines": []
     },
-    "js/components/microphone/utils/output/index.js": {
-      "expectCount": 8,
-      "actualCount": 8,
+    "js/components/microphone/reports.js": {
+      "expectCount": 6,
+      "actualCount": 6,
       "undocumentLines": []
     },
-    "js/components/microphone/utils/speechtotext/index.js": {
+    "js/components/speaker/index.js": {
+      "expectCount": 10,
+      "actualCount": 10,
+      "undocumentLines": []
+    },
+    "js/components/microphone/speechtotext.js": {
       "expectCount": 5,
       "actualCount": 5,
       "undocumentLines": []
     },
     "js/components/translator/index.js": {
-      "expectCount": 8,
-      "actualCount": 8,
+      "expectCount": 9,
+      "actualCount": 9,
       "undocumentLines": []
     }
   }

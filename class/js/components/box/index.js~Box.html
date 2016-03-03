@@ -37,13 +37,14 @@
 <li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">components/infrared</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/js/components/infrared/index.js~Infrared.html">Infrared</a></span></span></li>
 <li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">components/light</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/js/components/light/index.js~Light.html">Light</a></span></span></li>
 <li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">components/microphone</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/js/components/microphone/index.js~Microphone.html">Microphone</a></span></span></li>
-<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">components/microphone/utils/output</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/js/components/microphone/utils/output/index.js~SoundOutput.html">SoundOutput</a></span></span></li>
-<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">components/microphone/utils/records</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/js/components/microphone/utils/records/index.js~Record.html">Record</a></span></span></li>
-<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">components/microphone/utils/reports</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/js/components/microphone/utils/reports/index.js~CreateReport.html">CreateReport</a></span></span></li>
-<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">components/microphone/utils/speechtotext</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/js/components/microphone/utils/speechtotext/index.js~SpeechToText.html">SpeechToText</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/js/components/microphone/records.js~Record.html">Record</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/js/components/microphone/reports.js~Report.html">Report</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/js/components/microphone/speechtotext.js~SpeechToText.html">SpeechToText</a></span></span></li>
 <li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">components/motor</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/js/components/motor/index.js~Motor.html">Motor</a></span></span></li>
+<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">components/speaker</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/js/components/speaker/index.js~Speaker.html">Speaker</a></span></span></li>
 <li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">components/translator</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/js/components/translator/index.js~Translate.html">Translate</a></span></span></li>
-<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">constants</div><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-INFRARED_CONSTANTS">INFRARED_CONSTANTS</a></span></span></li>
+<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">constants</div><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-GENERAL_CONSTANTS">GENERAL_CONSTANTS</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-INFRARED_CONSTANTS">INFRARED_CONSTANTS</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-LIGHT_CONSTANTS">LIGHT_CONSTANTS</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-MOTOR_CONSTANTS">MOTOR_CONSTANTS</a></span></span></li>
 <li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">utils</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/js/utils/boardsUtil.js~BoardsUtil.html">BoardsUtil</a></span></span></li>
@@ -54,13 +55,13 @@
 </nav>
 
 <div class="content" data-ice="content"><div class="header-notice">
-  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import Box from &apos;<span><a href="file/js/components/box/index.js.html#lineNumber16">connecting-bits/js/components/box/index.js</a></span>&apos;</code></pre></div>
+  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import Box from &apos;<span><a href="file/js/components/box/index.js.html#lineNumber20">connecting-bits/js/components/box/index.js</a></span>&apos;</code></pre></div>
   <span data-ice="access">public</span>
   <span data-ice="kind">class</span>
   
   
   
-  <span data-ice="source">| <span><a href="file/js/components/box/index.js.html#lineNumber16">source</a></span></span>
+  <span data-ice="source">| <span><a href="file/js/components/box/index.js.html#lineNumber20">source</a></span></span>
 </div>
 
 <div class="self-detail detail">
@@ -406,6 +407,32 @@ Will be intialized when all boards are ready</p>
     <td>
       <div>
         <p>
+           <span data-ice="name"><span><a href="class/js/components/box/index.js~Box.html#instance-member-timeout">timeout</a></span></span><span data-ice="signature">: <span>*</span></span>
+        </p>
+      </div>
+      <div>
+        
+        
+        <div data-ice="description"><p>The component&apos;s timeout. Saved to be cleared at any time</p>
+</div>
+      </div>
+    </td>
+    <td>
+      
+      
+    </td>
+  </tr>
+<tr data-ice="target">
+    <td>
+      <span class="access" data-ice="access">public</span>
+      
+      
+      
+      <span class="override" data-ice="override"></span>
+    </td>
+    <td>
+      <div>
+        <p>
            <span data-ice="name"><span><a href="class/js/components/box/index.js~Box.html#instance-member-translator">translator</a></span></span><span data-ice="signature">: <span>[type]</span></span>
         </p>
       </div>
@@ -440,13 +467,65 @@ Will be intialized when all boards are ready</p>
     <td>
       <div>
         <p>
+           <span data-ice="name"><span><a href="class/js/components/box/index.js~Box.html#instance-method-allStandUp">allStandUp</a></span></span><span data-ice="signature">()</span>
+        </p>
+      </div>
+      <div>
+        
+        
+        <div data-ice="description"><p>A method to reinitialize the box to a standing state</p>
+</div>
+      </div>
+    </td>
+    <td>
+      
+      
+    </td>
+  </tr>
+<tr data-ice="target">
+    <td>
+      <span class="access" data-ice="access">public</span>
+      
+      
+      
+      <span class="override" data-ice="override"></span>
+    </td>
+    <td>
+      <div>
+        <p>
+           <span data-ice="name"><span><a href="class/js/components/box/index.js~Box.html#instance-method-delayedCall">delayedCall</a></span></span><span data-ice="signature">(callback: <span>*</span>): <span>*</span></span>
+        </p>
+      </div>
+      <div>
+        
+        
+        <div data-ice="description"><p>A utility to delay an action returning a Promise</p>
+</div>
+      </div>
+    </td>
+    <td>
+      
+      
+    </td>
+  </tr>
+<tr data-ice="target">
+    <td>
+      <span class="access" data-ice="access">public</span>
+      
+      
+      
+      <span class="override" data-ice="override"></span>
+    </td>
+    <td>
+      <div>
+        <p>
            <span data-ice="name"><span><a href="class/js/components/box/index.js~Box.html#instance-method-finish">finish</a></span></span><span data-ice="signature">()</span>
         </p>
       </div>
       <div>
         
         
-        <div data-ice="description"><p>Ends the show of the box</p>
+        <div data-ice="description"><p>Is called when the box finished its round</p>
 </div>
       </div>
     </td>
@@ -499,6 +578,32 @@ Will be intialized when all boards are ready</p>
         
         
         <div data-ice="description"><p>Retruns the Box&apos;s mqtt client</p>
+</div>
+      </div>
+    </td>
+    <td>
+      
+      
+    </td>
+  </tr>
+<tr data-ice="target">
+    <td>
+      <span class="access" data-ice="access">public</span>
+      
+      
+      
+      <span class="override" data-ice="override"></span>
+    </td>
+    <td>
+      <div>
+        <p>
+           <span data-ice="name"><span><a href="class/js/components/box/index.js~Box.html#instance-method-handleTranslation">handleTranslation</a></span></span><span data-ice="signature">()</span>
+        </p>
+      </div>
+      <div>
+        
+        
+        <div data-ice="description"><p>Ends the show of the box</p>
 </div>
       </div>
     </td>
@@ -779,6 +884,32 @@ or when the speech could not be transformed into text</p>
     <td>
       <div>
         <p>
+           <span data-ice="name"><span><a href="class/js/components/box/index.js~Box.html#instance-method-reset">reset</a></span></span><span data-ice="signature">()</span>
+        </p>
+      </div>
+      <div>
+        
+        
+        <div data-ice="description"><p>A method to reinitialize the box to the initial state</p>
+</div>
+      </div>
+    </td>
+    <td>
+      
+      
+    </td>
+  </tr>
+<tr data-ice="target">
+    <td>
+      <span class="access" data-ice="access">public</span>
+      
+      
+      
+      <span class="override" data-ice="override"></span>
+    </td>
+    <td>
+      <div>
+        <p>
            <span data-ice="name"><span><a href="class/js/components/box/index.js~Box.html#instance-method-restartTheShow">restartTheShow</a></span></span><span data-ice="signature">()</span>
         </p>
       </div>
@@ -898,6 +1029,32 @@ or when the speech could not be transformed into text</p>
       
     </td>
   </tr>
+<tr data-ice="target">
+    <td>
+      <span class="access" data-ice="access">public</span>
+      
+      
+      
+      <span class="override" data-ice="override"></span>
+    </td>
+    <td>
+      <div>
+        <p>
+           <span data-ice="name"><span><a href="class/js/components/box/index.js~Box.html#instance-method-testMotor">testMotor</a></span></span><span data-ice="signature">(): <span>*</span></span>
+        </p>
+      </div>
+      <div>
+        
+        
+        <div data-ice="description"><p>A method to test that all components are connected and working correctly</p>
+</div>
+      </div>
+    </td>
+    <td>
+      
+      
+    </td>
+  </tr>
 </tbody>
 </table>
 </div>
@@ -919,7 +1076,7 @@ or when the speech could not be transformed into text</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/js/components/box/index.js.html#lineNumber25">source</a></span></span>
+      <span data-ice="source"><span><a href="file/js/components/box/index.js.html#lineNumber29">source</a></span></span>
     </span>
   </h3>
 
@@ -996,7 +1153,7 @@ will be used to communicate with oder boxes</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/js/components/box/index.js.html#lineNumber30">source</a></span></span>
+      <span data-ice="source"><span><a href="file/js/components/box/index.js.html#lineNumber34">source</a></span></span>
     </span>
   </h3>
 
@@ -1037,7 +1194,7 @@ will be used to communicate with oder boxes</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/js/components/box/index.js.html#lineNumber35">source</a></span></span>
+      <span data-ice="source"><span><a href="file/js/components/box/index.js.html#lineNumber39">source</a></span></span>
     </span>
   </h3>
 
@@ -1078,7 +1235,7 @@ will be used to communicate with oder boxes</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/js/components/box/index.js.html#lineNumber82">source</a></span></span>
+      <span data-ice="source"><span><a href="file/js/components/box/index.js.html#lineNumber86">source</a></span></span>
     </span>
   </h3>
 
@@ -1120,7 +1277,7 @@ Will be intialized when all boards are ready</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/js/components/box/index.js.html#lineNumber64">source</a></span></span>
+      <span data-ice="source"><span><a href="file/js/components/box/index.js.html#lineNumber68">source</a></span></span>
     </span>
   </h3>
 
@@ -1162,7 +1319,7 @@ Will be intialized when all boards are ready</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/js/components/box/index.js.html#lineNumber88">source</a></span></span>
+      <span data-ice="source"><span><a href="file/js/components/box/index.js.html#lineNumber92">source</a></span></span>
     </span>
   </h3>
 
@@ -1204,7 +1361,7 @@ Will be intialized when all boards are ready</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/js/components/box/index.js.html#lineNumber70">source</a></span></span>
+      <span data-ice="source"><span><a href="file/js/components/box/index.js.html#lineNumber74">source</a></span></span>
     </span>
   </h3>
 
@@ -1246,7 +1403,7 @@ Will be intialized when all boards are ready</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/js/components/box/index.js.html#lineNumber45">source</a></span></span>
+      <span data-ice="source"><span><a href="file/js/components/box/index.js.html#lineNumber49">source</a></span></span>
     </span>
   </h3>
 
@@ -1287,7 +1444,7 @@ Will be intialized when all boards are ready</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/js/components/box/index.js.html#lineNumber40">source</a></span></span>
+      <span data-ice="source"><span><a href="file/js/components/box/index.js.html#lineNumber44">source</a></span></span>
     </span>
   </h3>
 
@@ -1328,7 +1485,7 @@ Will be intialized when all boards are ready</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/js/components/box/index.js.html#lineNumber50">source</a></span></span>
+      <span data-ice="source"><span><a href="file/js/components/box/index.js.html#lineNumber54">source</a></span></span>
     </span>
   </h3>
 
@@ -1369,7 +1526,7 @@ Will be intialized when all boards are ready</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/js/components/box/index.js.html#lineNumber76">source</a></span></span>
+      <span data-ice="source"><span><a href="file/js/components/box/index.js.html#lineNumber80">source</a></span></span>
     </span>
   </h3>
 
@@ -1378,6 +1535,47 @@ Will be intialized when all boards are ready</p>
   
   <div data-ice="description"><p>The Speak component
 Will be intialized when all boards are ready</p>
+</div>
+
+  
+
+  <div data-ice="properties">
+</div>
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+</div>
+<div class="detail" data-ice="detail">
+  <h3 data-ice="anchor" id="instance-member-timeout">
+    <span class="access" data-ice="access">public</span>
+    
+    
+    
+    
+    <span data-ice="name">timeout</span><span data-ice="signature">: <span>*</span></span>
+    <span class="right-info">
+      
+      
+      <span data-ice="source"><span><a href="file/js/components/box/index.js.html#lineNumber371">source</a></span></span>
+    </span>
+  </h3>
+
+  
+  
+  
+  <div data-ice="description"><p>The component&apos;s timeout. Saved to be cleared at any time</p>
 </div>
 
   
@@ -1411,7 +1609,7 @@ Will be intialized when all boards are ready</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/js/components/box/index.js.html#lineNumber58">source</a></span></span>
+      <span data-ice="source"><span><a href="file/js/components/box/index.js.html#lineNumber62">source</a></span></span>
     </span>
   </h3>
 
@@ -1446,6 +1644,114 @@ Will be intialized when all boards are ready</p>
 <div data-ice="methodDetails"><h2 data-ice="title">Public Methods</h2>
 
 <div class="detail" data-ice="detail">
+  <h3 data-ice="anchor" id="instance-method-allStandUp">
+    <span class="access" data-ice="access">public</span>
+    
+    
+    
+    
+    <span data-ice="name">allStandUp</span><span data-ice="signature">()</span>
+    <span class="right-info">
+      
+      
+      <span data-ice="source"><span><a href="file/js/components/box/index.js.html#lineNumber399">source</a></span></span>
+    </span>
+  </h3>
+
+  
+  
+  
+  <div data-ice="description"><p>A method to reinitialize the box to a standing state</p>
+</div>
+
+  
+
+  <div data-ice="properties">
+</div>
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+</div>
+<div class="detail" data-ice="detail">
+  <h3 data-ice="anchor" id="instance-method-delayedCall">
+    <span class="access" data-ice="access">public</span>
+    
+    
+    
+    
+    <span data-ice="name">delayedCall</span><span data-ice="signature">(callback: <span>*</span>): <span>*</span></span>
+    <span class="right-info">
+      
+      
+      <span data-ice="source"><span><a href="file/js/components/box/index.js.html#lineNumber426">source</a></span></span>
+    </span>
+  </h3>
+
+  
+  
+  
+  <div data-ice="description"><p>A utility to delay an action returning a Promise</p>
+</div>
+
+  
+
+  <div data-ice="properties"><div data-ice="properties">
+  <h4 data-ice="title">Params:</h4>
+  <table class="params">
+    <thead>
+    <tr><td>Name</td><td>Type</td><td>Attribute</td><td>Description</td></tr>
+    </thead>
+    <tbody>
+    
+    <tr data-ice="property" data-depth="0">
+      <td data-ice="name" data-depth="0">callback</td>
+      <td data-ice="type"><span>*</span></td>
+      <td data-ice="appendix"></td>
+      <td data-ice="description"></td>
+    </tr>
+</tbody>
+  </table>
+</div>
+</div>
+
+  <div class="return-params" data-ice="returnParams">
+    <h4>Return:</h4>
+    <table>
+      <tr>
+        <td class="return-type" data-ice="returnType"><span>*</span></td>
+        
+      </tr>
+    </table>
+    <div data-ice="returnProperties">
+</div>
+  </div>
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+</div>
+<div class="detail" data-ice="detail">
   <h3 data-ice="anchor" id="instance-method-finish">
     <span class="access" data-ice="access">public</span>
     
@@ -1456,14 +1762,14 @@ Will be intialized when all boards are ready</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/js/components/box/index.js.html#lineNumber310">source</a></span></span>
+      <span data-ice="source"><span><a href="file/js/components/box/index.js.html#lineNumber364">source</a></span></span>
     </span>
   </h3>
 
   
   
   
-  <div data-ice="description"><p>Ends the show of the box</p>
+  <div data-ice="description"><p>Is called when the box finished its round</p>
 </div>
 
   
@@ -1497,7 +1803,7 @@ Will be intialized when all boards are ready</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/js/components/box/index.js.html#lineNumber187">source</a></span></span>
+      <span data-ice="source"><span><a href="file/js/components/box/index.js.html#lineNumber193">source</a></span></span>
     </span>
   </h3>
 
@@ -1548,7 +1854,7 @@ Will be intialized when all boards are ready</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/js/components/box/index.js.html#lineNumber180">source</a></span></span>
+      <span data-ice="source"><span><a href="file/js/components/box/index.js.html#lineNumber186">source</a></span></span>
     </span>
   </h3>
 
@@ -1589,6 +1895,47 @@ Will be intialized when all boards are ready</p>
   
 </div>
 <div class="detail" data-ice="detail">
+  <h3 data-ice="anchor" id="instance-method-handleTranslation">
+    <span class="access" data-ice="access">public</span>
+    
+    
+    
+    
+    <span data-ice="name">handleTranslation</span><span data-ice="signature">()</span>
+    <span class="right-info">
+      
+      
+      <span data-ice="source"><span><a href="file/js/components/box/index.js.html#lineNumber335">source</a></span></span>
+    </span>
+  </h3>
+
+  
+  
+  
+  <div data-ice="description"><p>Ends the show of the box</p>
+</div>
+
+  
+
+  <div data-ice="properties">
+</div>
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+</div>
+<div class="detail" data-ice="detail">
   <h3 data-ice="anchor" id="instance-method-isLastRound">
     <span class="access" data-ice="access">public</span>
     
@@ -1599,7 +1946,7 @@ Will be intialized when all boards are ready</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/js/components/box/index.js.html#lineNumber339">source</a></span></span>
+      <span data-ice="source"><span><a href="file/js/components/box/index.js.html#lineNumber395">source</a></span></span>
     </span>
   </h3>
 
@@ -1650,7 +1997,7 @@ Will be intialized when all boards are ready</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/js/components/box/index.js.html#lineNumber164">source</a></span></span>
+      <span data-ice="source"><span><a href="file/js/components/box/index.js.html#lineNumber170">source</a></span></span>
     </span>
   </h3>
 
@@ -1691,7 +2038,7 @@ Will be intialized when all boards are ready</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/js/components/box/index.js.html#lineNumber94">source</a></span></span>
+      <span data-ice="source"><span><a href="file/js/components/box/index.js.html#lineNumber100">source</a></span></span>
     </span>
   </h3>
 
@@ -1732,7 +2079,7 @@ Will be intialized when all boards are ready</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/js/components/box/index.js.html#lineNumber108">source</a></span></span>
+      <span data-ice="source"><span><a href="file/js/components/box/index.js.html#lineNumber114">source</a></span></span>
     </span>
   </h3>
 
@@ -1797,7 +2144,7 @@ Will be intialized when all boards are ready</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/js/components/box/index.js.html#lineNumber218">source</a></span></span>
+      <span data-ice="source"><span><a href="file/js/components/box/index.js.html#lineNumber224">source</a></span></span>
     </span>
   </h3>
 
@@ -1838,7 +2185,7 @@ Will be intialized when all boards are ready</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/js/components/box/index.js.html#lineNumber324">source</a></span></span>
+      <span data-ice="source"><span><a href="file/js/components/box/index.js.html#lineNumber380">source</a></span></span>
     </span>
   </h3>
 
@@ -1879,7 +2226,7 @@ Will be intialized when all boards are ready</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/js/components/box/index.js.html#lineNumber274">source</a></span></span>
+      <span data-ice="source"><span><a href="file/js/components/box/index.js.html#lineNumber307">source</a></span></span>
     </span>
   </h3>
 
@@ -1921,7 +2268,7 @@ or when the speech could not be transformed into text</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/js/components/box/index.js.html#lineNumber231">source</a></span></span>
+      <span data-ice="source"><span><a href="file/js/components/box/index.js.html#lineNumber247">source</a></span></span>
     </span>
   </h3>
 
@@ -1962,7 +2309,7 @@ or when the speech could not be transformed into text</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/js/components/box/index.js.html#lineNumber287">source</a></span></span>
+      <span data-ice="source"><span><a href="file/js/components/box/index.js.html#lineNumber323">source</a></span></span>
     </span>
   </h3>
 
@@ -2003,7 +2350,7 @@ or when the speech could not be transformed into text</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/js/components/box/index.js.html#lineNumber250">source</a></span></span>
+      <span data-ice="source"><span><a href="file/js/components/box/index.js.html#lineNumber267">source</a></span></span>
     </span>
   </h3>
 
@@ -2011,6 +2358,47 @@ or when the speech could not be transformed into text</p>
   
   
   <div data-ice="description"><p>Is called when the Box is meant to speak</p>
+</div>
+
+  
+
+  <div data-ice="properties">
+</div>
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+</div>
+<div class="detail" data-ice="detail">
+  <h3 data-ice="anchor" id="instance-method-reset">
+    <span class="access" data-ice="access">public</span>
+    
+    
+    
+    
+    <span data-ice="name">reset</span><span data-ice="signature">()</span>
+    <span class="right-info">
+      
+      
+      <span data-ice="source"><span><a href="file/js/components/box/index.js.html#lineNumber404">source</a></span></span>
+    </span>
+  </h3>
+
+  
+  
+  
+  <div data-ice="description"><p>A method to reinitialize the box to the initial state</p>
 </div>
 
   
@@ -2044,7 +2432,7 @@ or when the speech could not be transformed into text</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/js/components/box/index.js.html#lineNumber213">source</a></span></span>
+      <span data-ice="source"><span><a href="file/js/components/box/index.js.html#lineNumber219">source</a></span></span>
     </span>
   </h3>
 
@@ -2085,7 +2473,7 @@ or when the speech could not be transformed into text</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/js/components/box/index.js.html#lineNumber138">source</a></span></span>
+      <span data-ice="source"><span><a href="file/js/components/box/index.js.html#lineNumber144">source</a></span></span>
     </span>
   </h3>
 
@@ -2150,7 +2538,7 @@ or when the speech could not be transformed into text</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/js/components/box/index.js.html#lineNumber264">source</a></span></span>
+      <span data-ice="source"><span><a href="file/js/components/box/index.js.html#lineNumber284">source</a></span></span>
     </span>
   </h3>
 
@@ -2191,7 +2579,7 @@ or when the speech could not be transformed into text</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/js/components/box/index.js.html#lineNumber191">source</a></span></span>
+      <span data-ice="source"><span><a href="file/js/components/box/index.js.html#lineNumber197">source</a></span></span>
     </span>
   </h3>
 
@@ -2232,7 +2620,7 @@ or when the speech could not be transformed into text</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/js/components/box/index.js.html#lineNumber203">source</a></span></span>
+      <span data-ice="source"><span><a href="file/js/components/box/index.js.html#lineNumber209">source</a></span></span>
     </span>
   </h3>
 
@@ -2248,6 +2636,57 @@ or when the speech could not be transformed into text</p>
 </div>
 
   
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+</div>
+<div class="detail" data-ice="detail">
+  <h3 data-ice="anchor" id="instance-method-testMotor">
+    <span class="access" data-ice="access">public</span>
+    
+    
+    
+    
+    <span data-ice="name">testMotor</span><span data-ice="signature">(): <span>*</span></span>
+    <span class="right-info">
+      
+      
+      <span data-ice="source"><span><a href="file/js/components/box/index.js.html#lineNumber410">source</a></span></span>
+    </span>
+  </h3>
+
+  
+  
+  
+  <div data-ice="description"><p>A method to test that all components are connected and working correctly</p>
+</div>
+
+  
+
+  <div data-ice="properties">
+</div>
+
+  <div class="return-params" data-ice="returnParams">
+    <h4>Return:</h4>
+    <table>
+      <tr>
+        <td class="return-type" data-ice="returnType"><span>*</span></td>
+        
+      </tr>
+    </table>
+    <div data-ice="returnProperties">
+</div>
+  </div>
 
   
 

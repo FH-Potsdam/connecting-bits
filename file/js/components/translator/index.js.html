@@ -37,13 +37,14 @@
 <li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">components/infrared</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/js/components/infrared/index.js~Infrared.html">Infrared</a></span></span></li>
 <li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">components/light</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/js/components/light/index.js~Light.html">Light</a></span></span></li>
 <li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">components/microphone</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/js/components/microphone/index.js~Microphone.html">Microphone</a></span></span></li>
-<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">components/microphone/utils/output</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/js/components/microphone/utils/output/index.js~SoundOutput.html">SoundOutput</a></span></span></li>
-<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">components/microphone/utils/records</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/js/components/microphone/utils/records/index.js~Record.html">Record</a></span></span></li>
-<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">components/microphone/utils/reports</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/js/components/microphone/utils/reports/index.js~CreateReport.html">CreateReport</a></span></span></li>
-<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">components/microphone/utils/speechtotext</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/js/components/microphone/utils/speechtotext/index.js~SpeechToText.html">SpeechToText</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/js/components/microphone/records.js~Record.html">Record</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/js/components/microphone/reports.js~Report.html">Report</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/js/components/microphone/speechtotext.js~SpeechToText.html">SpeechToText</a></span></span></li>
 <li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">components/motor</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/js/components/motor/index.js~Motor.html">Motor</a></span></span></li>
+<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">components/speaker</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/js/components/speaker/index.js~Speaker.html">Speaker</a></span></span></li>
 <li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">components/translator</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/js/components/translator/index.js~Translate.html">Translate</a></span></span></li>
-<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">constants</div><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-INFRARED_CONSTANTS">INFRARED_CONSTANTS</a></span></span></li>
+<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">constants</div><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-GENERAL_CONSTANTS">GENERAL_CONSTANTS</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-INFRARED_CONSTANTS">INFRARED_CONSTANTS</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-LIGHT_CONSTANTS">LIGHT_CONSTANTS</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-MOTOR_CONSTANTS">MOTOR_CONSTANTS</a></span></span></li>
 <li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">utils</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/js/utils/boardsUtil.js~BoardsUtil.html">BoardsUtil</a></span></span></li>
@@ -57,6 +58,7 @@
 <pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import config from &apos;config&apos;;
 import fs from &apos;fs&apos;;
 const fetch = require(&apos;node-fetch&apos;);
+import logUtil from &apos;../../utils/logUtil&apos;;
 
 /**
  * @class Class to translate audio texts into other languages
@@ -87,9 +89,11 @@ export default class Translate {
 	 */
 	translateNext(next) {
 		return new Promise((resolve, reject) =&gt; {
-			const texts = this.getTexts.bind(this)().texts;
+			const texts = this.getTexts.bind(this)();
 
-			this.translate.bind(this)(this.language, next.language, texts[this.name].output)
+			/** @type {Object} Configuration of the next sibling box */
+			this.next = next;
+			this.translate.bind(this)(this.language, this.next.language, texts[this.name].output)
 				.then((response) =&gt; {
 					this.addTranslation.bind(this)(response)
 						.then(resolve);
@@ -108,13 +112,19 @@ export default class Translate {
 		return new Promise((resolve, reject) =&gt; {
 			const api_key = config.get(&apos;APIKeys.google&apos;);
 			const url = &apos;https://www.googleapis.com/language/translate&apos; +
-				`/v2?key=${api_key}&amp;q=${output}` +
+				`/v2?key=${api_key}&amp;q=${escape(output)}` +
 				`&amp;source=${sourceLanguage}&amp;target=${targetLanguage}`;
 
 			fetch(url)
 				.then(res =&gt; res.json())
 				.then(jsonContent =&gt; {
-					resolve({ language: targetLanguage, output: jsonContent });
+					const translation = unescape(jsonContent.data.translations[1].translatedText);
+					logUtil.log({
+						type: &apos;info&apos;,
+						title: &apos;Tranlation done&apos;,
+						messages: [ { &apos;translated text&apos;: translation } ]
+					});
+					resolve({ language: targetLanguage, output: translation });
 				})
 				.catch((translationError) =&gt; {
 					reject(translationError);
@@ -130,7 +140,7 @@ export default class Translate {
 		const filePath = location + filename;
 		const contents = fs.readFileSync(filePath);
 		const texts = JSON.parse(contents).texts;
-		return { filePath, texts };
+		return texts;
 	}
 	/**
 	 * Adds a new translation to the texts file
@@ -138,11 +148,29 @@ export default class Translate {
 	 */
 	addTranslation(response) {
 		return new Promise((resolve, reject) =&gt; {
-			const { texts, filePath } = this.getTexts.bind(this)();
-			texts[this.next.name] = response;
-			const jsonToSave = { texts: jsonToSave };
+			const { location, filename } = config.get(&apos;Convert&apos;);
+			const filePath = location + filename;
+			const texts = this.getTexts();
+			const newTexts = Object.assign({}, texts, {
+				[this.next.name]: response
+			});
+			const jsonToSave = {
+				texts: newTexts
+			};
+			logUtil.log({
+				type: &apos;info&apos;,
+				title: &apos;Now adding the translation to the texts&apos;,
+				messages: [ { &apos;saving in&apos;: filePath } ]
+			});
 			fs.writeFile(filePath, JSON.stringify(jsonToSave), (writeError) =&gt; {
 				if (writeError) {
+					logUtil.log({
+						type: &apos;Error&apos;,
+						title: &apos;Error while saving text&apos;,
+						messages: [
+							{ Error: writeError }
+						]
+					});
 					reject(writeError);
 				}
 				resolve();

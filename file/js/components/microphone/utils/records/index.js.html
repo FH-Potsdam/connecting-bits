@@ -43,7 +43,8 @@
 <li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">components/microphone/utils/speechtotext</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/js/components/microphone/utils/speechtotext/index.js~SpeechToText.html">SpeechToText</a></span></span></li>
 <li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">components/motor</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/js/components/motor/index.js~Motor.html">Motor</a></span></span></li>
 <li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">components/translator</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/js/components/translator/index.js~Translate.html">Translate</a></span></span></li>
-<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">constants</div><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-INFRARED_CONSTANTS">INFRARED_CONSTANTS</a></span></span></li>
+<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">constants</div><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-GENERAL_CONSTANTS">GENERAL_CONSTANTS</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-INFRARED_CONSTANTS">INFRARED_CONSTANTS</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-LIGHT_CONSTANTS">LIGHT_CONSTANTS</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-MOTOR_CONSTANTS">MOTOR_CONSTANTS</a></span></span></li>
 <li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">utils</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/js/utils/boardsUtil.js~BoardsUtil.html">BoardsUtil</a></span></span></li>
@@ -55,40 +56,13 @@
 
 <div class="content" data-ice="content"><h1 data-ice="title">js/components/microphone/utils/records/index.js</h1>
 <pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import fs from &apos;fs&apos;;
+import logUtil from &apos;../../../../utils/logUtil&apos;;
 import rec from &apos;node-record-lpcm16&apos;;
 
 /**
  * @class Handling the audio recording, specially the wav files
  */
 export default class Record {
-	/**
-	 * Records the audio and writes the input into a temp file
-	 * @param  {Object}   options  - The Recording options
-	 * @param  {Function} callback - The function to be called when over
-	 */
-	recordMaster(options, callback) {
-		const {
-			location,
-			filename,
-			id,
-			sampleRate,
-			temp,
-			master,
-			maxRecordingTime
-		} = options;
-
-		const file = fs.createWriteStream(
-			`${location}${temp}.wav`, {
-				encoding: &apos;binary&apos;
-			});
-		rec.start({ sampleRate, verbose: true });
-
-		const timeout = setTimeout(() =&gt; {
-			rec.stop().pipe(file);
-			callback();
-			clearTimeout(timeout);
-		}, maxRecordingTime);
-	}
 	/**
 	 * Records the input in a wav file
 	 * @param  {Object} options - The recording options
@@ -111,7 +85,16 @@ export default class Record {
 			rec.start({ sampleRate, verbose: true });
 
 			const timeout = setTimeout(() =&gt; {
-				rec.stop().pipe(file);
+				rec.stop().pipe(file, (recordingErr) =&gt; {
+					logUtil.log({
+						type: &apos;error&apos;,
+						title: &apos;Recording failed&apos;,
+						messages: [
+							{ &apos;Original error&apos;: recordingErr }
+						]
+					});
+					reject();
+				});
 				clearTimeout(timeout);
 				resolve(id);
 			}, maxRecordingTime);

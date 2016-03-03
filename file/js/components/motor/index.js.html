@@ -37,13 +37,14 @@
 <li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">components/infrared</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/js/components/infrared/index.js~Infrared.html">Infrared</a></span></span></li>
 <li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">components/light</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/js/components/light/index.js~Light.html">Light</a></span></span></li>
 <li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">components/microphone</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/js/components/microphone/index.js~Microphone.html">Microphone</a></span></span></li>
-<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">components/microphone/utils/output</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/js/components/microphone/utils/output/index.js~SoundOutput.html">SoundOutput</a></span></span></li>
-<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">components/microphone/utils/records</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/js/components/microphone/utils/records/index.js~Record.html">Record</a></span></span></li>
-<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">components/microphone/utils/reports</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/js/components/microphone/utils/reports/index.js~CreateReport.html">CreateReport</a></span></span></li>
-<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">components/microphone/utils/speechtotext</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/js/components/microphone/utils/speechtotext/index.js~SpeechToText.html">SpeechToText</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/js/components/microphone/records.js~Record.html">Record</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/js/components/microphone/reports.js~Report.html">Report</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/js/components/microphone/speechtotext.js~SpeechToText.html">SpeechToText</a></span></span></li>
 <li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">components/motor</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/js/components/motor/index.js~Motor.html">Motor</a></span></span></li>
+<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">components/speaker</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/js/components/speaker/index.js~Speaker.html">Speaker</a></span></span></li>
 <li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">components/translator</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/js/components/translator/index.js~Translate.html">Translate</a></span></span></li>
-<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">constants</div><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-INFRARED_CONSTANTS">INFRARED_CONSTANTS</a></span></span></li>
+<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">constants</div><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-GENERAL_CONSTANTS">GENERAL_CONSTANTS</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-INFRARED_CONSTANTS">INFRARED_CONSTANTS</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-LIGHT_CONSTANTS">LIGHT_CONSTANTS</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-MOTOR_CONSTANTS">MOTOR_CONSTANTS</a></span></span></li>
 <li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">utils</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/js/utils/boardsUtil.js~BoardsUtil.html">BoardsUtil</a></span></span></li>
@@ -55,6 +56,7 @@
 
 <div class="content" data-ice="content"><h1 data-ice="title">js/components/motor/index.js</h1>
 <pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import { Servo } from &apos;johnny-five&apos;;
+import logUtil from &apos;../../utils/logUtil&apos;;
 import { MOTOR_CONSTANTS } from &apos;../../constants&apos;;
 const {
 	LIFT_PIN,
@@ -110,34 +112,11 @@ export default class Motor {
 		 * @type {Boolean}
 		 */
 		this.titls = false;
-	}
-	/**
-	 * Generic function that checks if a servo is already in the
-	 * whished position and rotates it if not.
-	 * @param  {Boolean} actualPositionState - The actual state to check
-	 * @param  {Boolean} whishedPositionState - The whished state
-	 * @param  {Number} positionToMoveTo - The rotation the servo need to accomplish
-	 * @param  {Johnny Five Servo instance} servo
-	 * @return {Promise}
-	 * @private
-	 */
-	checkAndMove({
-		actualPositionState,
-		whishedPositionState,
-		positionToMoveTo,
-		servo }) {
-		return new Promise((resolve) =&gt; {
-			if (actualPositionState === whishedPositionState) {
-				resolve();
-				return;
-			}
-			servo
-				.removeAllListeners(&apos;move:complete&apos;)
-				.on(&apos;move:complete&apos;, () =&gt; {
-					resolve();
-				});
-			servo.to(positionToMoveTo, SPEED);
-		});
+
+		this.lieDown = this.lieDown.bind(this);
+		this.standUp = this.standUp.bind(this);
+		this.lookUp = this.lookUp.bind(this);
+		this.lookStraight = this.lookStraight.bind(this);
 	}
 	/**
 	 * Lifts the Box down
@@ -145,11 +124,27 @@ export default class Motor {
 	 * @public
 	 */
 	lieDown() {
-		return this.checkAndMove({
-			actualPositionState: this.stands,
-			whishedPositionState: false,
-			positionToMoveTo: LYING,
-			servo: this.liftServo
+		return new Promise((resolve, reject) =&gt; {
+			if (this.liftServo.position === LYING) {
+				resolve();
+				return;
+			}
+			this.liftServo
+				.removeAllListeners(&apos;move:complete&apos;)
+				.on(&apos;move:complete&apos;, () =&gt; {
+					this.stands = false;
+					resolve();
+				});
+			this.liftServo.to(LYING, SPEED);
+			logUtil.log({
+				type: &apos;hardware&apos;,
+				title: &apos;Servo lieDown&apos;,
+				messages: [
+					{ stands: this.stands },
+					{ tilts: this.titls },
+					{ position: this.liftServo.position }
+				]
+			});
 		});
 	}
 	/**
@@ -158,11 +153,27 @@ export default class Motor {
 	 * @public
 	 */
 	standUp() {
-		return this.checkAndMove({
-			actualPositionState: this.stands,
-			whishedPositionState: true,
-			positionToMoveTo: STANDING,
-			servo: this.liftServo
+		return new Promise((resolve, reject) =&gt; {
+			if (this.liftServo.position === STANDING) {
+				resolve();
+				return;
+			}
+			this.liftServo
+				.removeAllListeners(&apos;move:complete&apos;)
+				.on(&apos;move:complete&apos;, () =&gt; {
+					this.stands = true;
+					resolve();
+				});
+			this.liftServo.to(STANDING, SPEED);
+			logUtil.log({
+				type: &apos;hardware&apos;,
+				title: &apos;Servo standUp&apos;,
+				messages: [
+					{ stands: this.stands },
+					{ tilts: this.titls },
+					{ position: this.liftServo.position }
+				]
+			});
 		});
 	}
 	/**
@@ -171,11 +182,27 @@ export default class Motor {
 	 * @public
 	 */
 	lookUp() {
-		return this.checkAndMove({
-			actualPositionState: this.titls,
-			whishedPositionState: true,
-			positionToMoveTo: TILTED,
-			servo: this.liftServo
+		return new Promise((resolve, reject) =&gt; {
+			if (this.tiltServo.position === TILTED) {
+				resolve();
+				return;
+			}
+			this.tiltServo
+				.removeAllListeners(&apos;move:complete&apos;)
+				.on(&apos;move:complete&apos;, () =&gt; {
+					this.titls = true;
+					resolve();
+				});
+			this.tiltServo.to(TILTED, SPEED);
+			logUtil.log({
+				type: &apos;hardware&apos;,
+				title: &apos;Servo lookUp&apos;,
+				messages: [
+					{ stands: this.stands },
+					{ tilts: this.titls },
+					{ position: this.tiltServo.position }
+				]
+			});
 		});
 	}
 	/**
@@ -184,11 +211,27 @@ export default class Motor {
 	 * @public
 	 */
 	lookStraight() {
-		return this.checkAndMove({
-			actualPositionState: this.thils,
-			whishedPositionState: false,
-			positionToMoveTo: STRAIGHT,
-			servo: this.liftServo
+		return new Promise((resolve, reject) =&gt; {
+			if (this.tiltServo.position === STRAIGHT) {
+				resolve();
+				return;
+			}
+			this.tiltServo
+				.removeAllListeners(&apos;move:complete&apos;)
+				.on(&apos;move:complete&apos;, () =&gt; {
+					this.titls = false;
+					resolve();
+				});
+			this.tiltServo.to(STRAIGHT, SPEED);
+			logUtil.log({
+				type: &apos;hardware&apos;,
+				title: &apos;Servo lookStraight&apos;,
+				messages: [
+					{ stands: this.stands },
+					{ tilts: this.titls },
+					{ position: this.tiltServo.position }
+				]
+			});
 		});
 	}
 }

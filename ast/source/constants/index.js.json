@@ -1113,8 +1113,8 @@
                   },
                   "value": {
                     "type": "Literal",
-                    "value": 200,
-                    "raw": "200",
+                    "value": 300,
+                    "raw": "300",
                     "range": [
                       649,
                       652
@@ -1171,8 +1171,8 @@
                   },
                   "value": {
                     "type": "Literal",
-                    "value": 90,
-                    "raw": "90",
+                    "value": 30,
+                    "raw": "30",
                     "range": [
                       662,
                       664
@@ -1229,8 +1229,8 @@
                   },
                   "value": {
                     "type": "Literal",
-                    "value": 159,
-                    "raw": "159",
+                    "value": 105,
+                    "raw": "105",
                     "range": [
                       677,
                       680
@@ -1287,11 +1287,11 @@
                   },
                   "value": {
                     "type": "Literal",
-                    "value": 90,
-                    "raw": "90",
+                    "value": 120,
+                    "raw": "120",
                     "range": [
                       691,
-                      693
+                      694
                     ],
                     "loc": {
                       "start": {
@@ -1300,7 +1300,7 @@
                       },
                       "end": {
                         "line": 38,
-                        "column": 11
+                        "column": 12
                       }
                     }
                   },
@@ -1310,7 +1310,7 @@
                   "computed": false,
                   "range": [
                     683,
-                    693
+                    694
                   ],
                   "loc": {
                     "start": {
@@ -1319,7 +1319,7 @@
                     },
                     "end": {
                       "line": 38,
-                      "column": 11
+                      "column": 12
                     }
                   }
                 },
@@ -1329,8 +1329,8 @@
                     "type": "Identifier",
                     "name": "STRAIGHT",
                     "range": [
-                      696,
-                      704
+                      697,
+                      705
                     ],
                     "loc": {
                       "start": {
@@ -1348,8 +1348,8 @@
                     "value": 30,
                     "raw": "30",
                     "range": [
-                      706,
-                      708
+                      707,
+                      709
                     ],
                     "loc": {
                       "start": {
@@ -1367,8 +1367,8 @@
                   "shorthand": false,
                   "computed": false,
                   "range": [
-                    696,
-                    708
+                    697,
+                    709
                   ],
                   "loc": {
                     "start": {
@@ -1384,7 +1384,7 @@
               ],
               "range": [
                 557,
-                710
+                711
               ],
               "loc": {
                 "start": {
@@ -1399,7 +1399,7 @@
             },
             "range": [
               539,
-              710
+              711
             ],
             "loc": {
               "start": {
@@ -1416,7 +1416,7 @@
         "kind": "const",
         "range": [
           533,
-          711
+          712
         ],
         "loc": {
           "start": {
@@ -1448,13 +1448,32 @@
             }
           }
         ],
-        "trailingComments": []
+        "trailingComments": [
+          {
+            "type": "Block",
+            "value": "*\n * General constant that could be used\n * anywhere in the source code\n * @type {Object}\n ",
+            "range": [
+              714,
+              809
+            ],
+            "loc": {
+              "start": {
+                "line": 42,
+                "column": 0
+              },
+              "end": {
+                "line": 46,
+                "column": 3
+              }
+            }
+          }
+        ]
       },
       "specifiers": [],
       "source": null,
       "range": [
         526,
-        711
+        712
       ],
       "loc": {
         "start": {
@@ -1485,13 +1504,225 @@
             }
           }
         }
+      ],
+      "trailingComments": [
+        {
+          "type": "Block",
+          "value": "*\n * General constant that could be used\n * anywhere in the source code\n * @type {Object}\n ",
+          "range": [
+            714,
+            809
+          ],
+          "loc": {
+            "start": {
+              "line": 42,
+              "column": 0
+            },
+            "end": {
+              "line": 46,
+              "column": 3
+            }
+          }
+        }
+      ]
+    },
+    {
+      "type": "ExportNamedDeclaration",
+      "declaration": {
+        "type": "VariableDeclaration",
+        "declarations": [
+          {
+            "type": "VariableDeclarator",
+            "id": {
+              "type": "Identifier",
+              "name": "GENERAL_CONSTANTS",
+              "range": [
+                823,
+                840
+              ],
+              "loc": {
+                "start": {
+                  "line": 47,
+                  "column": 13
+                },
+                "end": {
+                  "line": 47,
+                  "column": 30
+                }
+              }
+            },
+            "init": {
+              "type": "ObjectExpression",
+              "properties": [
+                {
+                  "type": "Property",
+                  "key": {
+                    "type": "Identifier",
+                    "name": "PAUSE_TIME_BETWEEN_INTERACTIONS",
+                    "range": [
+                      846,
+                      877
+                    ],
+                    "loc": {
+                      "start": {
+                        "line": 48,
+                        "column": 1
+                      },
+                      "end": {
+                        "line": 48,
+                        "column": 32
+                      }
+                    }
+                  },
+                  "value": {
+                    "type": "Literal",
+                    "value": 1000,
+                    "raw": "1000",
+                    "range": [
+                      879,
+                      883
+                    ],
+                    "loc": {
+                      "start": {
+                        "line": 48,
+                        "column": 34
+                      },
+                      "end": {
+                        "line": 48,
+                        "column": 38
+                      }
+                    }
+                  },
+                  "kind": "init",
+                  "method": false,
+                  "shorthand": false,
+                  "computed": false,
+                  "range": [
+                    846,
+                    883
+                  ],
+                  "loc": {
+                    "start": {
+                      "line": 48,
+                      "column": 1
+                    },
+                    "end": {
+                      "line": 48,
+                      "column": 38
+                    }
+                  }
+                }
+              ],
+              "range": [
+                843,
+                885
+              ],
+              "loc": {
+                "start": {
+                  "line": 47,
+                  "column": 33
+                },
+                "end": {
+                  "line": 49,
+                  "column": 1
+                }
+              }
+            },
+            "range": [
+              823,
+              885
+            ],
+            "loc": {
+              "start": {
+                "line": 47,
+                "column": 13
+              },
+              "end": {
+                "line": 49,
+                "column": 1
+              }
+            }
+          }
+        ],
+        "kind": "const",
+        "range": [
+          817,
+          886
+        ],
+        "loc": {
+          "start": {
+            "line": 47,
+            "column": 7
+          },
+          "end": {
+            "line": 49,
+            "column": 2
+          }
+        },
+        "leadingComments": [
+          {
+            "type": "Block",
+            "value": "*\n * General constant that could be used\n * anywhere in the source code\n * @type {Object}\n ",
+            "range": [
+              714,
+              809
+            ],
+            "loc": {
+              "start": {
+                "line": 42,
+                "column": 0
+              },
+              "end": {
+                "line": 46,
+                "column": 3
+              }
+            }
+          }
+        ],
+        "trailingComments": []
+      },
+      "specifiers": [],
+      "source": null,
+      "range": [
+        810,
+        886
+      ],
+      "loc": {
+        "start": {
+          "line": 47,
+          "column": 0
+        },
+        "end": {
+          "line": 49,
+          "column": 2
+        }
+      },
+      "leadingComments": [
+        {
+          "type": "Block",
+          "value": "*\n * General constant that could be used\n * anywhere in the source code\n * @type {Object}\n ",
+          "range": [
+            714,
+            809
+          ],
+          "loc": {
+            "start": {
+              "line": 42,
+              "column": 0
+            },
+            "end": {
+              "line": 46,
+              "column": 3
+            }
+          }
+        }
       ]
     }
   ],
   "sourceType": "module",
   "range": [
     90,
-    711
+    886
   ],
   "loc": {
     "start": {
@@ -1499,7 +1730,7 @@
       "column": 0
     },
     "end": {
-      "line": 40,
+      "line": 49,
       "column": 2
     }
   },
@@ -1554,6 +1785,24 @@
         },
         "end": {
           "line": 29,
+          "column": 3
+        }
+      }
+    },
+    {
+      "type": "Block",
+      "value": "*\n * General constant that could be used\n * anywhere in the source code\n * @type {Object}\n ",
+      "range": [
+        714,
+        809
+      ],
+      "loc": {
+        "start": {
+          "line": 42,
+          "column": 0
+        },
+        "end": {
+          "line": 46,
           "column": 3
         }
       }

@@ -2,8 +2,8 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <base data-ice="baseUrl" href="../../../../../../">
-  <title data-ice="title">js/components/microphone/utils/speechtotext/index.js | API Document</title>
+  <base data-ice="baseUrl" href="../../../../">
+  <title data-ice="title">js/components/microphone/reports.js | API Document</title>
   <link type="text/css" rel="stylesheet" href="css/style.css">
   <link type="text/css" rel="stylesheet" href="css/prettify-tomorrow.css">
   <script src="script/prettify/prettify.js"></script>
@@ -37,11 +37,11 @@
 <li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">components/infrared</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/js/components/infrared/index.js~Infrared.html">Infrared</a></span></span></li>
 <li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">components/light</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/js/components/light/index.js~Light.html">Light</a></span></span></li>
 <li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">components/microphone</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/js/components/microphone/index.js~Microphone.html">Microphone</a></span></span></li>
-<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">components/microphone/utils/output</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/js/components/microphone/utils/output/index.js~SoundOutput.html">SoundOutput</a></span></span></li>
-<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">components/microphone/utils/records</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/js/components/microphone/utils/records/index.js~Record.html">Record</a></span></span></li>
-<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">components/microphone/utils/reports</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/js/components/microphone/utils/reports/index.js~CreateReport.html">CreateReport</a></span></span></li>
-<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">components/microphone/utils/speechtotext</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/js/components/microphone/utils/speechtotext/index.js~SpeechToText.html">SpeechToText</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/js/components/microphone/records.js~Record.html">Record</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/js/components/microphone/reports.js~Report.html">Report</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/js/components/microphone/speechtotext.js~SpeechToText.html">SpeechToText</a></span></span></li>
 <li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">components/motor</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/js/components/motor/index.js~Motor.html">Motor</a></span></span></li>
+<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">components/speaker</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/js/components/speaker/index.js~Speaker.html">Speaker</a></span></span></li>
 <li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">components/translator</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/js/components/translator/index.js~Translate.html">Translate</a></span></span></li>
 <li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">constants</div><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-GENERAL_CONSTANTS">GENERAL_CONSTANTS</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-INFRARED_CONSTANTS">INFRARED_CONSTANTS</a></span></span></li>
@@ -54,95 +54,67 @@
 </div>
 </nav>
 
-<div class="content" data-ice="content"><h1 data-ice="title">js/components/microphone/utils/speechtotext/index.js</h1>
-<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">const request = require(&apos;request&apos;);
-import fs from &apos;fs&apos;;
+<div class="content" data-ice="content"><h1 data-ice="title">js/components/microphone/reports.js</h1>
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import fs from &apos;fs&apos;;
+import config from &apos;config&apos;;
 
 /**
- * @class A utility to tronsform audio files into text
+ * @class Hangling the audio reports
  */
-export default class SpeechToText {
+export default class Report {
 	/**
-	 * The class&apos;s constructor. Is called whe initialized with the new keyword.
-	 * @param  {String} language - Language of the audio file to be converted
+	 * The class&apos;s constructor. Is called when initialized.
+	 * @param  {String} data - The audio file&apos;s data (wav)
 	 */
-	constructor(language) {
+	constructor(data) {
 		/**
-		 * The language of the original speech (audio file)
-		 * @type {String} - Alpha2 code
+		 * The dataa of the audio record
+		 * @type {String}
 		 */
-		this.language = language;
+		this.data = data;
+
+		/**
+		 * The new audio report
+		 * @type {Object}
+		 */
+		this.newObject = { results: [] };
+		this.newObject.results.push(data);
 	}
 	/**
-	 * Returns the access token of the Api used to convert the speech into text
-	 * @param  {String}   clientId     - The Api&apos;s client id
-	 * @param  {String}   clientSecret - The Api&apos;s client secret token
-	 * @param  {Function} callback     - The function to be executed afterwards
+	 * Overrides a json report in a relevant file
+	 * @return {Promise} - Is done when the report is overriden
 	 */
-	getAccessToken(clientId, clientSecret, callback) {
-		request.post({
-			url: &apos;https://oxford-speech.cloudapp.net/token/issueToken&apos;,
-			form: {
-				grant_type: &apos;client_credentials&apos;,
-				client_id: encodeURIComponent(clientId),
-				client_secret: encodeURIComponent(clientSecret),
-				scope: &apos;https://speech.platform.bing.com&apos;
-			}
-		}, function(err, resp, body) {
-			if (err) {
-				return callback(err);
-			}
-			try {
-				var accessToken = JSON.parse(body).access_token;
-				if (accessToken) {
-					callback(null, accessToken);
-				} else {
-					callback(body);
+	writeJSON() {
+		return new Promise((resolve, reject) =&gt; {
+			const { location, filename } = config.get(&apos;Report&apos;);
+			const filePath = `${location}${filename}`;
+			fs.writeFile(filePath, JSON.stringify(this.newObject), (writeError) =&gt; {
+				if (writeError) {
+					reject(writeError);
+					return;
 				}
-			} catch (e) {
-				callback(e);
-			}
+				resolve();
+			});
 		});
 	}
 	/**
-	 * Converts the speech into text
-	 * @param  {String}   filename    - The file to take the text from
-	 * @param  {String}   accessToken - The access token for the API
-	 * @param  {String}   language    - The language of the audio file
-	 * @param  {Function} callback    - The function to be called when done
+	 * Extends an existing audio report
+	 * @return {Promise} - Is done when the report is extended
 	 */
-	convert(filename, accessToken, language, callback) {
-		fs.readFile(filename, function(err, waveData) {
-			if (err) {
-				return callback(err);
-			}
-			request.post({
-				url: &apos;https://speech.platform.bing.com/recognize/query&apos;,
-				qs: {
-					scenarios: &apos;ulm&apos;,
-					appid: &apos;D4D52672-91D7-4C74-8AD8-42B1D98141A5&apos;, // This magic value is required
-					locale: `${language}-${language}`,
-					&apos;device.os&apos;: &apos;wp7&apos;,
-					version: &apos;3.0&apos;,
-					format: &apos;json&apos;,
-					requestid: &apos;1d4b6030-9099-11e0-91e4-0800200c9a66&apos;, // can be anything
-					instanceid: &apos;1d4b6030-9099-11e0-91e4-0800200c9a66&apos; // can be anything
-				},
-				body: waveData,
-				headers: {
-					Authorization: &apos;Bearer &apos; + accessToken,
-					&apos;Content-Type&apos;: &apos;audio/wav; samplerate=16000&apos;,
-					&apos;Content-Length&apos;: waveData.length
+	extendJSON() {
+		return new Promise((resolve, reject) =&gt; {
+			const { location, filename } = config.get(&apos;Report&apos;);
+			const filePath = `${location}${filename}`;
+			let contents = fs.readFileSync(filePath);
+			let jsonContent = JSON.parse(contents);
+
+			jsonContent.results.push(this.data);
+			fs.writeFile(filePath, JSON.stringify(jsonContent), (writeError) =&gt; {
+				if (writeError) {
+					reject(writeError);
+					return;
 				}
-			}, function(postError, resp, body) {
-				if (postError) {
-					return callback(postError);
-				}
-				try {
-					callback(null, JSON.parse(body));
-				} catch (e) {
-					callback(e);
-				}
+				resolve();
 			});
 		});
 	}
