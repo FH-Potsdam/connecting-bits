@@ -111,7 +111,7 @@ _Finishing the table_
 ### Hardware & Software
 ![the coding team](images/software.jpg)
 
-Check out [the detailed documentation](https://github.com/FH-Potsdam/connecting-bits/wiki/The-Software) of the software team.
+Check out the detailed documentation of the [software](https://github.com/FH-Potsdam/connecting-bits/wiki/The-Software) and the [hardware](https://github.com/FH-Potsdam/connecting-bits/wiki/The-Hardware) in the Wiki.
 
 
 ## About Us
