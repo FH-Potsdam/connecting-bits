@@ -117,4 +117,19 @@ Check out the detailed documentation of the [software](https://github.com/FH-Pot
 ## About Us
 ![group work](images/group-work-.3.jpg)
 
-We are students from the [University of Applied Sciences of Potsdam](http://fh-potsdam.de) \[aka] @fh-potsdam. Our team consists of interface, product, and graphic designers that took part in the course _Input Output – Introduction to process-oriented design_ by [Fabian Morón Zirfas]( https://github.com/fabiantheblind). This project was developed during the last third of the course. To see the other projects we made, visit [this repository](https://interface.fh-potsdam.de/eingabe-ausgabe/2015-2016/).
+We are students from the [University of Applied Sciences of Potsdam](http://fh-potsdam.de) \[aka] @fh-potsdam. Our team consists of interface, product, and graphic designers that took part in the course _Input Output – Introduction to process-oriented design_ by [Fabian Morón Zirfas](https://github.com/fabiantheblind). This project was developed during the last third of the course. To see the other projects we made, visit [this repository](https://interface.fh-potsdam.de/eingabe-ausgabe/2015-2016/).
+
+- [Wolfgang Albrecht](https://github.com/wollemannone)
+- [Marta Carlesso](https://github.com/martakarta)
+- [Julia Freyhoff](https://github.com/antsteelmule)
+- [Paul Klinski](https://github.com/Logetcrea)
+- [Nina Komarova-Zelinskaya](https://github.com/Ninotschka)
+- [Dustin Kummer](https://github.com/miduku)
+- [Bela Kurek](https://github.com/Q-rec)
+- [Andre Nagusch](https://github.com/Ourelius)
+- [Joshua Pacheco](https://github.com/josues)
+- [Laura Pau Bielsa](https://github.com/lpaubielsa)
+- [Nikolas Ripka](https://github.com/nikoripka)
+- [Jo Swarzynska](https://github.com/swjo)
+- [Daria Thies](https://github.com/dariaDunkelbier)
+- [Lucas Vogel](https://github.com/vogelino)
