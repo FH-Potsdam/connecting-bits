@@ -107,6 +107,14 @@ _Laser-cutting the structure parts (medium-density-fibreboard)_
 ![finishing the table](images/product-design-.10.jpg)
 _Finishing the table_
 
+#### How-to
+
+![finishing the table](images/TRANSL8R-How-to-3.png)
+![finishing the table](images/TRANSL8R-How-to-1.png)
+![finishing the table](images/TRANSL8R-How-to-2.png)
+
+You can download the original Ai file [here](images/TRANSL8R-How-to.ai).
+
 
 ### Hardware & Software
 ![the coding team](images/software.jpg)
