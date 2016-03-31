@@ -4,7 +4,8 @@
 
 # TRANSL8R – Play the _Chinese whispers_ game with machines
 
-![images/tranls8r-video.png](https://www.vimeo.com/157480156)
+[![the video](images/tranls8r-video.png)](https://www.vimeo.com/157480156)
+Watch our video on Vimeo.
 
 
 ## Introduction
