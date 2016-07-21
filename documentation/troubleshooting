@@ -1,0 +1,9 @@
+# Demonstration troubleshooting
+This file documents how to setup the transl8r for the first time. It also documents the experienced issues happening while demoing it and provides instructions for troubleshooting purposes.
+
+# Initial setup
+- Turn on the mac mini
+- With another computer connect over ssh via the terminal to the mac mini. To do so run ``ssh admin@172.16.42.27`` and enter the password provided on the post-it sticked on the mac mini's packaging
+
+## Not all boards are 
+
