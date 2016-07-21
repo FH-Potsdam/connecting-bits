@@ -345,7 +345,10 @@ export default class Box {
 					]
 				});
 				this.translator.translateNext(this.options.next)
-					.then(this.finish.bind(this));
+					.then(this.finish.bind(this))
+					.catch((err) => {
+						console.log(err);
+					});
 			} else {
 				logUtil.log({
 					type: 'info',
@@ -357,7 +360,10 @@ export default class Box {
 			}
 		} else {
 			this.translator.translateNext(this.options.next)
-				.then(this.finish.bind(this));
+				.then(this.finish.bind(this))
+				.catch((err) => {
+					console.log(err);
+				});
 		}
 	}
 	/** Is called when the box finished its round */

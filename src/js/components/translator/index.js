@@ -61,7 +61,7 @@ export default class Translate {
 			fetch(url)
 				.then(res => res.json())
 				.then(jsonContent => {
-					const translation = unescape(jsonContent.data.translations[1].translatedText);
+					const translation = unescape(jsonContent.data.translations[0].translatedText);
 					logUtil.log({
 						type: 'info',
 						title: 'Tranlation done',

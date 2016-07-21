@@ -1,5 +1,5 @@
 import fs from 'fs';
-import logUtil from '../../../../utils/logUtil';
+import logUtil from '../../utils/logUtil';
 import rec from 'node-record-lpcm16';
 
 /**

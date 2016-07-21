@@ -6,11 +6,11 @@ var plumber = require('gulp-plumber');
 var gutil = require('gulp-util');
 var eslint = require('gulp-eslint');
 var esdoc = require('gulp-esdoc');
-var ghPages = require('gulp-gh-pages')
-var open = require('open')
-var os = require('os')
-var package = require('./package.json')
-var path = require('path')
+var ghPages = require('gulp-gh-pages');
+var open = require('open');
+var os = require('os');
+var packageConfig = require('./package.json');
+var path = require('path');
 var paths = {
 	src: {
 		root: 'src',
@@ -29,43 +29,43 @@ var paths = {
 };
 
 var ghPagesSettings = {
-	url: package.homepage,
+	url: packageConfig.homepage,
 	src: path.join(paths.dest.esdoc, '/**/*'),
 	ghPages: {
-		cacheDir: path.join(os.tmpdir(), package.name)
+		cacheDir: path.join(os.tmpdir(), packageConfig.name)
 	}
-}
+};
 
-gulp.task('deploy-esdoc', ['clean-js', 'babel', 'document-js'], function() {
+gulp.task('deploy-esdoc', [ 'clean-js', 'babel', 'document-js' ], function() {
 	return gulp.src(ghPagesSettings.src)
 		.pipe(ghPages(ghPagesSettings.ghPages))
-		.on('end', function(){
-			open(ghPagesSettings.url)
+		.on('end', function() {
+			open(ghPagesSettings.url);
 		});
 });
 
-function throwError (error) {
+function throwError(error) {
 	gutil.log(gutil.colors.red(error.toString()));
 	this.emit('end');
 }
 
-gulp.task('document-js', function(){
+gulp.task('document-js', function() {
 	gulp.src(paths.src.jsRoot)
 		.pipe(esdoc({ destination: paths.dest.esdoc }))
 		.on('error', throwError);
 });
 
-gulp.task('clean-js', function(){
+gulp.task('clean-js', function() {
 	gulp.src(paths.dest.root + 'js')
 		.pipe(plumber())
 		.pipe(rimraf({ read: false }))
 		.on('error', throwError);
 });
 
-gulp.task('serve', ['babel'], function(){
+gulp.task('serve', [ 'babel' ], function() {
 	nodemon({
-		'script': paths.dest.index,
-		'ignore': [
+		script: paths.dest.index,
+		ignore: [
 			'audio',
 			'src',
 			'convert',
@@ -87,14 +87,14 @@ gulp.task('lint-js', function() {
 		.pipe(eslint.formatEach());
 });
 
-gulp.task('babel', ['lint-js'], function() {
+gulp.task('babel', [ 'lint-js' ], function() {
 	return gulp.src(paths.src.javascript)
 		.pipe(plumber())
-		.pipe(babel({ presets: ['es2015'] }))
+		.pipe(babel({ presets: [ 'es2015' ] }))
 		.pipe(gulp.dest(paths.dest.javascript))
 		.on('error', throwError);
 });
 
-gulp.task('watch', ['clean-js', 'serve'], function() {
-	gulp.watch(paths.src.javascript, ['babel']);
+gulp.task('watch', [ 'clean-js', 'serve' ], function() {
+	gulp.watch(paths.src.javascript, [ 'babel' ]);
 });
